@@ -1,0 +1,34 @@
+{
+  "name": "travelapp_backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/geomin76/travelapp_backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/geomin76/travelapp_backend/issues"
+  },
+  "homepage": "https://github.com/geomin76/travelapp_backend#readme",
+  "dependencies": {
+    "@prisma/client": "^2.7.1",
+    "apollo-server": "^2.18.1",
+    "apollo-server-express": "^2.18.0-rc.1",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "graphql": "^15.3.0",
+    "graphql-tools": "^6.2.3"
+  },
+  "devDependencies": {
+    "@prisma/cli": "^2.7.1"
+  }
+}
