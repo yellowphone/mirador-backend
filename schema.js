@@ -5,22 +5,44 @@ type Mutation {
     createUser(
         email: String!, 
         username: String!, 
-        firstname: String, 
-        lastname: String
+        firstName: String, 
+        lastName: String
         ): String!
 }
 
 type Query {
     findUser(username: String!): User!
-    findManyUsers(firstname: String!): [User!]!
+    findManyUsers(firstName: String!): [User!]!
 }
 
 type User {
-    id: Int!
+    pkUser: Int!
     username: String!
     email: String!
-    firstname: String
-    lastname : String
+    firstName: String
+    lastName : String
+}
+
+type Adventure {
+    pkAdventure: Int!
+    title: String!
+    summary: String
+}
+
+type Blog {
+    pkBlog: Int!
+    title: String!
+    summary: String
+}
+
+type Location {
+    pkLocation: Int!
+}
+
+type Itinerary {
+    pkItinerary: Int!
+    title: String!
+    summary: String
 }
 `;
 

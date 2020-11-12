@@ -8,9 +8,36 @@ datasource db {
 }
 
 model User {
-  id        Int     @default(autoincrement()) @id
-  firstname String?
-  lastname  String?
+  pkuser    Int     @default(autoincrement()) @id
   email     String  @unique
   username  String  @unique
+  firstname String?
+  lastname  String?
+}
+
+model Adventure {
+  pkadventure Int       @default(autoincrement()) @id
+  title       String
+  summary     String?
+  datecreated DateTime?
+}
+
+model Blog {
+  pkblog     Int     @default(autoincrement()) @id
+  title      String
+  summary    String?
+  // This type is currently not supported.
+  // content binary?
+}
+
+model Itinerary {
+  pkitinerary Int     @default(autoincrement()) @id
+  title       String
+  summary     String?
+}
+
+model Location {
+  pklocation Int    @default(autoincrement()) @id
+  lat        Float?
+  lng        Float?
 }

@@ -19,7 +19,7 @@ const findManyUsers = async (parent, args, { prisma }) => {
     try {
         const results = await prisma.user.findMany({
             where: {
-                firstname: args.firstname
+                firstName: args.firstName
             }
         })
         return results
