@@ -7,7 +7,7 @@ const createAdventure = async (parent, args, { prisma }) => {
                 title: args.title,
                 users: {
                     connect: {
-                        username: args.username
+                        pkuser: args.pkuser
                     }
                 }
             }

@@ -4,7 +4,7 @@ const findUser = async (parent, args, { prisma }) => {
     try {
         const results = await prisma.users.findOne({
             where: {
-                username: args.username
+                pkuser: args.pkuser
             }
         })
         return results
