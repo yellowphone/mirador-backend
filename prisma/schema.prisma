@@ -7,37 +7,45 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  pkuser    Int     @default(autoincrement()) @id
-  email     String  @unique
-  username  String  @unique
-  firstname String?
-  lastname  String?
+model adventures {
+  pkadventure       Int       @default(autoincrement()) @id
+  title             String
+  summary           String?
+  created_on        DateTime? @default(now())
+  fk_user_adventure Int
+  users             users     @relation(fields: [fk_user_adventure], references: [pkuser])
 }
 
-model Adventure {
-  pkadventure Int       @default(autoincrement()) @id
-  title       String
-  summary     String?
-  datecreated DateTime?
+model blogs {
+  pkblog       Int       @default(autoincrement()) @id
+  title        String
+  summary      String?
+  created_on   DateTime? @default(now())
+  fk_user_blog Int?
+  users        users?    @relation(fields: [fk_user_blog], references: [pkuser])
 }
 
-model Blog {
-  pkblog     Int     @default(autoincrement()) @id
-  title      String
-  summary    String?
-  // This type is currently not supported.
-  // content binary?
-}
-
-model Itinerary {
+model itineraries {
   pkitinerary Int     @default(autoincrement()) @id
   title       String
   summary     String?
 }
 
-model Location {
+model locations {
   pklocation Int    @default(autoincrement()) @id
   lat        Float?
   lng        Float?
+}
+
+model users {
+  pkuser     Int          @default(autoincrement()) @id
+  email      String       @unique
+  username   String       @unique
+  password   String
+  firstname  String?
+  lastname   String?
+  bio        String?
+  created_on DateTime?    @default(now())
+  adventures adventures[]
+  blogs      blogs[]
 }

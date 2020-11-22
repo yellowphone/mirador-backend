@@ -2,7 +2,7 @@ const { ApolloError } = require('apollo-server');
 
 const findUser = async (parent, args, { prisma }) => {
     try {
-        const results = await prisma.user.findOne({
+        const results = await prisma.users.findOne({
             where: {
                 username: args.username
             }
@@ -17,9 +17,9 @@ const findUser = async (parent, args, { prisma }) => {
 
 const findManyUsers = async (parent, args, { prisma }) => {
     try {
-        const results = await prisma.user.findMany({
+        const results = await prisma.users.findMany({
             where: {
-                firstName: args.firstName
+                firstname: args.firstname
             }
         })
         return results

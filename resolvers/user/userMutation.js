@@ -2,15 +2,16 @@ const { ApolloError } = require('apollo-server');
 
 const createUser = async (parent, args, { prisma }) => {
     try {
-        const user = await prisma.user.create({
+        const user = await prisma.users.create({
             data: {
                 username: args.username,
                 email: args.email,
+                password: args.password,
                 firstname: args.firstname,
                 lastname: args.lastname
             }
         })
-        return args.username
+        return user.pkuser
     }
     catch(err) {
         console.log(err)

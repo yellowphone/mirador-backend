@@ -2,8 +2,9 @@ CREATE TABLE users (
     pkUser SERIAL PRIMARY KEY,
     email VARCHAR(64) UNIQUE NOT NULL,
 	username VARCHAR(20) UNIQUE NOT NULL,
-    firstName VARCHAR(50),
-	lastName VARCHAR(50),
+    password VARCHAR(128) NOT NULL,
+    firstname VARCHAR(50),
+	lastname VARCHAR(50),
     bio VARCHAR(255),
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -13,8 +14,9 @@ CREATE TABLE adventures (
     title VARCHAR(60) NOT NULL,
     summary VARCHAR(255),
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    fk_user_adventure integer REFERENCES users(pkUser),
-    fk_location_adventure integer REFERENCES locations(pkLocation)
+    fk_user_adventure INTEGER NOT NULL,
+    CONSTRAINT author FOREIGN KEY(fk_user_adventure) REFERENCES users(pkUser)
+    -- fk_location_adventure integer REFERENCES locations(pkLocation)
 
     -- image will be on bucket, link to that
 
