@@ -3,6 +3,9 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 
 const app = express();
@@ -34,5 +37,7 @@ const server = new ApolloServer({
 
 server.applyMiddleware({ app });
 app.listen(PORT, () => {
-    console.log(`App listening on port ${PORT}\nVisit http://localhost:${PORT}/graphql for GraphQL playground`);
+    console.log(
+        `App listening on port ${PORT}\nVisit http://localhost:${PORT}/graphql for GraphQL playground`
+    );
 })
