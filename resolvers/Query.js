@@ -7,8 +7,13 @@ const {
     findAdventureByUser
 } = require('./adventure/adventureQuery')
 
+const {
+    findBlogByUser
+} = require('./blog/blogQuery')
+
 module.exports = {
     findUser,
     findManyUsers,
-    findAdventureByUser
+    findAdventureByUser,
+    findBlogByUser
 }

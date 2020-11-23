@@ -11,7 +11,7 @@ const createUser = async (parent, args, { prisma }) => {
                 lastname: args.lastname
             }
         })
-        return user.pkuser
+        return user
     }
     catch(err) {
         console.log(err)
@@ -24,6 +24,20 @@ const createUser = async (parent, args, { prisma }) => {
     }    
 }
 
+const deleteUser = async(parent, args, { prisma }) => {
+    try {
+        const user = await prisma.users.delete({
+            where: { pkuser: args.pkuser }
+        })
+        return user
+    }
+    catch(err) {
+        console.log(err);
+        return new ApolloError(err)
+    }
+}
+
 module.exports = {
-    createUser
+    createUser,
+    deleteUser
 }

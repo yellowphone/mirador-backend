@@ -1,8 +1,8 @@
 const { ApolloError } = require('apollo-server');
 
-const createAdventure = async (parent, args, { prisma }) => {
+const createBlog = async (parent, args, { prisma }) => {
     try {
-        const adventure = await prisma.adventures.create({
+        const blog = await prisma.blogs.create({
             data: {
                 title: args.title,
                 users: {
@@ -12,8 +12,8 @@ const createAdventure = async (parent, args, { prisma }) => {
                 }
             }
         })
-        console.log(adventure)
-        return adventure.title
+        console.log(blog)
+        return blog.title
     }
     catch(err) {
         console.log(err)
@@ -21,14 +21,14 @@ const createAdventure = async (parent, args, { prisma }) => {
     }    
 }
 
-const deleteAdventure = async(parent, args, { prisma }) => {
+const deleteBlog = async(parent, args, { prisma }) => {
     try {
-        const adventure = await prisma.adventures.delete({
+        const blog = await prisma.blogs.delete({
             where: {
-                pkadventure: args.pkadventure
+                pkblog: args.pkblog
             }
         })
-        return adventure
+        return blog
     }
     catch(err) {
         console.log(err)
@@ -36,7 +36,8 @@ const deleteAdventure = async(parent, args, { prisma }) => {
     }
 }
 
+
 module.exports = {
-    createAdventure,
-    deleteAdventure
+    createBlog,
+    deleteBlog
 }

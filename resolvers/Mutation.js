@@ -1,12 +1,23 @@
 const { 
-    createUser
+    createUser,
+    deleteUser
 } = require('./user/userMutation')
 
 const {
-    createAdventure
+    createAdventure,
+    deleteAdventure
 } = require('./adventure/adventureMutation')
+
+const {
+    createBlog,
+    deleteBlog
+} = require('./blog/blogMutation')
 
 module.exports = {
     createUser,
-    createAdventure
+    deleteUser,
+    createAdventure,
+    deleteAdventure,
+    createBlog,
+    deleteBlog
 }

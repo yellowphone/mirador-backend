@@ -27,7 +27,8 @@ CREATE TABLE blogs (
     title VARCHAR(60) NOT NULL,
     summary VARCHAR(255),
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    fk_user_blog integer REFERENCES users(pkUser)
+    fk_user_blog INTEGER NOT NULL,
+    CONSTRAINT author FOREIGN KEY(fk_user_blog) REFERENCES users(pkUser)
     -- content BYTEA
          
 );
