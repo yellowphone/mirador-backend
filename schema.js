@@ -18,7 +18,7 @@ type Query {
 }
 
 type User {
-    pkUser: Int!
+    pkuser: Int!
     username: String!
     email: String!
     password: String!
@@ -30,25 +30,27 @@ type User {
 }
 
 type Adventure {
-    pkAdventure: Int!
+    pkadventure: Int!
     title: String!
     summary: String
     fk_user_adventure: Int!
 }
 
 type Blog {
-    pkBlog: Int!
+    pkblog: Int!
     title: String!
     summary: String
     fk_user_blog: Int!
 }
 
 type Location {
-    pkLocation: Int!
+    pklocation: Int!
+    lat: Int!
+    lng: Int!
 }
 
 type Itinerary {
-    pkItinerary: Int!
+    pkitinerary: Int!
     title: String!
     summary: String
 }
