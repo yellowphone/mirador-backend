@@ -1,21 +1,23 @@
-const { ApolloError } = require('apollo-server');
+const { 
+    createUser,
+    deleteUser
+} = require('./user/userMutation')
 
-const createUser = async (parent, args, { prisma }) => {
-    try {
-        const user = await prisma.user.create({
-            data: {
-                email: args.email,
-                name: args.name
-            }
-        })
-        return args.email
-    }
-    catch(err) {
-        console.log(err)
-        return new ApolloError("Uh oh!")
-    }    
-}
+const {
+    createAdventure,
+    deleteAdventure
+} = require('./adventure/adventureMutation')
+
+const {
+    createBlog,
+    deleteBlog
+} = require('./blog/blogMutation')
 
 module.exports = {
-    createUser
+    createUser,
+    deleteUser,
+    createAdventure,
+    deleteAdventure,
+    createBlog,
+    deleteBlog
 }

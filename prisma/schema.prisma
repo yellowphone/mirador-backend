@@ -7,8 +7,45 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id    Int     @default(autoincrement()) @id
-  name  String?
-  email String  @unique
+model adventures {
+  pkadventure       Int       @default(autoincrement()) @id
+  title             String
+  summary           String?
+  created_on        DateTime? @default(now())
+  fk_user_adventure Int
+  users             users     @relation(fields: [fk_user_adventure], references: [pkuser])
+}
+
+model blogs {
+  pkblog       Int       @default(autoincrement()) @id
+  title        String
+  summary      String?
+  created_on   DateTime? @default(now())
+  fk_user_blog Int?
+  users        users?    @relation(fields: [fk_user_blog], references: [pkuser])
+}
+
+model itineraries {
+  pkitinerary Int     @default(autoincrement()) @id
+  title       String
+  summary     String?
+}
+
+model locations {
+  pklocation Int    @default(autoincrement()) @id
+  lat        Float?
+  lng        Float?
+}
+
+model users {
+  pkuser     Int          @default(autoincrement()) @id
+  email      String       @unique
+  username   String       @unique
+  password   String
+  firstname  String?
+  lastname   String?
+  bio        String?
+  created_on DateTime?    @default(now())
+  adventures adventures[]
+  blogs      blogs[]
 }
