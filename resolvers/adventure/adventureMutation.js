@@ -25,7 +25,7 @@ const createAdventure = async (parent, args, { prisma }) => {
         return adventure
     }
     catch(err) {
-        console.log(err)
+        console.error(err)
         return new ApolloError(err)
     }    
 }
@@ -40,7 +40,7 @@ const deleteAdventure = async(parent, args, { prisma }) => {
         return adventure
     }
     catch(err) {
-        console.log(err)
+        console.error(err)
         return new ApolloError(err)
     }
 }
