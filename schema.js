@@ -54,7 +54,7 @@ type Blog {
 }
 
 type Location {
-    pkLocation: Int!
+    pklocation: Int!
     lat: Float
     lng: Float
     fk_adventure_location: Int!
