@@ -11,10 +11,10 @@ const createUser = async (parent, args, { prisma }) => {
                 lastname: args.lastname
             }
         })
-        return user
+        return user;
     }
     catch(err) {
-        console.log(err)
+        console.error(err)
         if (err.code == "P2002") {
             return new ApolloError("User already exists")
         }
@@ -32,7 +32,7 @@ const deleteUser = async(parent, args, { prisma }) => {
         return user
     }
     catch(err) {
-        console.log(err);
+        console.error(err);
         return new ApolloError(err)
     }
 }

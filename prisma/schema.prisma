@@ -8,7 +8,7 @@ datasource db {
 }
 
 model adventures {
-  pkadventure       Int         @default(autoincrement()) @id
+  pkadventure       Int       @id @default(autoincrement())
   title             String
   summary           String?
   created_on        DateTime?   @default(now())
@@ -18,7 +18,7 @@ model adventures {
 }
 
 model blogs {
-  pkblog       Int       @default(autoincrement()) @id
+  pkblog       Int       @id @default(autoincrement())
   title        String
   summary      String?
   created_on   DateTime? @default(now())
@@ -27,7 +27,7 @@ model blogs {
 }
 
 model itineraries {
-  pkitinerary Int     @default(autoincrement()) @id
+  pkitinerary Int     @id @default(autoincrement())
   title       String
   summary     String?
 }
@@ -41,7 +41,7 @@ model locations {
 }
 
 model users {
-  pkuser     Int          @default(autoincrement()) @id
+  pkuser     Int          @id @default(autoincrement())
   email      String       @unique
   username   String       @unique
   password   String
