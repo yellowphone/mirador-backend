@@ -1,6 +1,8 @@
 const { gql } = require('apollo-server');
 
 const typeDefs = gql`
+scalar DateTime
+
 type Mutation {
     createUser(email: String!, username: String!, password: String!, firstname: String, lastname: String): User!
     deleteUser(pkuser: Int!): User!
@@ -29,6 +31,7 @@ type User {
     firstname: String
     lastname : String
     bio: String
+    created_on: DateTime
     adventures: [Adventure]
     blogs: [Blog]
 }
@@ -37,6 +40,7 @@ type Adventure {
     pkAdventure: Int!
     title: String!
     summary: String
+    created_on: DateTime
     fk_user_adventure: Int!
     locations: [Location]
 }
@@ -45,6 +49,7 @@ type Blog {
     pkBlog: Int!
     title: String!
     summary: String
+    created_on: DateTime
     fk_user_blog: Int!
 }
 
