@@ -4,17 +4,21 @@ const typeDefs = gql`
 type Mutation {
     createUser(email: String!, username: String!, password: String!, firstname: String, lastname: String): User!
     deleteUser(pkuser: Int!): User!
-    createAdventure(title: String, pkuser: Int!): String!
+    createAdventure(title: String, pkuser: Int!, lat: Float!, lng: Float!): Adventure!
     deleteAdventure(pkadventure: Int!): Adventure!
     createBlog(title: String, pkuser: Int!): String!
     deleteBlog(pkblog: Int!): Blog!
+    createItinerary(title: String): Itinerary!
+    deleteItinerary(pkitinerary: Int!): Itinerary!
 }
 
 type Query {
     findUser(pkuser: Int!): User!
     findManyUsers(firstName: String!): [User!]!
     findAdventureByUser(pkuser: Int!): [Adventure]
+    findAdventureById(pkadventure: Int!): Adventure
     findBlogByUser(pkuser: Int!): [Blog]
+    findItineraryById(pkitinerary: Int!): Itinerary
 }
 
 type User {
@@ -34,6 +38,7 @@ type Adventure {
     title: String!
     summary: String
     fk_user_adventure: Int!
+    locations: [Location]
 }
 
 type Blog {
@@ -45,6 +50,9 @@ type Blog {
 
 type Location {
     pkLocation: Int!
+    lat: Float
+    lng: Float
+    fk_adventure_location: Int!
 }
 
 type Itinerary {

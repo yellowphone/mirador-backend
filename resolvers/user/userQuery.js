@@ -5,7 +5,11 @@ const findUser = async (parent, args, { prisma }) => {
         const results = await prisma.users.findOne({
             where: {
                 pkuser: args.pkuser
-            }
+            },
+            include: {
+                adventures: true,
+                blogs: true
+            },
         })
         return results
     }
@@ -20,7 +24,11 @@ const findManyUsers = async (parent, args, { prisma }) => {
         const results = await prisma.users.findMany({
             where: {
                 firstname: args.firstname
-            }
+            },
+            include: {
+                adventures: true,
+                blogs: true,
+            },
         })
         return results
     }

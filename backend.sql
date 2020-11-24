@@ -36,7 +36,9 @@ CREATE TABLE blogs (
 CREATE TABLE locations (
     pkLocation SERIAL PRIMARY KEY,
     lat DECIMAL(8, 6),
-    lng DECIMAL(9, 6)
+    lng DECIMAL(9, 6),
+    fk_adventure_location INTEGER NOT NULL,
+    CONSTRAINT place FOREIGN KEY(fk_adventure_location) REFERENCES adventures(pkAdventure)
 );
 
 CREATE TABLE itineraries (
