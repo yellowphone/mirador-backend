@@ -14,7 +14,7 @@ const findUser = async (parent, args, { prisma }) => {
         return results
     }
     catch(err) {
-        console.log(err)
+        console.error(err)
         return new ApolloError(err)
     }
 }
@@ -33,7 +33,7 @@ const findManyUsers = async (parent, args, { prisma }) => {
         return results
     }
     catch(err) {
-        console.log(err)
+        console.error(err)
         return new ApolloError(err)
     }
 }

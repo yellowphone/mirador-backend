@@ -16,7 +16,7 @@ const createBlog = async (parent, args, { prisma }) => {
         return blog.title
     }
     catch(err) {
-        console.log(err)
+        console.error(err)
         return new ApolloError(err)
     }    
 }
@@ -31,7 +31,7 @@ const deleteBlog = async(parent, args, { prisma }) => {
         return blog
     }
     catch(err) {
-        console.log(err)
+        console.error(err)
         return new ApolloError(err)
     }
 }

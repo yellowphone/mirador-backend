@@ -11,7 +11,7 @@ const createItinerary = async (parent, args, { prisma }) => {
         return itinerary
     }
     catch(err) {
-        console.log(err)
+        console.error(err)
         return new ApolloError(err)
     }    
 }
@@ -26,7 +26,7 @@ const deleteItinerary = async(parent, args, { prisma }) => {
         return itinerary
     }
     catch(err) {
-        console.log(err)
+        console.error(err)
         return new ApolloError(err)
     }
 }

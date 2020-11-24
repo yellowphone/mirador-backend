@@ -10,7 +10,7 @@ const findBlogByUser = async (parent, args, { prisma }) => {
         return results
     }
     catch(err) {
-        console.log(err)
+        console.error(err)
         return new ApolloError(err)
     }
 }
