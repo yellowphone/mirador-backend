@@ -36,13 +36,16 @@ CREATE TABLE blogs (
 CREATE TABLE locations (
     pkLocation SERIAL PRIMARY KEY,
     lat DECIMAL(8, 6),
-    lng DECIMAL(9, 6)
+    lng DECIMAL(9, 6),
+    fk_adventure_location INTEGER NOT NULL,
+    CONSTRAINT place FOREIGN KEY(fk_adventure_location) REFERENCES adventures(pkAdventure)
 );
 
 CREATE TABLE itineraries (
     pkItinerary SERIAL PRIMARY KEY,
     title VARCHAR(60) NOT NULL, 
-    summary VARCHAR(255)
+    summary VARCHAR(255),
+    created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 
     -- foreign key to calendar/jumble/list format for planner
 );
@@ -50,5 +53,3 @@ CREATE TABLE itineraries (
 -- highlight must have a foreign key from user's pkUser when creating
 
 -- user will have many intersection tables
-
--- SELECT * from post where userid == foreign key in posts

@@ -11,9 +11,10 @@ model adventures {
   pkadventure       Int       @id @default(autoincrement())
   title             String
   summary           String?
-  created_on        DateTime? @default(now())
+  created_on        DateTime?   @default(now())
   fk_user_adventure Int
-  users             users     @relation(fields: [fk_user_adventure], references: [pkuser])
+  users             users       @relation(fields: [fk_user_adventure], references: [pkuser])
+  locations         locations[]
 }
 
 model blogs {
@@ -21,8 +22,8 @@ model blogs {
   title        String
   summary      String?
   created_on   DateTime? @default(now())
-  fk_user_blog Int?
-  users        users?    @relation(fields: [fk_user_blog], references: [pkuser])
+  fk_user_blog Int
+  users        users     @relation(fields: [fk_user_blog], references: [pkuser])
 }
 
 model itineraries {
@@ -32,9 +33,11 @@ model itineraries {
 }
 
 model locations {
-  pklocation Int    @id @default(autoincrement())
-  lat        Float?
-  lng        Float?
+  pklocation            Int        @default(autoincrement()) @id
+  lat                   Float?
+  lng                   Float?
+  fk_adventure_location Int
+  adventures            adventures @relation(fields: [fk_adventure_location], references: [pkadventure])
 }
 
 model users {

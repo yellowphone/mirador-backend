@@ -9,14 +9,23 @@ const createAdventure = async (parent, args, { prisma }) => {
                     connect: {
                         pkuser: args.pkuser
                     }
-                }
-            }
+                },
+                locations: {
+                    create: {
+                        lat: args.lat,
+                        lng: args.lng
+                    },
+                },
+            },
+            include: {
+                locations: true,
+            },
         })
         console.log(adventure)
-        return adventure.title
+        return adventure
     }
     catch(err) {
-        console.log(err)
+        console.error(err)
         return new ApolloError(err)
     }    
 }
@@ -31,7 +40,7 @@ const deleteAdventure = async(parent, args, { prisma }) => {
         return adventure
     }
     catch(err) {
-        console.log(err)
+        console.error(err)
         return new ApolloError(err)
     }
 }

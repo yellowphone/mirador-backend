@@ -13,11 +13,18 @@ const {
     deleteBlog
 } = require('./blog/blogMutation')
 
+const {
+    createItinerary,
+    deleteItinerary
+} = require('./itinerary/itineraryMutation')
+
 module.exports = {
     createUser,
     deleteUser,
     createAdventure,
     deleteAdventure,
     createBlog,
-    deleteBlog
+    deleteBlog,
+    createItinerary,
+    deleteItinerary
 }
