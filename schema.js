@@ -43,8 +43,7 @@ type Follower {
     pkfollower: Int!
     user_following: Int!
     user_followed: Int!
-    users_followers_user_followedTousers: User
-    users_followers_user_followingTousers: User
+    created_on: DateTime
 }
 
 type Adventure {
