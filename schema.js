@@ -17,6 +17,7 @@ type Mutation {
 
 type Query {
     findUser(pkuser: Int!): User!
+    findFollowers(pkuser: Int!): [Follower]
     findManyUsers(firstName: String!): [User!]!
     findAdventureByUser(pkuser: Int!): [Adventure]
     findAdventureById(pkadventure: Int!): Adventure
@@ -44,6 +45,8 @@ type Follower {
     user_following: Int!
     user_followed: Int!
     created_on: DateTime
+    users_followers_user_followedTousers: User
+    users_followers_user_followingTousers: User
 }
 
 type Adventure {
