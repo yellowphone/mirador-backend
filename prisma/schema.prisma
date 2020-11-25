@@ -8,7 +8,7 @@ datasource db {
 }
 
 model adventures {
-  pkadventure       Int       @id @default(autoincrement())
+  pkadventure       Int         @default(autoincrement()) @id
   title             String
   summary           String?
   created_on        DateTime?   @default(now())
@@ -18,7 +18,7 @@ model adventures {
 }
 
 model blogs {
-  pkblog       Int       @id @default(autoincrement())
+  pkblog       Int       @default(autoincrement()) @id
   title        String
   summary      String?
   created_on   DateTime? @default(now())
@@ -27,9 +27,10 @@ model blogs {
 }
 
 model itineraries {
-  pkitinerary Int     @id @default(autoincrement())
+  pkitinerary Int       @default(autoincrement()) @id
   title       String
   summary     String?
+  created_on  DateTime? @default(now())
 }
 
 model locations {
@@ -41,14 +42,25 @@ model locations {
 }
 
 model users {
-  pkuser     Int          @id @default(autoincrement())
-  email      String       @unique
-  username   String       @unique
-  password   String
-  firstname  String?
-  lastname   String?
-  bio        String?
-  created_on DateTime?    @default(now())
-  adventures adventures[]
-  blogs      blogs[]
+  pkuser                                    Int          @default(autoincrement()) @id
+  email                                     String       @unique
+  username                                  String       @unique
+  password                                  String
+  firstname                                 String?
+  lastname                                  String?
+  bio                                       String?
+  created_on                                DateTime?    @default(now())
+  adventures                                adventures[]
+  blogs                                     blogs[]
+  followers_followers_user_followedTousers  followers[]  @relation("followers_user_followedTousers")
+  followers_followers_user_followingTousers followers[]  @relation("followers_user_followingTousers")
+}
+
+model followers {
+  pkfollower                            Int       @default(autoincrement()) @id
+  user_following                        Int
+  user_followed                         Int
+  created_on                            DateTime? @default(now())
+  users_followers_user_followedTousers  users     @relation("followers_user_followedTousers", fields: [user_followed], references: [pkuser])
+  users_followers_user_followingTousers users     @relation("followers_user_followingTousers", fields: [user_following], references: [pkuser])
 }

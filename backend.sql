@@ -9,6 +9,15 @@ CREATE TABLE users (
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE followers (
+    pkFollower SERIAL PRIMARY KEY,
+    user_following INTEGER NOT NULL,
+    CONSTRAINT user_following FOREIGN KEY (user_following) REFERENCES users(pkUser),
+    user_followed INTEGER NOT NULL,
+    CONSTRAINT user_followed FOREIGN KEY (user_followed) REFERENCES users(pkUser),
+    created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE adventures (
     pkAdventure SERIAL PRIMARY KEY,
     title VARCHAR(60) NOT NULL,

@@ -8,7 +8,9 @@ const findUser = async (parent, args, { prisma }) => {
             },
             include: {
                 adventures: true,
-                blogs: true
+                blogs: true,
+                followers_followers_user_followedTousers: true,
+                followers_followers_user_followingTousers: true
             },
         })
         return results
@@ -28,6 +30,8 @@ const findManyUsers = async (parent, args, { prisma }) => {
             include: {
                 adventures: true,
                 blogs: true,
+                followers_followers_user_followedTousers: true,
+                followers_followers_user_followingTousers: true
             },
         })
         return results
