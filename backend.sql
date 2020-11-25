@@ -25,7 +25,6 @@ CREATE TABLE adventures (
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     fk_user_adventure INTEGER NOT NULL,
     CONSTRAINT author FOREIGN KEY(fk_user_adventure) REFERENCES users(pkUser)
-    -- fk_location_adventure integer REFERENCES locations(pkLocation)
 
     -- image will be on bucket, link to that
 
@@ -58,7 +57,3 @@ CREATE TABLE itineraries (
 
     -- foreign key to calendar/jumble/list format for planner
 );
-
--- highlight must have a foreign key from user's pkUser when creating
-
--- user will have many intersection tables
