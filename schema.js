@@ -6,8 +6,13 @@ scalar DateTime
 type Mutation {
     createUser(email: String!, username: String!, password: String!, firstname: String, lastname: String): User!
     followUser(user_following: Int!, user_followed: Int!): Follower!
+    unfollowUser(pkfollower: Int!): Follower!
     deleteUser(pkuser: Int!): User!
     createAdventure(title: String, pkuser: Int!, lat: Float!, lng: Float!): Adventure!
+    saveAdventure(saving_user: Int!, saving_adventure: Int!): Saved_Adventure!
+    unsaveAdventure(pksaved_adventure: Int!): Saved_Adventure!
+    visitAdventure(visiting_user: Int!, visiting_adventure: Int!): Visited_Adventure
+    unvisitAdventure(pkvisited_adventure: Int!): Visited_Adventure
     deleteAdventure(pkadventure: Int!): Adventure!
     createBlog(title: String, pkuser: Int!): String!
     deleteBlog(pkblog: Int!): Blog!
@@ -18,6 +23,8 @@ type Mutation {
 type Query {
     findUser(pkuser: Int!): User!
     findFollowers(pkuser: Int!): [Follower]
+    findSavedAdventures(pkuser: Int!): [Saved_Adventure]
+    findVisitedAdventures(pkuser: Int!): [Visited_Adventure]
     findManyUsers(firstName: String!): [User!]!
     findAdventureByUser(pkuser: Int!): [Adventure]
     findAdventureById(pkadventure: Int!): Adventure
@@ -38,6 +45,8 @@ type User {
     blogs: [Blog]
     followers_followers_user_followedTousers: [Follower]
     followers_followers_user_followingTousers: [Follower]
+    saved_adventures: [Saved_Adventure]
+    visited_adventures: [Visited_Adventure]
 }
 
 type Follower {
@@ -56,6 +65,24 @@ type Adventure {
     created_on: DateTime
     fk_user_adventure: Int!
     locations: [Location]
+}
+
+type Saved_Adventure {
+    pksaved_adventure: Int!
+    created_on: DateTime
+    saving_user: Int!
+    saving_adventure: Int!
+    adventures: Adventure
+    users: User
+}
+
+type Visited_Adventure {
+    pkvisited_adventure: Int!
+    created_on: DateTime
+    visiting_user: Int!
+    visiting_adventure: Int!
+    adventures: Adventure
+    users: User
 }
 
 type Blog {

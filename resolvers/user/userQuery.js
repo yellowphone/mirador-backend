@@ -10,7 +10,9 @@ const findUser = async (parent, args, { prisma }) => {
                 adventures: true,
                 blogs: true,
                 followers_followers_user_followedTousers: true,
-                followers_followers_user_followingTousers: true
+                followers_followers_user_followingTousers: true,
+                saved_adventures: true,
+                visited_adventures: true
             },
         })
         return results
@@ -40,6 +42,44 @@ const findFollowers = async(parent, args, { prisma }) => {
     }
 }
 
+const findSavedAdventures = async(parent, args, { prisma }) => {
+    try {
+        const results = await prisma.saved_adventures.findMany({
+            where: {
+                saving_user: args.pkuser
+            },
+            include: {
+                adventures: true,
+                users: true
+            }
+        })
+        return results
+    }
+    catch(err) {
+        console.error(err)
+        return new ApolloError(err)
+    }
+}
+
+const findVisitedAdventures = async(parent, args, { prisma }) => {
+    try {
+        const results = await prisma.visited_adventures.findMany({
+            where: {
+                visiting_user: args.pkuser
+            },
+            include: {
+                adventures: true,
+                users: true
+            },
+        })
+        return results
+    }
+    catch(err) {
+        console.error(err)
+        return new ApolloError(err)
+    }
+}
+
 const findManyUsers = async (parent, args, { prisma }) => {
     try {
         const results = await prisma.users.findMany({
@@ -50,7 +90,9 @@ const findManyUsers = async (parent, args, { prisma }) => {
                 adventures: true,
                 blogs: true,
                 followers_followers_user_followedTousers: true,
-                followers_followers_user_followingTousers: true
+                followers_followers_user_followingTousers: true,
+                saved_adventures: true,
+                visited_adventures: true
             },
         })
         return results
@@ -63,6 +105,8 @@ const findManyUsers = async (parent, args, { prisma }) => {
 
 module.exports = {
     findUser,
-    findManyUsers,
-    findFollowers
+    findFollowers,
+    findSavedAdventures,
+    findVisitedAdventures,
+    findManyUsers
 }

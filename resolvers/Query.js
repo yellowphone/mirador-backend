@@ -1,6 +1,8 @@
 const { 
     findUser,
     findFollowers,
+    findSavedAdventures,
+    findVisitedAdventures,
     findManyUsers
 } = require('./user/userQuery')
 
@@ -20,6 +22,8 @@ const {
 module.exports = {
     findUser,
     findFollowers,
+    findSavedAdventures,
+    findVisitedAdventures,
     findManyUsers,
     findAdventureByUser,
     findAdventureById,
