@@ -1,5 +1,6 @@
 const { 
     createUser,
+    followUser,
     deleteUser
 } = require('./user/userMutation')
 
@@ -20,6 +21,7 @@ const {
 
 module.exports = {
     createUser,
+    followUser,
     deleteUser,
     createAdventure,
     deleteAdventure,

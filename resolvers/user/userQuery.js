@@ -8,8 +8,29 @@ const findUser = async (parent, args, { prisma }) => {
             },
             include: {
                 adventures: true,
-                blogs: true
+                blogs: true,
+                followers_followers_user_followedTousers: true,
+                followers_followers_user_followingTousers: true
             },
+        })
+        return results
+    }
+    catch(err) {
+        console.error(err)
+        return new ApolloError(err)
+    }
+}
+
+const findFollowers = async(parent, args, { prisma }) => {
+    try {
+        const results = await prisma.followers.findMany({
+            where: {
+                user_following: args.pkuser
+            },
+            include: {
+                users_followers_user_followedTousers: true,
+                users_followers_user_followingTousers: true
+            }
         })
         return results
     }
@@ -28,6 +49,8 @@ const findManyUsers = async (parent, args, { prisma }) => {
             include: {
                 adventures: true,
                 blogs: true,
+                followers_followers_user_followedTousers: true,
+                followers_followers_user_followingTousers: true
             },
         })
         return results
@@ -40,5 +63,6 @@ const findManyUsers = async (parent, args, { prisma }) => {
 
 module.exports = {
     findUser,
-    findManyUsers
+    findManyUsers,
+    findFollowers
 }
