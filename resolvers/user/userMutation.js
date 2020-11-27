@@ -48,6 +48,21 @@ const followUser = async(parent, args, {prisma}) => {
     }
 }
 
+const unfollowUser = async (parent, args, {prisma}) => {
+    try {
+        const follower = await prisma.followers.delete({
+            where: {
+                pkfollower: args.pkfollower
+            }
+        })
+        return follower
+    }
+    catch(err) {
+        console.error(err)
+        return new ApolloError(err)
+    }
+}
+
 const deleteUser = async(parent, args, { prisma }) => {
     try {
         const user = await prisma.users.delete({
@@ -64,5 +79,6 @@ const deleteUser = async(parent, args, { prisma }) => {
 module.exports = {
     createUser,
     followUser,
+    unfollowUser,
     deleteUser
 }

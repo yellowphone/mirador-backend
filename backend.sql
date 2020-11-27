@@ -30,6 +30,25 @@ CREATE TABLE adventures (
 
 );
 
+CREATE TABLE saved_adventures(
+    pksaved_adventure SERIAL PRIMARY KEY,
+    created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    saving_user INTEGER NOT NULL,
+    CONSTRAINT suser FOREIGN KEY (saving_user) REFERENCES users(pkUser),
+    saving_adventure INTEGER NOT NULL,
+    CONSTRAINT sadventure FOREIGN KEY (saving_adventure) REFERENCES adventures(pkAdventure)
+);
+
+CREATE TABLE visited_adventures(
+    pkvisited_adventure SERIAL PRIMARY KEY,
+    created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    visiting_user INTEGER NOT NULL,
+    CONSTRAINT vuser FOREIGN KEY (visiting_user) REFERENCES users(pkUser),
+    visiting_adventure INTEGER NOT NULL,
+    CONSTRAINT vadventure FOREIGN KEY (visiting_adventure) REFERENCES adventures(pkAdventure)
+);
+
+
 CREATE TABLE blogs (
     pkBlog SERIAL PRIMARY KEY,
     title VARCHAR(60) NOT NULL,

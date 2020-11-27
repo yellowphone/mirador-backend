@@ -8,13 +8,15 @@ datasource db {
 }
 
 model adventures {
-  pkadventure       Int         @default(autoincrement()) @id
-  title             String
-  summary           String?
-  created_on        DateTime?   @default(now())
-  fk_user_adventure Int
-  users             users       @relation(fields: [fk_user_adventure], references: [pkuser])
-  locations         locations[]
+  pkadventure        Int                  @default(autoincrement()) @id
+  title              String
+  summary            String?
+  created_on         DateTime?            @default(now())
+  fk_user_adventure  Int
+  users              users                @relation(fields: [fk_user_adventure], references: [pkuser])
+  locations          locations[]
+  saved_adventures   saved_adventures[]
+  visited_adventures visited_adventures[]
 }
 
 model blogs {
@@ -42,18 +44,20 @@ model locations {
 }
 
 model users {
-  pkuser                                    Int          @default(autoincrement()) @id
-  email                                     String       @unique
-  username                                  String       @unique
+  pkuser                                    Int                  @default(autoincrement()) @id
+  email                                     String               @unique
+  username                                  String               @unique
   password                                  String
   firstname                                 String?
   lastname                                  String?
   bio                                       String?
-  created_on                                DateTime?    @default(now())
+  created_on                                DateTime?            @default(now())
   adventures                                adventures[]
   blogs                                     blogs[]
-  followers_followers_user_followedTousers  followers[]  @relation("followers_user_followedTousers")
-  followers_followers_user_followingTousers followers[]  @relation("followers_user_followingTousers")
+  followers_followers_user_followedTousers  followers[]          @relation("followers_user_followedTousers")
+  followers_followers_user_followingTousers followers[]          @relation("followers_user_followingTousers")
+  saved_adventures                          saved_adventures[]
+  visited_adventures                        visited_adventures[]
 }
 
 model followers {
@@ -63,4 +67,22 @@ model followers {
   created_on                            DateTime? @default(now())
   users_followers_user_followedTousers  users     @relation("followers_user_followedTousers", fields: [user_followed], references: [pkuser])
   users_followers_user_followingTousers users     @relation("followers_user_followingTousers", fields: [user_following], references: [pkuser])
+}
+
+model saved_adventures {
+  pksaved_adventure Int        @default(autoincrement()) @id
+  created_on        DateTime?  @default(now())
+  saving_user       Int
+  saving_adventure  Int
+  adventures        adventures @relation(fields: [saving_adventure], references: [pkadventure])
+  users             users      @relation(fields: [saving_user], references: [pkuser])
+}
+
+model visited_adventures {
+  pkvisited_adventure Int        @default(autoincrement()) @id
+  created_on          DateTime?  @default(now())
+  visiting_user       Int
+  visiting_adventure  Int
+  adventures          adventures @relation(fields: [visiting_adventure], references: [pkadventure])
+  users               users      @relation(fields: [visiting_user], references: [pkuser])
 }
