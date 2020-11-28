@@ -14,7 +14,7 @@ model adventures {
   created_on         DateTime?            @default(now())
   fk_user_adventure  Int
   users              users                @relation(fields: [fk_user_adventure], references: [pkuser])
-  locations          locations[]
+  locations          locations?
   saved_adventures   saved_adventures[]
   visited_adventures visited_adventures[]
 }
@@ -39,7 +39,7 @@ model locations {
   pklocation            Int        @default(autoincrement()) @id
   lat                   Float?
   lng                   Float?
-  fk_adventure_location Int
+  fk_adventure_location Int        @unique
   adventures            adventures @relation(fields: [fk_adventure_location], references: [pkadventure])
 }
 

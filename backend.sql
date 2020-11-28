@@ -1,3 +1,7 @@
+DROP SCHEMA public CASCADE;
+CREATE SCHEMA public;
+
+
 CREATE TABLE users (
     pkUser SERIAL PRIMARY KEY,
     email VARCHAR(64) UNIQUE NOT NULL,
@@ -64,7 +68,7 @@ CREATE TABLE locations (
     pkLocation SERIAL PRIMARY KEY,
     lat DECIMAL(8, 6),
     lng DECIMAL(9, 6),
-    fk_adventure_location INTEGER NOT NULL,
+    fk_adventure_location INTEGER NOT NULL UNIQUE,
     CONSTRAINT place FOREIGN KEY(fk_adventure_location) REFERENCES adventures(pkAdventure)
 );
 

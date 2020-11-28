@@ -64,7 +64,7 @@ type Adventure {
     summary: String
     created_on: DateTime
     fk_user_adventure: Int!
-    locations: [Location]
+    location: Location
 }
 
 type Saved_Adventure {
