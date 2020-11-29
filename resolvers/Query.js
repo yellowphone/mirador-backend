@@ -1,18 +1,14 @@
 const { 
     findUser,
-    findFollowers,
-    findSavedAdventures,
-    findVisitedAdventures,
     findManyUsers
 } = require('./user/userQuery')
 
 const {
-    findAdventureByUser,
     findAdventureById
 } = require('./adventure/adventureQuery')
 
 const {
-    findBlogByUser
+    findBlogById
 } = require('./blog/blogQuery')
 
 const {
@@ -21,12 +17,8 @@ const {
 
 module.exports = {
     findUser,
-    findFollowers,
-    findSavedAdventures,
-    findVisitedAdventures,
     findManyUsers,
-    findAdventureByUser,
     findAdventureById,
-    findBlogByUser,
+    findBlogById,
     findItineraryById
 }

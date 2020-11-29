@@ -29,10 +29,11 @@ model blogs {
 }
 
 model itineraries {
-  pkitinerary Int       @default(autoincrement()) @id
-  title       String
-  summary     String?
-  created_on  DateTime? @default(now())
+  pkitinerary      Int                @default(autoincrement()) @id
+  title            String
+  summary          String?
+  created_on       DateTime?          @default(now())
+  user_itineraries user_itineraries[]
 }
 
 model locations {
@@ -57,6 +58,7 @@ model users {
   followers_followers_user_followedTousers  followers[]          @relation("followers_user_followedTousers")
   followers_followers_user_followingTousers followers[]          @relation("followers_user_followingTousers")
   saved_adventures                          saved_adventures[]
+  user_itineraries                          user_itineraries[]
   visited_adventures                        visited_adventures[]
 }
 
@@ -85,4 +87,13 @@ model visited_adventures {
   visiting_adventure  Int
   adventures          adventures @relation(fields: [visiting_adventure], references: [pkadventure])
   users               users      @relation(fields: [visiting_user], references: [pkuser])
+}
+
+model user_itineraries {
+  pkuser_itinerary Int         @default(autoincrement()) @id
+  created_on       DateTime?   @default(now())
+  adding_user      Int
+  adding_itinerary Int
+  itineraries      itineraries @relation(fields: [adding_itinerary], references: [pkitinerary])
+  users            users       @relation(fields: [adding_user], references: [pkuser])
 }

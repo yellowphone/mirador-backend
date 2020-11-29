@@ -21,6 +21,8 @@ const {
 
 const {
     createItinerary,
+    addUserToItinerary,
+    deleteUserFromItinerary,
     deleteItinerary
 } = require('./itinerary/itineraryMutation')
 
@@ -38,5 +40,7 @@ module.exports = {
     createBlog,
     deleteBlog,
     createItinerary,
+    addUserToItinerary,
+    deleteUserFromItinerary,
     deleteItinerary
 }

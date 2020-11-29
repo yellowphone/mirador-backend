@@ -6,6 +6,14 @@ const findItineraryById = async (parent, args, { prisma }) => {
             where: {
                 pkitinerary: args.pkitinerary
             },
+            include: {
+                user_itineraries: {
+                    include: {
+                        users: true, 
+                        itineraries: true
+                    }
+                }
+            }
         })
         return results
     }

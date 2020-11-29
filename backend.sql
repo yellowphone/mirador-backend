@@ -80,3 +80,12 @@ CREATE TABLE itineraries (
 
     -- foreign key to calendar/jumble/list format for planner
 );
+
+CREATE TABLE user_itineraries (
+    pkuser_itinerary SERIAL PRIMARY KEY,
+    created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    adding_user INTEGER NOT NULL,
+    CONSTRAINT auser FOREIGN KEY (adding_user) REFERENCES users(pkUser),
+    adding_itinerary INTEGER NOT NULL,
+    CONSTRAINT aitinerary FOREIGN KEY (adding_itinerary) REFERENCES itineraries(pkItinerary)
+);
