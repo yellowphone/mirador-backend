@@ -18,7 +18,7 @@ const createAdventure = async (parent, args, { prisma }) => {
                 },
             },
             include: {
-                locations: true,
+                location: true,
             },
         })
         return adventure

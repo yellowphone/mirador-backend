@@ -5,7 +5,15 @@ const createItinerary = async (parent, args, { prisma }) => {
         const itinerary = await prisma.itineraries.create({
             data: {
                 title: args.title,
-            }
+            },
+            // user_itinerary: {
+            //     create: {
+            //         adding_user: args.pkuser
+            //     }
+            // },
+            // include: {
+            //     user_itinerary: true,
+            // },
         })
         console.log(itinerary)
         return itinerary
@@ -14,6 +22,49 @@ const createItinerary = async (parent, args, { prisma }) => {
         console.error(err)
         return new ApolloError(err)
     }    
+}
+
+const addUserToItinerary = async (parent, args, { prisma }) => {
+    try {
+        const user_itinerary = await prisma.user_itineraries.create({
+            data: {
+                users: {
+                    connect: {
+                        pkuser: args.adding_user
+                    }
+                },
+                itineraries: {
+                    connect: {
+                        pkitinerary: args.adding_itinerary
+                    }
+                }
+            },
+            include: {
+                users: true,
+                itineraries: true
+            }
+        })
+        return user_itinerary
+    }
+    catch(err) {
+        console.error(err)
+        return new ApolloError(err)
+    }
+}
+
+const deleteUserFromItinerary = async (parent, args, { prisma }) => {
+    try {
+        const user_itinerary = await prisma.user_itineraries.delete({
+            where: {
+                pkuser_itinerary: args.pkuser_itinerary
+            }
+        })
+        return user_itinerary
+    }
+    catch(err) {
+        console.error(err)
+        return new ApolloError(err)
+    }
 }
 
 const deleteItinerary = async(parent, args, { prisma }) => {
@@ -34,5 +85,7 @@ const deleteItinerary = async(parent, args, { prisma }) => {
 
 module.exports = {
     createItinerary,
+    addUserToItinerary,
+    deleteUserFromItinerary,
     deleteItinerary
 }

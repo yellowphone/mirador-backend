@@ -1,10 +1,10 @@
 const { ApolloError } = require('apollo-server');
 
-const findBlogByUser = async (parent, args, { prisma }) => {
+const findBlogById = async (parent, args, { prisma }) => {
     try {
-        const results = await prisma.blogs.findMany({
+        const results = await prisma.blogs.findOne({
             where: {
-                fk_user_blog: args.pkuser
+                pkblog: args.pkblog
             }
         })
         return results
@@ -16,5 +16,5 @@ const findBlogByUser = async (parent, args, { prisma }) => {
 }
 
 module.exports = {
-    findBlogByUser
+    findBlogById
 }

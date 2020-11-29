@@ -17,18 +17,16 @@ type Mutation {
     createBlog(title: String, pkuser: Int!): String!
     deleteBlog(pkblog: Int!): Blog!
     createItinerary(title: String): Itinerary!
+    addUserToItinerary(adding_user: Int!, adding_itinerary: Int!): User_Itinerary!
+    deleteUserFromItinerary(pkuser_itinerary: Int!): Itinerary
     deleteItinerary(pkitinerary: Int!): Itinerary!
 }
 
 type Query {
     findUser(pkuser: Int!): User!
-    findFollowers(pkuser: Int!): [Follower]
-    findSavedAdventures(pkuser: Int!): [Saved_Adventure]
-    findVisitedAdventures(pkuser: Int!): [Visited_Adventure]
     findManyUsers(firstName: String!): [User!]!
-    findAdventureByUser(pkuser: Int!): [Adventure]
     findAdventureById(pkadventure: Int!): Adventure
-    findBlogByUser(pkuser: Int!): [Blog]
+    findBlogById(pkblog: Int!): Blog
     findItineraryById(pkitinerary: Int!): Itinerary
 }
 
@@ -47,6 +45,7 @@ type User {
     followers_followers_user_followingTousers: [Follower]
     saved_adventures: [Saved_Adventure]
     visited_adventures: [Visited_Adventure]
+    user_itineraries: [User_Itinerary]
 }
 
 type Follower {
@@ -104,6 +103,17 @@ type Itinerary {
     pkitinerary: Int!
     title: String!
     summary: String
+    created_on: DateTime
+    user_itineraries: [User_Itinerary]
+}
+
+type User_Itinerary {
+    pkuser_itinerary: Int!
+    created_on: DateTime
+    adding_user: Int!
+    adding_itinerary: Int!
+    itineraries: Itinerary
+    users: User
 }
 `;
 

@@ -1,20 +1,5 @@
 const { ApolloError } = require('apollo-server');
 
-const findAdventureByUser = async (parent, args, { prisma }) => {
-    try {
-        const results = await prisma.adventures.findMany({
-            where: {
-                fk_user_adventure: args.pkuser
-            }
-        })
-        return results
-    }
-    catch(err) {
-        console.error(err)
-        return new ApolloError(err)
-    }
-}
-
 const findAdventureById = async(parent, args, { prisma }) => {
     try {
         const results = await prisma.adventures.findOne({
@@ -34,6 +19,5 @@ const findAdventureById = async(parent, args, { prisma }) => {
 }
 
 module.exports = {
-    findAdventureByUser,
     findAdventureById
 }
