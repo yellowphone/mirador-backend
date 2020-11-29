@@ -6,14 +6,6 @@ const createItinerary = async (parent, args, { prisma }) => {
             data: {
                 title: args.title,
             },
-            // user_itinerary: {
-            //     create: {
-            //         adding_user: args.pkuser
-            //     }
-            // },
-            // include: {
-            //     user_itinerary: true,
-            // },
         })
         console.log(itinerary)
         return itinerary
