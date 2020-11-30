@@ -26,6 +26,7 @@ type Query {
     findUser(pkuser: Int!): User!
     findManyUsers(firstName: String!): [User!]!
     findAdventureById(pkadventure: Int!): Adventure
+    findAdventureByCoordinates(lat: Float!, lng: Float!): [Location]
     findBlogById(pkblog: Int!): Blog
     findItineraryById(pkitinerary: Int!): Itinerary
 }
@@ -97,6 +98,8 @@ type Location {
     lat: Float
     lng: Float
     fk_adventure_location: Int!
+    adventures: Adventure
+    distance: Float
 }
 
 type Itinerary {
