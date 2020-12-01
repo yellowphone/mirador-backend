@@ -26,7 +26,8 @@ const findAdventureByCoordinates = async(parent, args, { prisma }) => {
          * 
          * const result = await prisma.$queryRaw<User[]>('SELECT * FROM User;')
          * */
-
+        
+        // Look into more efficient methods if possible for getting GPS coordinates
         // 3959 is miles, 6371 is kms
         const results = await prisma.$queryRaw(
             `SELECT * FROM (
