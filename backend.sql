@@ -28,7 +28,13 @@ CREATE TABLE adventures (
     summary VARCHAR(255),
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     fk_user_adventure INTEGER NOT NULL,
-    CONSTRAINT author FOREIGN KEY(fk_user_adventure) REFERENCES users(pkUser)
+    CONSTRAINT author FOREIGN KEY(fk_user_adventure) REFERENCES users(pkUser),
+    miles FLOAT(2),
+    elevation INTEGER,
+    climbing VARCHAR(5), -- max could be 5.15a or something like that
+    -- difficulty
+    -- categories too, enums most likely 
+
 
     -- image will be on bucket, link to that
 

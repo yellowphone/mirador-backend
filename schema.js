@@ -65,6 +65,9 @@ type Adventure {
     created_on: DateTime
     fk_user_adventure: Int!
     locations: Location
+    miles: Float
+    elevation: Int
+    climbing: String
 }
 
 type Saved_Adventure {

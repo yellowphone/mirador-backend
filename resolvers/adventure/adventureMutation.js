@@ -5,6 +5,10 @@ const createAdventure = async (parent, args, { prisma }) => {
         const adventure = await prisma.adventures.create({
             data: {
                 title: args.title,
+                summary: args.summary,
+                miles: args.miles,
+                elevation: args.elevation,
+                climbing: args.climbing,
                 users: {
                     connect: {
                         pkuser: args.pkuser
