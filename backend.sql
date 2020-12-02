@@ -22,6 +22,8 @@ CREATE TABLE followers (
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+create type difficulty_level as enum('EASY', 'MODERATE', 'HARD');
+
 CREATE TABLE adventures (
     pkAdventure SERIAL PRIMARY KEY,
     title VARCHAR(60) NOT NULL,
@@ -32,6 +34,7 @@ CREATE TABLE adventures (
     miles FLOAT(2),
     elevation INTEGER,
     climbing VARCHAR(5), -- max could be 5.15a or something like that
+    difficulty difficulty_level
     -- difficulty
     -- categories too, enums most likely 
 

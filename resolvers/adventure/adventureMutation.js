@@ -9,6 +9,7 @@ const createAdventure = async (parent, args, { prisma }) => {
                 miles: args.miles,
                 elevation: args.elevation,
                 climbing: args.climbing,
+                difficulty: args.difficulty,
                 users: {
                     connect: {
                         pkuser: args.pkuser

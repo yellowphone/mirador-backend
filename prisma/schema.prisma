@@ -13,6 +13,10 @@ model adventures {
   summary            String?
   created_on         DateTime?            @default(now())
   fk_user_adventure  Int
+  miles              Float?
+  elevation          Int?
+  climbing           String?
+  difficulty         difficulty_level?
   users              users                @relation(fields: [fk_user_adventure], references: [pkuser])
   locations          locations?
   saved_adventures   saved_adventures[]
@@ -96,4 +100,10 @@ model user_itineraries {
   adding_itinerary Int
   itineraries      itineraries @relation(fields: [adding_itinerary], references: [pkitinerary])
   users            users       @relation(fields: [adding_user], references: [pkuser])
+}
+
+enum difficulty_level {
+  EASY
+  HARD
+  MODERATE
 }

@@ -8,7 +8,7 @@ type Mutation {
     followUser(user_following: Int!, user_followed: Int!): Follower!
     unfollowUser(pkfollower: Int!): Follower!
     deleteUser(pkuser: Int!): User!
-    createAdventure(title: String, pkuser: Int!, lat: Float!, lng: Float!): Adventure!
+    createAdventure(title: String, pkuser: Int!, summary: String, miles: Float, elevation: Int, climbing: String, difficulty: Difficulty_Level, lat: Float!, lng: Float!): Adventure!
     saveAdventure(saving_user: Int!, saving_adventure: Int!): Saved_Adventure!
     unsaveAdventure(pksaved_adventure: Int!): Saved_Adventure!
     visitAdventure(visiting_user: Int!, visiting_adventure: Int!): Visited_Adventure
@@ -68,6 +68,13 @@ type Adventure {
     miles: Float
     elevation: Int
     climbing: String
+    difficulty: Difficulty_Level
+}
+
+enum Difficulty_Level {
+    EASY
+    MODERATE
+    HARD
 }
 
 type Saved_Adventure {
