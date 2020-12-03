@@ -35,7 +35,6 @@ CREATE TABLE adventures (
     elevation INTEGER,
     climbing VARCHAR(5), -- max could be 5.15a or something like that
     difficulty difficulty_level
-    -- difficulty
     -- categories too, enums most likely 
 
 
@@ -98,3 +97,13 @@ CREATE TABLE user_itineraries (
     adding_itinerary INTEGER NOT NULL,
     CONSTRAINT aitinerary FOREIGN KEY (adding_itinerary) REFERENCES itineraries(pkItinerary)
 );
+
+CREATE TABLE images (
+    pkimage SERIAL PRIMARY KEY,
+    size: INTEGER,
+    url: VARCHAR(512),
+    caption: VARCHAR(255),
+    created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fk_user_image INTEGER NOT NULL,
+    CONSTRAINT author FOREIGN KEY(fk_user_image) REFERENCES users(pkUser)
+)
