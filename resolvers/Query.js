@@ -22,5 +22,5 @@ module.exports = {
     findAdventureById,
     findAdventureByCoordinates,
     findBlogById,
-    findItineraryById
+    findItineraryById,
 }

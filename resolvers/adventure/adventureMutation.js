@@ -1,4 +1,5 @@
 const { ApolloError } = require('apollo-server');
+const { uploadPhoto, addImageToAdventure } = require('../../service/upload')
 
 const createAdventure = async (parent, args, { prisma }) => {
     try {
@@ -24,8 +25,33 @@ const createAdventure = async (parent, args, { prisma }) => {
             },
             include: {
                 locations: true,
+                adventure_images: {
+                    include: {
+                        images: true
+                    }
+                }
             },
         })
+
+        // for multiple photos to upload, go through a loop
+        // TODO: Find out if this is best method, I'm not sure!
+        if (args.images) {
+            for (var i = 0; i < args.images.length; i++) {
+                var img = args.images[i]
+                console.log(img)
+
+                // Wait for image to upload to bucket, then add to SQL
+                var uploadData = uploadPhoto(img).then(data => {
+                        console.log(data.Location);
+                        console.log(data.Key);
+                        addImageToAdventure(prisma, adventure.pkadventure, data.Key, data.Location, args.caption, args.pkuser)
+                })
+                .catch(err => {
+                    console.error(err)
+                }) 
+
+            }
+        }
         return adventure
     }
     catch(err) {

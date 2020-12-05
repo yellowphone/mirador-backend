@@ -8,6 +8,11 @@ const findAdventureById = async(parent, args, { prisma }) => {
             },
             include: {
                 locations: true,
+                adventure_images: {
+                    include: {
+                        images: true
+                    }
+                }
             },
         })
         return results

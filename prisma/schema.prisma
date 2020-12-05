@@ -8,7 +8,7 @@ datasource db {
 }
 
 model adventures {
-  pkadventure        Int                  @default(autoincrement()) @id
+  pkadventure        Int                  @id @default(autoincrement())
   title              String
   summary            String?
   created_on         DateTime?            @default(now())
@@ -18,13 +18,14 @@ model adventures {
   climbing           String?
   difficulty         difficulty_level?
   users              users                @relation(fields: [fk_user_adventure], references: [pkuser])
+  adventure_images   adventure_images[]
   locations          locations?
   saved_adventures   saved_adventures[]
   visited_adventures visited_adventures[]
 }
 
 model blogs {
-  pkblog       Int       @default(autoincrement()) @id
+  pkblog       Int       @id @default(autoincrement())
   title        String
   summary      String?
   created_on   DateTime? @default(now())
@@ -33,7 +34,7 @@ model blogs {
 }
 
 model itineraries {
-  pkitinerary      Int                @default(autoincrement()) @id
+  pkitinerary      Int                @id @default(autoincrement())
   title            String
   summary          String?
   created_on       DateTime?          @default(now())
@@ -41,7 +42,7 @@ model itineraries {
 }
 
 model locations {
-  pklocation            Int        @default(autoincrement()) @id
+  pklocation            Int        @id @default(autoincrement())
   lat                   Float?
   lng                   Float?
   fk_adventure_location Int        @unique
@@ -49,7 +50,7 @@ model locations {
 }
 
 model users {
-  pkuser                                    Int                  @default(autoincrement()) @id
+  pkuser                                    Int                  @id @default(autoincrement())
   email                                     String               @unique
   username                                  String               @unique
   password                                  String
@@ -61,13 +62,14 @@ model users {
   blogs                                     blogs[]
   followers_followers_user_followedTousers  followers[]          @relation("followers_user_followedTousers")
   followers_followers_user_followingTousers followers[]          @relation("followers_user_followingTousers")
+  images                                    images[]
   saved_adventures                          saved_adventures[]
   user_itineraries                          user_itineraries[]
   visited_adventures                        visited_adventures[]
 }
 
 model followers {
-  pkfollower                            Int       @default(autoincrement()) @id
+  pkfollower                            Int       @id @default(autoincrement())
   user_following                        Int
   user_followed                         Int
   created_on                            DateTime? @default(now())
@@ -76,7 +78,7 @@ model followers {
 }
 
 model saved_adventures {
-  pksaved_adventure Int        @default(autoincrement()) @id
+  pksaved_adventure Int        @id @default(autoincrement())
   created_on        DateTime?  @default(now())
   saving_user       Int
   saving_adventure  Int
@@ -85,7 +87,7 @@ model saved_adventures {
 }
 
 model visited_adventures {
-  pkvisited_adventure Int        @default(autoincrement()) @id
+  pkvisited_adventure Int        @id @default(autoincrement())
   created_on          DateTime?  @default(now())
   visiting_user       Int
   visiting_adventure  Int
@@ -94,7 +96,7 @@ model visited_adventures {
 }
 
 model user_itineraries {
-  pkuser_itinerary Int         @default(autoincrement()) @id
+  pkuser_itinerary Int         @id @default(autoincrement())
   created_on       DateTime?   @default(now())
   adding_user      Int
   adding_itinerary Int
@@ -102,8 +104,27 @@ model user_itineraries {
   users            users       @relation(fields: [adding_user], references: [pkuser])
 }
 
+model adventure_images {
+  pkadventure_image Int        @id @default(autoincrement())
+  adding_adventure  Int
+  adding_image      Int
+  adventures        adventures @relation(fields: [adding_adventure], references: [pkadventure])
+  images            images     @relation(fields: [adding_image], references: [pkimage])
+}
+
+model images {
+  pkimage          Int                @id @default(autoincrement())
+  identifier       String             @unique
+  url              String             @unique
+  caption          String?
+  created_on       DateTime?          @default(now())
+  fk_user_image    Int
+  users            users              @relation(fields: [fk_user_image], references: [pkuser])
+  adventure_images adventure_images[]
+}
+
 enum difficulty_level {
   EASY
-  HARD
   MODERATE
+  HARD
 }

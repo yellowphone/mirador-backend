@@ -100,10 +100,18 @@ CREATE TABLE user_itineraries (
 
 CREATE TABLE images (
     pkimage SERIAL PRIMARY KEY,
-    size: INTEGER,
-    url: VARCHAR(512),
-    caption: VARCHAR(255),
+    identifier VARCHAR(200) NOT NULL UNIQUE,
+    url VARCHAR(512) NOT NULL UNIQUE,
+    caption VARCHAR(255),
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     fk_user_image INTEGER NOT NULL,
     CONSTRAINT author FOREIGN KEY(fk_user_image) REFERENCES users(pkUser)
-)
+);
+
+CREATE TABLE adventure_images (
+    pkadventure_image SERIAL PRIMARY KEY,
+    adding_adventure INTEGER NOT NULL,
+    CONSTRAINT aadventure FOREIGN KEY (adding_adventure) REFERENCES adventures(pkAdventure),
+    adding_image INTEGER NOT NULL,
+    CONSTRAINT aimage FOREIGN KEY (adding_image) REFERENCES images(pkimage)
+);
