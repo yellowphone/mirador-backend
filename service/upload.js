@@ -4,20 +4,21 @@ const { v4: uuidv4 } = require('uuid');
 
 const uploadPhoto = async (imageFile) => {
 
+    const { createReadStream, filename } = await imageFile;
+
     const s3 = new AWS.S3({
         accessKeyId: process.env.AWS_ID,
         secretAccessKey: process.env.AWS_SECRET
     });
 
     return new Promise((resolve, reject) => {
-        const fileContent = Buffer.from(imageFile, 'base64');
-        var val = uuidv4() + '.jpg';
+        const val = uuidv4();
 
-            // Uploading files to the bucket
+        // Uploading files to the bucket
         s3.upload({
             Bucket: process.env.BUCKET_NAME,
-            Key: val, // File name you want to save as in S3
-            Body: fileContent
+            Key: `${val}/${filename}`, // File name you want to save as in S3
+            Body: createReadStream()
         }, function(err, data) {
             if (err) {
                 throw err;
@@ -31,7 +32,7 @@ const uploadPhoto = async (imageFile) => {
     })
 }
 
-const addImageToAdventure = async(prisma, pkadventure, Key, Location, caption, pkuser) => {
+const addImageToAdventureHelper = async(prisma, pkadventure, Key, Location, caption, pkuser) => {
     const adventure_image = await prisma.adventure_images.create({
         data: {
             adventures: {
@@ -58,5 +59,5 @@ const addImageToAdventure = async(prisma, pkadventure, Key, Location, caption, p
 
 module.exports = {
     uploadPhoto,
-    addImageToAdventure
+    addImageToAdventureHelper
 }

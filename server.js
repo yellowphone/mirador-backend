@@ -19,11 +19,13 @@ const { ApolloServer } = require('apollo-server-express')
 const typeDefs = require('./schema');
 const Query = require('./resolvers/Query');
 const Mutation = require('./resolvers/Mutation')
+const { GraphQLUpload } = require("apollo-server-express")
 const prisma = new PrismaClient();
 
 const resolvers = {
     Query,
-    Mutation
+    Mutation,
+    Upload: GraphQLUpload,
 }
 
 const server = new ApolloServer({

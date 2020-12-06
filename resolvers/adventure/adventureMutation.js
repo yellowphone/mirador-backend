@@ -1,5 +1,5 @@
 const { ApolloError } = require('apollo-server');
-const { uploadPhoto, addImageToAdventure } = require('../../service/upload')
+const { uploadPhoto, addImageToAdventureHelper } = require('../../service/upload')
 
 const createAdventure = async (parent, args, { prisma }) => {
     try {
@@ -33,18 +33,14 @@ const createAdventure = async (parent, args, { prisma }) => {
             },
         })
 
-        // for multiple photos to upload, go through a loop
-        // TODO: Find out if this is best method, I'm not sure!
+        // for loop through images, and upload each individual image
         if (args.images) {
             for (var i = 0; i < args.images.length; i++) {
                 var img = args.images[i]
-                console.log(img)
 
                 // Wait for image to upload to bucket, then add to SQL
-                var uploadData = uploadPhoto(img).then(data => {
-                        console.log(data.Location);
-                        console.log(data.Key);
-                        addImageToAdventure(prisma, adventure.pkadventure, data.Key, data.Location, args.caption, args.pkuser)
+                await uploadPhoto(img).then(data => {
+                    addImageToAdventureHelper(prisma, adventure.pkadventure, data.Key, data.Location, args.caption, args.pkuser)
                 })
                 .catch(err => {
                     console.error(err)
@@ -58,6 +54,22 @@ const createAdventure = async (parent, args, { prisma }) => {
         console.error(err)
         return new ApolloError(err)
     }    
+}
+
+const addImageToAdventure = async (parent, args, { prisma }) => {
+    try {
+        await uploadPhoto(args.image).then(data => {
+            addImageToAdventureHelper(prisma, args.pkadventure, data.Key, data.Location, args.caption, args.pkuser)
+        })
+        .catch(err => {
+            console.error(err)
+        })
+        return "Added image to adventure"
+    }
+    catch(err) {
+        console.error(err)
+        return new ApolloError(err)
+    }
 }
 
 const saveAdventure = async (parent, args, { prisma }) => {
@@ -164,6 +176,7 @@ const deleteAdventure = async(parent, args, { prisma }) => {
 
 module.exports = {
     createAdventure,
+    addImageToAdventure,
     saveAdventure,
     unsaveAdventure,
     visitAdventure,
