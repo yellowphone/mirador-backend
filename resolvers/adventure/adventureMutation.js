@@ -58,12 +58,19 @@ const createAdventure = async (parent, args, { prisma }) => {
 
 const addImageToAdventure = async (parent, args, { prisma }) => {
     try {
-        await uploadPhoto(args.image).then(data => {
-            addImageToAdventureHelper(prisma, args.pkadventure, data.Key, data.Location, args.caption, args.pkuser)
-        })
-        .catch(err => {
-            console.error(err)
-        })
+        // for loop through images, and upload each individual image
+        for (var i = 0; i < args.images.length; i++) {
+            var img = args.images[i]
+
+            // Wait for image to upload to bucket, then add to SQL
+            await uploadPhoto(img).then(data => {
+                addImageToAdventureHelper(prisma, args.pkadventure, data.Key, data.Location, args.caption, args.pkuser)
+            })
+            .catch(err => {
+                console.error(err)
+            })
+
+        }
         return "Added image to adventure"
     }
     catch(err) {
