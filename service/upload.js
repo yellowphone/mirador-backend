@@ -17,7 +17,7 @@ const uploadPhoto = async (imageFile) => {
         // Uploading files to the bucket
         s3.upload({
             Bucket: process.env.BUCKET_NAME,
-            Key: `${val}/${filename}`, // File name you want to save as in S3
+            Key: `${val}-${filename}`, // File name you want to save as in S3
             Body: createReadStream()
         }, function(err, data) {
             if (err) {
