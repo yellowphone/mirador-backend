@@ -22,13 +22,21 @@ CREATE TABLE followers (
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+create type difficulty_level as enum('EASY', 'MODERATE', 'HARD');
+
 CREATE TABLE adventures (
     pkAdventure SERIAL PRIMARY KEY,
     title VARCHAR(60) NOT NULL,
     summary VARCHAR(255),
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     fk_user_adventure INTEGER NOT NULL,
-    CONSTRAINT author FOREIGN KEY(fk_user_adventure) REFERENCES users(pkUser)
+    CONSTRAINT author FOREIGN KEY(fk_user_adventure) REFERENCES users(pkUser),
+    miles FLOAT(2),
+    elevation INTEGER,
+    climbing VARCHAR(5), -- max could be 5.15a or something like that
+    difficulty difficulty_level
+    -- categories too, enums most likely 
+
 
     -- image will be on bucket, link to that
 
@@ -88,4 +96,22 @@ CREATE TABLE user_itineraries (
     CONSTRAINT auser FOREIGN KEY (adding_user) REFERENCES users(pkUser),
     adding_itinerary INTEGER NOT NULL,
     CONSTRAINT aitinerary FOREIGN KEY (adding_itinerary) REFERENCES itineraries(pkItinerary)
+);
+
+CREATE TABLE images (
+    pkimage SERIAL PRIMARY KEY,
+    identifier VARCHAR(200) NOT NULL UNIQUE,
+    url VARCHAR(512) NOT NULL UNIQUE,
+    caption VARCHAR(255),
+    created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fk_user_image INTEGER NOT NULL,
+    CONSTRAINT author FOREIGN KEY(fk_user_image) REFERENCES users(pkUser)
+);
+
+CREATE TABLE adventure_images (
+    pkadventure_image SERIAL PRIMARY KEY,
+    adding_adventure INTEGER NOT NULL,
+    CONSTRAINT aadventure FOREIGN KEY (adding_adventure) REFERENCES adventures(pkAdventure),
+    adding_image INTEGER NOT NULL,
+    CONSTRAINT aimage FOREIGN KEY (adding_image) REFERENCES images(pkimage)
 );

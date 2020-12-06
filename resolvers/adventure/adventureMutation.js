@@ -1,10 +1,16 @@
 const { ApolloError } = require('apollo-server');
+const { uploadPhoto, addImageToAdventureHelper } = require('../../service/upload')
 
 const createAdventure = async (parent, args, { prisma }) => {
     try {
         const adventure = await prisma.adventures.create({
             data: {
                 title: args.title,
+                summary: args.summary,
+                miles: args.miles,
+                elevation: args.elevation,
+                climbing: args.climbing,
+                difficulty: args.difficulty,
                 users: {
                     connect: {
                         pkuser: args.pkuser
@@ -19,14 +25,58 @@ const createAdventure = async (parent, args, { prisma }) => {
             },
             include: {
                 locations: true,
+                adventure_images: {
+                    include: {
+                        images: true
+                    }
+                }
             },
         })
+
+        // for loop through images, and upload each individual image
+        if (args.images) {
+            for (var i = 0; i < args.images.length; i++) {
+                var img = args.images[i]
+
+                // Wait for image to upload to bucket, then add to SQL
+                await uploadPhoto(img).then(data => {
+                    addImageToAdventureHelper(prisma, adventure.pkadventure, data.Key, data.Location, args.caption, args.pkuser)
+                })
+                .catch(err => {
+                    console.error(err)
+                }) 
+
+            }
+        }
         return adventure
     }
     catch(err) {
         console.error(err)
         return new ApolloError(err)
     }    
+}
+
+const addImageToAdventure = async (parent, args, { prisma }) => {
+    try {
+        // for loop through images, and upload each individual image
+        for (var i = 0; i < args.images.length; i++) {
+            var img = args.images[i]
+
+            // Wait for image to upload to bucket, then add to SQL
+            await uploadPhoto(img).then(data => {
+                addImageToAdventureHelper(prisma, args.pkadventure, data.Key, data.Location, args.caption, args.pkuser)
+            })
+            .catch(err => {
+                console.error(err)
+            })
+
+        }
+        return "Added image to adventure"
+    }
+    catch(err) {
+        console.error(err)
+        return new ApolloError(err)
+    }
 }
 
 const saveAdventure = async (parent, args, { prisma }) => {
@@ -133,6 +183,7 @@ const deleteAdventure = async(parent, args, { prisma }) => {
 
 module.exports = {
     createAdventure,
+    addImageToAdventure,
     saveAdventure,
     unsaveAdventure,
     visitAdventure,

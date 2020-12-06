@@ -7,6 +7,7 @@ const {
 
 const {
     createAdventure,
+    addImageToAdventure,
     saveAdventure,
     unsaveAdventure,
     visitAdventure,
@@ -32,6 +33,7 @@ module.exports = {
     unfollowUser,
     deleteUser,
     createAdventure,
+    addImageToAdventure,
     saveAdventure,
     unsaveAdventure,
     visitAdventure,
