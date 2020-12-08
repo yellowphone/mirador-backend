@@ -17,6 +17,8 @@ const {
 
 const {
     createBlog,
+    saveBlog,
+    unsaveBlog,
     deleteBlog
 } = require('./blog/blogMutation')
 
@@ -40,6 +42,8 @@ module.exports = {
     unvisitAdventure,
     deleteAdventure,
     createBlog,
+    saveBlog,
+    unsaveBlog,
     deleteBlog,
     createItinerary,
     addUserToItinerary,

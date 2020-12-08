@@ -7,10 +7,10 @@ CREATE TABLE users (
     email VARCHAR(64) UNIQUE NOT NULL,
 	username VARCHAR(20) UNIQUE NOT NULL,
     password VARCHAR(128) NOT NULL,
-    firstname VARCHAR(50),
-	lastname VARCHAR(50),
+    firstname VARCHAR(50) NOT NULL,
+	lastname VARCHAR(50) NOT NULL,
     bio VARCHAR(255),
-    created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 CREATE TABLE followers (
@@ -35,11 +35,6 @@ CREATE TABLE adventures (
     elevation INTEGER,
     climbing VARCHAR(5), -- max could be 5.15a or something like that
     difficulty difficulty_level
-    -- categories too, enums most likely 
-
-
-    -- image will be on bucket, link to that
-
 );
 
 CREATE TABLE saved_adventures(
@@ -60,16 +55,23 @@ CREATE TABLE visited_adventures(
     CONSTRAINT vadventure FOREIGN KEY (visiting_adventure) REFERENCES adventures(pkAdventure)
 );
 
-
 CREATE TABLE blogs (
     pkBlog SERIAL PRIMARY KEY,
     title VARCHAR(60) NOT NULL,
     summary VARCHAR(255),
+    content VARCHAR,
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     fk_user_blog INTEGER NOT NULL,
     CONSTRAINT author FOREIGN KEY(fk_user_blog) REFERENCES users(pkUser)
-    -- content BYTEA
-         
+);
+
+CREATE TABLE saved_blogs(
+    pksaved_blog SERIAL PRIMARY KEY,
+    created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    saving_user INTEGER NOT NULL,
+    CONSTRAINT suser FOREIGN KEY (saving_user) REFERENCES users(pkUser),
+    saving_blog INTEGER NOT NULL,
+    CONSTRAINT sblog FOREIGN KEY (saving_blog) REFERENCES blogs(pkBlog)
 );
 
 CREATE TABLE locations (
