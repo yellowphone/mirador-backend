@@ -17,9 +17,11 @@ type Mutation {
     deleteAdventure(pkadventure: Int!): Adventure!
     createBlog(title: String, pkuser: Int!, summary: String, content: String): Blog!
     saveBlog(saving_user: Int!, saving_blog: Int!): Saved_Blog
-    unsaveBlog(pksaving_blog: Int!): Saved_Blog
+    unsaveBlog(pksaved_blog: Int!): Saved_Blog
     deleteBlog(pkblog: Int!): Blog!
-    createItinerary(title: String): Itinerary!
+    createItinerary(title: String, summary: String): Itinerary!
+    saveItinerary(saving_user: Int!, saving_itinerary: Int!): Saved_Itinerary
+    unsaveItinerary(pksaved_itinerary: Int!): Saved_Itinerary
     addUserToItinerary(adding_user: Int!, adding_itinerary: Int!): User_Itinerary!
     deleteUserFromItinerary(pkuser_itinerary: Int!): Itinerary
     deleteItinerary(pkitinerary: Int!): Itinerary!
@@ -51,6 +53,7 @@ type User {
     visited_adventures: [Visited_Adventure]
     user_itineraries: [User_Itinerary]
     saved_blogs: [Saved_Blog]
+    saved_itineraries: [Saved_Itinerary]
 }
 
 type Follower {
@@ -160,6 +163,15 @@ type Itinerary {
     summary: String
     created_on: DateTime
     user_itineraries: [User_Itinerary]
+}
+
+type Saved_Itinerary {
+    pksaved_itinerary: Int!
+    created_on: DateTime
+    saving_user: Int!
+    saving_itinerary: Int!
+    itineraries: Itinerary
+    users: User
 }
 
 type User_Itinerary {
