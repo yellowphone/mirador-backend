@@ -11,17 +11,27 @@ const {
     saveAdventure,
     unsaveAdventure,
     visitAdventure,
+    reviewAdventure,
+    deleteReviewAdventure,
     unvisitAdventure,
     deleteAdventure
 } = require('./adventure/adventureMutation')
 
 const {
     createBlog,
+    saveBlog,
+    unsaveBlog,
+    likeBlog,
+    unlikeBlog,
+    commentBlog,
+    deleteCommentBlog,
     deleteBlog
 } = require('./blog/blogMutation')
 
 const {
     createItinerary,
+    saveItinerary,
+    unsaveItinerary,
     addUserToItinerary,
     deleteUserFromItinerary,
     deleteItinerary
@@ -37,11 +47,21 @@ module.exports = {
     saveAdventure,
     unsaveAdventure,
     visitAdventure,
+    reviewAdventure,
+    deleteReviewAdventure,
     unvisitAdventure,
     deleteAdventure,
     createBlog,
+    saveBlog,
+    unsaveBlog,
+    likeBlog,
+    unlikeBlog,
+    commentBlog,
+    deleteCommentBlog,
     deleteBlog,
     createItinerary,
+    saveItinerary,
+    unsaveItinerary,
     addUserToItinerary,
     deleteUserFromItinerary,
     deleteItinerary

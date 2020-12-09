@@ -5,6 +5,7 @@ const createItinerary = async (parent, args, { prisma }) => {
         const itinerary = await prisma.itineraries.create({
             data: {
                 title: args.title,
+                summary: args.summary
             },
         })
         console.log(itinerary)
@@ -14,6 +15,49 @@ const createItinerary = async (parent, args, { prisma }) => {
         console.error(err)
         return new ApolloError(err)
     }    
+}
+
+const saveItinerary = async (parent, args, { prisma }) => {
+    try {
+        const saved_itinerary = await prisma.saved_itineraries.create({
+            data: {
+                users: {
+                    connect: {
+                        pkuser: args.saving_user
+                    }
+                },
+                itineraries: {
+                    connect: {
+                        pkitinerary: args.saving_itinerary
+                    }
+                }
+            },
+            include: {
+                users: true,
+                itineraries: true
+            }
+        })
+        return saved_itinerary
+    }
+    catch(err) {
+        console.error(err)
+        return new ApolloError(err)
+    }
+}
+
+const unsaveItinerary = async (parent, args, { prisma }) => {
+    try {
+        const saved_itinerary = await prisma.saved_itineraries.delete({
+            where: {
+                pksaved_itinerary: args.pksaved_itinerary
+            }
+        })
+        return saved_itinerary
+    }
+    catch(err) {
+        console.error(err)
+        return new ApolloError(err)
+    }
 }
 
 const addUserToItinerary = async (parent, args, { prisma }) => {
@@ -77,6 +121,8 @@ const deleteItinerary = async(parent, args, { prisma }) => {
 
 module.exports = {
     createItinerary,
+    saveItinerary,
+    unsaveItinerary,
     addUserToItinerary,
     deleteUserFromItinerary,
     deleteItinerary

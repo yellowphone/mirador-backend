@@ -69,7 +69,6 @@ const addImageToAdventure = async (parent, args, { prisma }) => {
             .catch(err => {
                 console.error(err)
             })
-
         }
         return "Added image to adventure"
     }
@@ -150,6 +149,71 @@ const visitAdventure = async (parent, args, { prisma }) => {
     }
 }
 
+const reviewAdventure = async (parent, args, { prisma }) => {
+    try {
+        const review_adventure = await prisma.review_adventures.create({
+            data: {
+                rating: args.rating,
+                content: args.content,
+                users: {
+                    connect: {
+                        pkuser: args.review_user
+                    }
+                },
+                adventures: {
+                    connect: {
+                        pkadventure: args.review_adventure
+                    }
+                }
+            },
+            include: {
+                users: true,
+                adventures: true
+            }
+        })
+
+        // TODO: Need to link these adventure images with the review
+        
+        // for loop through images, and upload each individual image
+        if (args.images) {
+            for (var i = 0; i < args.images.length; i++) {
+                var img = args.images[i]
+
+                // Wait for image to upload to bucket, then add to SQL
+                await uploadPhoto(img).then(data => {
+                    addImageToAdventureHelper(prisma, args.review_adventure, data.Key, data.Location, args.caption, args.review_user)
+                })
+                .catch(err => {
+                    console.error(err)
+                })
+            }
+        }
+        
+        return review_adventure
+    }
+    catch(err) {
+        console.error(err)
+        return new ApolloError(err)
+    }
+}
+
+const deleteReviewAdventure = async(parent, args, { prisma }) => {
+    try {
+        const review_adventure = await prisma.review_adventures.delete({
+            where: {
+                pkreview_adventure: args.pkreview_adventure
+            }
+        })
+        return review_adventure
+    }
+    catch(err) {
+        console.error(err)
+        return new ApolloError(err)
+    }
+}
+
+
+
 const unvisitAdventure = async (parent, args, { prisma }) => {
     try {
         const visited_adventure = await prisma.visited_adventures.delete({
@@ -188,5 +252,7 @@ module.exports = {
     unsaveAdventure,
     visitAdventure,
     unvisitAdventure,
+    reviewAdventure,
+    deleteReviewAdventure,
     deleteAdventure
 }

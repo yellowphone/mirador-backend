@@ -20,25 +20,31 @@ model adventures {
   users              users                @relation(fields: [fk_user_adventure], references: [pkuser])
   adventure_images   adventure_images[]
   locations          locations?
+  review_adventures  review_adventures[]
   saved_adventures   saved_adventures[]
   visited_adventures visited_adventures[]
 }
 
 model blogs {
-  pkblog       Int       @id @default(autoincrement())
-  title        String
-  summary      String?
-  created_on   DateTime? @default(now())
-  fk_user_blog Int
-  users        users     @relation(fields: [fk_user_blog], references: [pkuser])
+  pkblog        Int             @id @default(autoincrement())
+  title         String
+  summary       String?
+  content       String?
+  created_on    DateTime?       @default(now())
+  fk_user_blog  Int
+  users         users           @relation(fields: [fk_user_blog], references: [pkuser])
+  comment_blogs comment_blogs[]
+  liked_blogs   liked_blogs[]
+  saved_blogs   saved_blogs[]
 }
 
 model itineraries {
-  pkitinerary      Int                @id @default(autoincrement())
-  title            String
-  summary          String?
-  created_on       DateTime?          @default(now())
-  user_itineraries user_itineraries[]
+  pkitinerary       Int                 @id @default(autoincrement())
+  title             String
+  summary           String?
+  created_on        DateTime?           @default(now())
+  saved_itineraries saved_itineraries[]
+  user_itineraries  user_itineraries[]
 }
 
 model locations {
@@ -54,16 +60,21 @@ model users {
   email                                     String               @unique
   username                                  String               @unique
   password                                  String
-  firstname                                 String?
-  lastname                                  String?
+  firstname                                 String
+  lastname                                  String
   bio                                       String?
-  created_on                                DateTime?            @default(now())
+  created_on                                DateTime             @default(now())
   adventures                                adventures[]
   blogs                                     blogs[]
+  comment_blogs                             comment_blogs[]
   followers_followers_user_followedTousers  followers[]          @relation("followers_user_followedTousers")
   followers_followers_user_followingTousers followers[]          @relation("followers_user_followingTousers")
   images                                    images[]
+  liked_blogs                               liked_blogs[]
+  review_adventures                         review_adventures[]
   saved_adventures                          saved_adventures[]
+  saved_blogs                               saved_blogs[]
+  saved_itineraries                         saved_itineraries[]
   user_itineraries                          user_itineraries[]
   visited_adventures                        visited_adventures[]
 }
@@ -104,14 +115,6 @@ model user_itineraries {
   users            users       @relation(fields: [adding_user], references: [pkuser])
 }
 
-model adventure_images {
-  pkadventure_image Int        @id @default(autoincrement())
-  adding_adventure  Int
-  adding_image      Int
-  adventures        adventures @relation(fields: [adding_adventure], references: [pkadventure])
-  images            images     @relation(fields: [adding_image], references: [pkimage])
-}
-
 model images {
   pkimage          Int                @id @default(autoincrement())
   identifier       String             @unique
@@ -121,6 +124,62 @@ model images {
   fk_user_image    Int
   users            users              @relation(fields: [fk_user_image], references: [pkuser])
   adventure_images adventure_images[]
+}
+
+model saved_blogs {
+  pksaved_blog Int       @id @default(autoincrement())
+  created_on   DateTime? @default(now())
+  saving_user  Int
+  saving_blog  Int
+  blogs        blogs     @relation(fields: [saving_blog], references: [pkblog])
+  users        users     @relation(fields: [saving_user], references: [pkuser])
+}
+
+model saved_itineraries {
+  pksaved_itinerary Int         @id @default(autoincrement())
+  created_on        DateTime?   @default(now())
+  saving_user       Int
+  saving_itinerary  Int
+  itineraries       itineraries @relation(fields: [saving_itinerary], references: [pkitinerary])
+  users             users       @relation(fields: [saving_user], references: [pkuser])
+}
+
+model liked_blogs {
+  pkliked_blog Int       @id @default(autoincrement())
+  created_on   DateTime? @default(now())
+  liking_user  Int
+  liking_blog  Int
+  blogs        blogs     @relation(fields: [liking_blog], references: [pkblog])
+  users        users     @relation(fields: [liking_user], references: [pkuser])
+}
+
+model review_adventures {
+  pkreview_adventure Int        @id @default(autoincrement())
+  rating             Int
+  content            String?
+  created_on         DateTime?  @default(now())
+  review_user        Int
+  review_adventure   Int
+  adventures         adventures @relation(fields: [review_adventure], references: [pkadventure])
+  users              users      @relation(fields: [review_user], references: [pkuser])
+}
+
+model adventure_images {
+  pkadventure_image Int        @id @default(autoincrement())
+  adding_adventure  Int
+  adding_image      Int
+  adventures        adventures @relation(fields: [adding_adventure], references: [pkadventure])
+  images            images     @relation(fields: [adding_image], references: [pkimage])
+}
+
+model comment_blogs {
+  pkcomment_blog Int       @id @default(autoincrement())
+  comment        String?
+  created_on     DateTime? @default(now())
+  comment_user   Int
+  comment_blog   Int
+  blogs          blogs     @relation(fields: [comment_blog], references: [pkblog])
+  users          users     @relation(fields: [comment_user], references: [pkuser])
 }
 
 enum difficulty_level {
