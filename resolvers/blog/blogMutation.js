@@ -1,4 +1,5 @@
 const { ApolloError } = require('apollo-server');
+const { VariablesAreInputTypesRule } = require('graphql');
 
 const createBlog = async (parent, args, { prisma }) => {
     try {
@@ -108,6 +109,50 @@ const unlikeBlog = async (parent, args, { prisma }) => {
     }
 }
 
+const commentBlog = async (parent, args, { prisma }) => {
+    try {
+        const comment_blog = await prisma.comment_blogs.create({
+            data: {
+                comment: args.comment,
+                users: {
+                    connect: {
+                        pkuser: args.pkuser
+                    }
+                },
+                blogs: {
+                    connect: {
+                        pkblog: args.pkblog
+                    }
+                }
+            },
+            include: {
+                blogs: true, 
+                users: true
+            }
+        })
+        return comment_blog
+    }
+    catch(err) {
+        console.error(err)
+        return new ApolloError(err)
+    }
+}
+
+const deleteCommentBlog = async (parent, args, { prisma }) => {
+    try {
+        const comment_blog = await prisma.comment_blogs.delete({
+            where: {
+                pkcomment_blog: args.pkcomment_blog
+            }
+        })
+        return comment_blog
+    }
+    catch(err) {
+        console.error(err)
+        return new ApolloError(err)
+    }
+}
+
 const deleteBlog = async(parent, args, { prisma }) => {
     try {
         const blog = await prisma.blogs.delete({
@@ -130,5 +175,7 @@ module.exports = {
     unsaveBlog,
     likeBlog,
     unlikeBlog,
+    commentBlog,
+    deleteCommentBlog,
     deleteBlog
 }

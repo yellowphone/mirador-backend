@@ -5,6 +5,23 @@ const findBlogById = async (parent, args, { prisma }) => {
         const results = await prisma.blogs.findOne({
             where: {
                 pkblog: args.pkblog
+            },
+            include: {
+                comment_blogs: {
+                    include: {
+                        users: true
+                    }
+                },
+                liked_blogs: {
+                    include: {
+                        users: true
+                    }
+                },
+                saved_blogs: {
+                    include: {
+                        users: true
+                    }
+                }
             }
         })
         return results

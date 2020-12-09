@@ -22,6 +22,8 @@ type Mutation {
     unsaveBlog(pksaved_blog: Int!): Saved_Blog
     likeBlog(liking_user: Int!, liking_blog: Int!): Liked_Blog
     unlikeBlog(pkliked_blog: Int!): Liked_Blog
+    commentBlog(comment: String!, pkuser: Int!, pkblog: Int!): Comment_Blog
+    deleteCommentBlog(pkcomment_blog: Int!): Comment_Blog
     deleteBlog(pkblog: Int!): Blog!
     createItinerary(title: String, summary: String): Itinerary!
     saveItinerary(saving_user: Int!, saving_itinerary: Int!): Saved_Itinerary
@@ -145,6 +147,9 @@ type Blog {
     content: String
     created_on: DateTime
     fk_user_blog: Int!
+    comment_blogs: [Comment_Blog]
+    liked_blogs: [Liked_Blog]
+    saved_blogs: [Saved_Blog]
 }
 
 type Saved_Blog {
@@ -161,6 +166,16 @@ type Liked_Blog {
     created_on: DateTime
     liking_user: Int!
     liking_blog: Int!
+    blogs: Blog
+    users: User
+}
+
+type Comment_Blog {
+    pkcomment_blog: Int!
+    comment: String
+    created_on: DateTime
+    comment_user: Int!
+    comment_blog: Int!
     blogs: Blog
     users: User
 }

@@ -94,6 +94,16 @@ CREATE TABLE liked_blogs(
     CONSTRAINT lblog FOREIGN KEY (liking_blog) REFERENCES blogs(pkBlog) ON DELETE CASCADE
 );
 
+CREATE TABLE comment_blogs(
+    pkcomment_blog SERIAL PRIMARY KEY,
+    comment VARCHAR(1000),
+    created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    comment_user INTEGER NOT NULL,
+    CONSTRAINT cuser FOREIGN KEY (comment_user) REFERENCES users(pkUser) ON DELETE CASCADE,
+    comment_blog INTEGER NOT NULL,
+    CONSTRAINT cblog FOREIGN KEY (comment_blog) REFERENCES blogs(pkBlog) ON DELETE CASCADE
+);
+
 CREATE TABLE locations (
     pkLocation SERIAL PRIMARY KEY,
     lat DECIMAL(8, 6),
