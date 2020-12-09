@@ -4,7 +4,7 @@ const typeDefs = gql`
 scalar DateTime
 
 type Mutation {
-    createUser(email: String!, username: String!, password: String!, firstname: String, lastname: String): User!
+    createUser(email: String!, username: String!, password: String!, firstname: String!, lastname: String!): User!
     followUser(user_following: Int!, user_followed: Int!): Follower!
     unfollowUser(pkfollower: Int!): Follower!
     deleteUser(pkuser: Int!): User!
@@ -18,6 +18,8 @@ type Mutation {
     createBlog(title: String, pkuser: Int!, summary: String, content: String): Blog!
     saveBlog(saving_user: Int!, saving_blog: Int!): Saved_Blog
     unsaveBlog(pksaved_blog: Int!): Saved_Blog
+    likeBlog(liking_user: Int!, liking_blog: Int!): Liked_Blog
+    unlikeBlog(pkliked_blog: Int!): Liked_Blog
     deleteBlog(pkblog: Int!): Blog!
     createItinerary(title: String, summary: String): Itinerary!
     saveItinerary(saving_user: Int!, saving_itinerary: Int!): Saved_Itinerary
@@ -54,6 +56,7 @@ type User {
     user_itineraries: [User_Itinerary]
     saved_blogs: [Saved_Blog]
     saved_itineraries: [Saved_Itinerary]
+    liked_blogs: [Liked_Blog]
 }
 
 type Follower {
@@ -135,6 +138,15 @@ type Saved_Blog {
     created_on: DateTime
     saving_user: Int!
     saving_blog: Int!
+    blogs: Blog
+    users: User
+}
+
+type Liked_Blog {
+    pkliked_blog: Int!
+    created_on: DateTime
+    liking_user: Int!
+    liking_blog: Int!
     blogs: Blog
     users: User
 }

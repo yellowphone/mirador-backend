@@ -16,9 +16,9 @@ CREATE TABLE users (
 CREATE TABLE followers (
     pkFollower SERIAL PRIMARY KEY,
     user_following INTEGER NOT NULL,
-    CONSTRAINT user_following FOREIGN KEY (user_following) REFERENCES users(pkUser),
+    CONSTRAINT user_following FOREIGN KEY (user_following) REFERENCES users(pkUser) ON DELETE CASCADE,
     user_followed INTEGER NOT NULL,
-    CONSTRAINT user_followed FOREIGN KEY (user_followed) REFERENCES users(pkUser),
+    CONSTRAINT user_followed FOREIGN KEY (user_followed) REFERENCES users(pkUser) ON DELETE CASCADE,
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -30,7 +30,7 @@ CREATE TABLE adventures (
     summary VARCHAR(255),
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     fk_user_adventure INTEGER NOT NULL,
-    CONSTRAINT author FOREIGN KEY(fk_user_adventure) REFERENCES users(pkUser),
+    CONSTRAINT author FOREIGN KEY(fk_user_adventure) REFERENCES users(pkUser) ON DELETE CASCADE,
     miles FLOAT(2),
     elevation INTEGER,
     climbing VARCHAR(5), -- max could be 5.15a or something like that
@@ -41,18 +41,18 @@ CREATE TABLE saved_adventures(
     pksaved_adventure SERIAL PRIMARY KEY,
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     saving_user INTEGER NOT NULL,
-    CONSTRAINT suser FOREIGN KEY (saving_user) REFERENCES users(pkUser),
+    CONSTRAINT suser FOREIGN KEY (saving_user) REFERENCES users(pkUser) ON DELETE CASCADE,
     saving_adventure INTEGER NOT NULL,
-    CONSTRAINT sadventure FOREIGN KEY (saving_adventure) REFERENCES adventures(pkAdventure)
+    CONSTRAINT sadventure FOREIGN KEY (saving_adventure) REFERENCES adventures(pkAdventure) ON DELETE CASCADE
 );
 
 CREATE TABLE visited_adventures(
     pkvisited_adventure SERIAL PRIMARY KEY,
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     visiting_user INTEGER NOT NULL,
-    CONSTRAINT vuser FOREIGN KEY (visiting_user) REFERENCES users(pkUser),
+    CONSTRAINT vuser FOREIGN KEY (visiting_user) REFERENCES users(pkUser) ON DELETE CASCADE,
     visiting_adventure INTEGER NOT NULL,
-    CONSTRAINT vadventure FOREIGN KEY (visiting_adventure) REFERENCES adventures(pkAdventure)
+    CONSTRAINT vadventure FOREIGN KEY (visiting_adventure) REFERENCES adventures(pkAdventure) ON DELETE CASCADE
 );
 
 CREATE TABLE blogs (
@@ -62,16 +62,25 @@ CREATE TABLE blogs (
     content VARCHAR,
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     fk_user_blog INTEGER NOT NULL,
-    CONSTRAINT author FOREIGN KEY(fk_user_blog) REFERENCES users(pkUser)
+    CONSTRAINT author FOREIGN KEY(fk_user_blog) REFERENCES users(pkUser) ON DELETE CASCADE
 );
 
 CREATE TABLE saved_blogs(
     pksaved_blog SERIAL PRIMARY KEY,
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     saving_user INTEGER NOT NULL,
-    CONSTRAINT suser FOREIGN KEY (saving_user) REFERENCES users(pkUser),
+    CONSTRAINT suser FOREIGN KEY (saving_user) REFERENCES users(pkUser) ON DELETE CASCADE,
     saving_blog INTEGER NOT NULL,
-    CONSTRAINT sblog FOREIGN KEY (saving_blog) REFERENCES blogs(pkBlog)
+    CONSTRAINT sblog FOREIGN KEY (saving_blog) REFERENCES blogs(pkBlog) ON DELETE CASCADE
+);
+
+CREATE TABLE liked_blogs(
+    pkliked_blog SERIAL PRIMARY KEY,
+    created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    liking_user INTEGER NOT NULL,
+    CONSTRAINT luser FOREIGN KEY (liking_user) REFERENCES users(pkUser) ON DELETE CASCADE,
+    liking_blog INTEGER NOT NULL,
+    CONSTRAINT lblog FOREIGN KEY (liking_blog) REFERENCES blogs(pkBlog) ON DELETE CASCADE
 );
 
 CREATE TABLE locations (
@@ -79,7 +88,7 @@ CREATE TABLE locations (
     lat DECIMAL(8, 6),
     lng DECIMAL(9, 6),
     fk_adventure_location INTEGER NOT NULL UNIQUE,
-    CONSTRAINT place FOREIGN KEY(fk_adventure_location) REFERENCES adventures(pkAdventure)
+    CONSTRAINT place FOREIGN KEY(fk_adventure_location) REFERENCES adventures(pkAdventure) ON DELETE CASCADE
 );
 
 CREATE TABLE itineraries (
@@ -95,18 +104,18 @@ CREATE TABLE saved_itineraries(
     pksaved_itinerary SERIAL PRIMARY KEY,
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     saving_user INTEGER NOT NULL,
-    CONSTRAINT suser FOREIGN KEY (saving_user) REFERENCES users(pkUser),
+    CONSTRAINT suser FOREIGN KEY (saving_user) REFERENCES users(pkUser) ON DELETE CASCADE,
     saving_itinerary INTEGER NOT NULL,
-    CONSTRAINT sitineraries FOREIGN KEY (saving_itinerary) REFERENCES itineraries(pkItinerary)
+    CONSTRAINT sitineraries FOREIGN KEY (saving_itinerary) REFERENCES itineraries(pkItinerary) ON DELETE CASCADE
 );
 
 CREATE TABLE user_itineraries (
     pkuser_itinerary SERIAL PRIMARY KEY,
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     adding_user INTEGER NOT NULL,
-    CONSTRAINT auser FOREIGN KEY (adding_user) REFERENCES users(pkUser),
+    CONSTRAINT auser FOREIGN KEY (adding_user) REFERENCES users(pkUser) ON DELETE CASCADE,
     adding_itinerary INTEGER NOT NULL,
-    CONSTRAINT aitinerary FOREIGN KEY (adding_itinerary) REFERENCES itineraries(pkItinerary)
+    CONSTRAINT aitinerary FOREIGN KEY (adding_itinerary) REFERENCES itineraries(pkItinerary) ON DELETE CASCADE
 );
 
 CREATE TABLE images (
@@ -116,13 +125,13 @@ CREATE TABLE images (
     caption VARCHAR(255),
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     fk_user_image INTEGER NOT NULL,
-    CONSTRAINT author FOREIGN KEY(fk_user_image) REFERENCES users(pkUser)
+    CONSTRAINT author FOREIGN KEY(fk_user_image) REFERENCES users(pkUser) ON DELETE CASCADE
 );
 
 CREATE TABLE adventure_images (
     pkadventure_image SERIAL PRIMARY KEY,
     adding_adventure INTEGER NOT NULL,
-    CONSTRAINT aadventure FOREIGN KEY (adding_adventure) REFERENCES adventures(pkAdventure),
+    CONSTRAINT aadventure FOREIGN KEY (adding_adventure) REFERENCES adventures(pkAdventure) ON DELETE CASCADE,
     adding_image INTEGER NOT NULL,
-    CONSTRAINT aimage FOREIGN KEY (adding_image) REFERENCES images(pkimage)
+    CONSTRAINT aimage FOREIGN KEY (adding_image) REFERENCES images(pkimage) ON DELETE CASCADE
 );

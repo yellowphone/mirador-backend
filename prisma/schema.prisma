@@ -32,6 +32,7 @@ model blogs {
   created_on   DateTime?     @default(now())
   fk_user_blog Int
   users        users         @relation(fields: [fk_user_blog], references: [pkuser])
+  liked_blogs  liked_blogs[]
   saved_blogs  saved_blogs[]
 }
 
@@ -66,6 +67,7 @@ model users {
   followers_followers_user_followedTousers  followers[]          @relation("followers_user_followedTousers")
   followers_followers_user_followingTousers followers[]          @relation("followers_user_followingTousers")
   images                                    images[]
+  liked_blogs                               liked_blogs[]
   saved_adventures                          saved_adventures[]
   saved_blogs                               saved_blogs[]
   saved_itineraries                         saved_itineraries[]
@@ -144,6 +146,15 @@ model saved_itineraries {
   saving_itinerary  Int
   itineraries       itineraries @relation(fields: [saving_itinerary], references: [pkitinerary])
   users             users       @relation(fields: [saving_user], references: [pkuser])
+}
+
+model liked_blogs {
+  pkliked_blog Int       @id @default(autoincrement())
+  created_on   DateTime? @default(now())
+  liking_user  Int
+  liking_blog  Int
+  blogs        blogs     @relation(fields: [liking_blog], references: [pkblog])
+  users        users     @relation(fields: [liking_user], references: [pkuser])
 }
 
 enum difficulty_level {

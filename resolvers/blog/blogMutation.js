@@ -65,6 +65,49 @@ const unsaveBlog = async (parent, args, { prisma }) => {
     }
 }
 
+const likeBlog = async (parent, args, { prisma }) => {
+    try {
+        const liked_blog = await prisma.liked_blogs.create({
+            data: {
+                users: {
+                    connect: {
+                        pkuser: args.liking_user
+                    }
+                },
+                blogs: {
+                    connect: {
+                        pkblog: args.liking_blog
+                    }
+                }
+            },
+            include: {
+                users: true,
+                blogs: true
+            }
+        })
+        return liked_blog
+    }
+    catch(err) {
+        console.error(err)
+        return new ApolloError(err)
+    }
+}
+
+const unlikeBlog = async (parent, args, { prisma }) => {
+    try {
+        const liked_blog = await prisma.liked_blogs.delete({
+            where: {
+                pkliked_blog: args.pkliked_blog
+            }
+        })
+        return liked_blog
+    }
+    catch(err) {
+        console.error(err)
+        return new ApolloError(err)
+    }
+}
+
 const deleteBlog = async(parent, args, { prisma }) => {
     try {
         const blog = await prisma.blogs.delete({
@@ -85,5 +128,7 @@ module.exports = {
     createBlog,
     saveBlog,
     unsaveBlog,
+    likeBlog,
+    unlikeBlog,
     deleteBlog
 }

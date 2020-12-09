@@ -39,6 +39,11 @@ const findUser = async (parent, args, { prisma }) => {
                         blogs: true,
                     }
                 },
+                liked_blogs: {
+                    include: {
+                        blogs: true
+                    }
+                },
                 saved_itineraries: {
                     include: {
                         itineraries: true,
