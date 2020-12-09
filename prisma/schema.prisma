@@ -20,6 +20,7 @@ model adventures {
   users              users                @relation(fields: [fk_user_adventure], references: [pkuser])
   adventure_images   adventure_images[]
   locations          locations?
+  review_adventures  review_adventures[]
   saved_adventures   saved_adventures[]
   visited_adventures visited_adventures[]
 }
@@ -68,6 +69,7 @@ model users {
   followers_followers_user_followingTousers followers[]          @relation("followers_user_followingTousers")
   images                                    images[]
   liked_blogs                               liked_blogs[]
+  review_adventures                         review_adventures[]
   saved_adventures                          saved_adventures[]
   saved_blogs                               saved_blogs[]
   saved_itineraries                         saved_itineraries[]
@@ -111,14 +113,6 @@ model user_itineraries {
   users            users       @relation(fields: [adding_user], references: [pkuser])
 }
 
-model adventure_images {
-  pkadventure_image Int        @id @default(autoincrement())
-  adding_adventure  Int
-  adding_image      Int
-  adventures        adventures @relation(fields: [adding_adventure], references: [pkadventure])
-  images            images     @relation(fields: [adding_image], references: [pkimage])
-}
-
 model images {
   pkimage          Int                @id @default(autoincrement())
   identifier       String             @unique
@@ -155,6 +149,25 @@ model liked_blogs {
   liking_blog  Int
   blogs        blogs     @relation(fields: [liking_blog], references: [pkblog])
   users        users     @relation(fields: [liking_user], references: [pkuser])
+}
+
+model review_adventures {
+  pkreview_adventure Int        @id @default(autoincrement())
+  rating             Int
+  content            String?
+  created_on         DateTime?  @default(now())
+  review_user        Int
+  review_adventure   Int
+  adventures         adventures @relation(fields: [review_adventure], references: [pkadventure])
+  users              users      @relation(fields: [review_user], references: [pkuser])
+}
+
+model adventure_images {
+  pkadventure_image Int        @id @default(autoincrement())
+  adding_adventure  Int
+  adding_image      Int
+  adventures        adventures @relation(fields: [adding_adventure], references: [pkadventure])
+  images            images     @relation(fields: [adding_image], references: [pkimage])
 }
 
 enum difficulty_level {

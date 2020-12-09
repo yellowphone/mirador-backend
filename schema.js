@@ -8,11 +8,13 @@ type Mutation {
     followUser(user_following: Int!, user_followed: Int!): Follower!
     unfollowUser(pkfollower: Int!): Follower!
     deleteUser(pkuser: Int!): User!
-    createAdventure(title: String, pkuser: Int!, summary: String, miles: Float, elevation: Int, climbing: String, difficulty: Difficulty_Level, lat: Float!, lng: Float!, images: [Upload!]!, caption: String): Adventure!
+    createAdventure(title: String, pkuser: Int!, summary: String, miles: Float, elevation: Int, climbing: String, difficulty: Difficulty_Level, lat: Float!, lng: Float!, images: [Upload!], caption: String): Adventure!
     addImageToAdventure(images: [Upload!]!, pkadventure: Int!, caption: String, pkuser: Int!): String
     saveAdventure(saving_user: Int!, saving_adventure: Int!): Saved_Adventure!
     unsaveAdventure(pksaved_adventure: Int!): Saved_Adventure!
     visitAdventure(visiting_user: Int!, visiting_adventure: Int!): Visited_Adventure
+    reviewAdventure(rating: Int!, content: String, review_user: Int!, review_adventure: Int!): Review_Adventure
+    deleteReviewAdventure(pkreview_adventure: Int!): Review_Adventure
     unvisitAdventure(pkvisited_adventure: Int!): Visited_Adventure
     deleteAdventure(pkadventure: Int!): Adventure!
     createBlog(title: String, pkuser: Int!, summary: String, content: String): Blog!
@@ -80,6 +82,7 @@ type Adventure {
     climbing: String
     difficulty: Difficulty_Level
     adventure_images: [Adventure_Image]
+    review_adventures: [Review_Adventure]
 }
 
 enum Difficulty_Level {
@@ -122,6 +125,17 @@ type Visited_Adventure {
     visiting_adventure: Int!
     adventures: Adventure
     users: User
+}
+
+type Review_Adventure {
+    pkreview_adventure: Int!
+    rating: Int!
+    content: String
+    created_on: DateTime
+    review_user: Int!
+    review_adventure: Int!
+    users: User
+    adventures: Adventure
 }
 
 type Blog {

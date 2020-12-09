@@ -55,6 +55,17 @@ CREATE TABLE visited_adventures(
     CONSTRAINT vadventure FOREIGN KEY (visiting_adventure) REFERENCES adventures(pkAdventure) ON DELETE CASCADE
 );
 
+CREATE TABLE review_adventures(
+    pkreview_adventure SERIAL PRIMARY KEY,
+    rating INT NOT NULL,
+    content VARCHAR(750),
+    created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    review_user INTEGER NOT NULL,
+    CONSTRAINT ruser FOREIGN KEY(review_user) REFERENCES users(pkUser) ON DELETE CASCADE,
+    review_adventure INTEGER NOT NULL,
+    CONSTRAINT radventure FOREIGN KEY(review_adventure) REFERENCES adventures(pkAdventure) ON DELETE CASCADE
+);
+
 CREATE TABLE blogs (
     pkBlog SERIAL PRIMARY KEY,
     title VARCHAR(60) NOT NULL,

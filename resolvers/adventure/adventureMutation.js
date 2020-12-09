@@ -150,6 +150,53 @@ const visitAdventure = async (parent, args, { prisma }) => {
     }
 }
 
+const reviewAdventure = async (parent, args, { prisma }) => {
+    try {
+        const review_adventure = await prisma.review_adventures.create({
+            data: {
+                rating: args.rating,
+                content: args.content,
+                users: {
+                    connect: {
+                        pkuser: args.review_user
+                    }
+                },
+                adventures: {
+                    connect: {
+                        pkadventure: args.review_adventure
+                    }
+                }
+            },
+            include: {
+                users: true,
+                adventures: true
+            }
+        })
+        return review_adventure
+    }
+    catch(err) {
+        console.error(err)
+        return new ApolloError(err)
+    }
+}
+
+const deleteReviewAdventure = async(parent, args, { prisma }) => {
+    try {
+        const review_adventure = await prisma.review_adventures.delete({
+            where: {
+                pkreview_adventure: args.pkreview_adventure
+            }
+        })
+        return review_adventure
+    }
+    catch(err) {
+        console.error(err)
+        return new ApolloError(err)
+    }
+}
+
+
+
 const unvisitAdventure = async (parent, args, { prisma }) => {
     try {
         const visited_adventure = await prisma.visited_adventures.delete({
@@ -188,5 +235,7 @@ module.exports = {
     unsaveAdventure,
     visitAdventure,
     unvisitAdventure,
+    reviewAdventure,
+    deleteReviewAdventure,
     deleteAdventure
 }

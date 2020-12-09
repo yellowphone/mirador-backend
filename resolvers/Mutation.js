@@ -11,6 +11,8 @@ const {
     saveAdventure,
     unsaveAdventure,
     visitAdventure,
+    reviewAdventure,
+    deleteReviewAdventure,
     unvisitAdventure,
     deleteAdventure
 } = require('./adventure/adventureMutation')
@@ -43,6 +45,8 @@ module.exports = {
     saveAdventure,
     unsaveAdventure,
     visitAdventure,
+    reviewAdventure,
+    deleteReviewAdventure,
     unvisitAdventure,
     deleteAdventure,
     createBlog,

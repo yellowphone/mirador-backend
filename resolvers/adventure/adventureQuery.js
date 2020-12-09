@@ -12,6 +12,11 @@ const findAdventureById = async(parent, args, { prisma }) => {
                     include: {
                         images: true
                     }
+                },
+                review_adventures: {
+                    include: {
+                        users: true,
+                    }
                 }
             },
         })
