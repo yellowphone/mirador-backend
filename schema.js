@@ -13,7 +13,7 @@ type Mutation {
     saveAdventure(saving_user: Int!, saving_adventure: Int!): Saved_Adventure!
     unsaveAdventure(pksaved_adventure: Int!): Saved_Adventure!
     visitAdventure(visiting_user: Int!, visiting_adventure: Int!): Visited_Adventure
-    reviewAdventure(rating: Int!, content: String, review_user: Int!, review_adventure: Int!): Review_Adventure
+    reviewAdventure(rating: Int!, content: String, review_user: Int!, review_adventure: Int!, images: [Upload!]): Review_Adventure
     deleteReviewAdventure(pkreview_adventure: Int!): Review_Adventure
     unvisitAdventure(pkvisited_adventure: Int!): Visited_Adventure
     deleteAdventure(pkadventure: Int!): Adventure!
