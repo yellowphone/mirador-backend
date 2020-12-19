@@ -15,7 +15,7 @@ describe('Testing userMutation', () => {
         }
       `,
     })).resolves.toStrictEqual({"data": {"createUser": {"__typename": "User", "username": "CptA4gscyRZ3aTYk"}}})
-  })
+  }, 30000)
 
   it('Deleting a user', async () => {
     //Find primary key for test user to delete
@@ -41,7 +41,7 @@ describe('Testing userMutation', () => {
       `,
     })).resolves.toStrictEqual({"data": {"deleteUser": {"__typename": "User", "pkuser": pkuserToDelete,"username": "CptA4gscyRZ3aTYk"}}})
 
-  })
+  }, 30000)
 
   // NEED A BETTER RESPONSE FROM ERROR
   // it('No duplicates of username', async () => {
@@ -69,3 +69,5 @@ describe('Testing userMutation', () => {
   // })
 
 });
+
+// NEED TO MAKE SURE THERE IS NO USER WITH USERNAME IN AFTERALL PART

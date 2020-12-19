@@ -32,7 +32,7 @@ describe('Testing userQuery', () => {
         }
       `,
     })).resolves.toStrictEqual({"data": {"findUser": {"__typename": "User", "pkuser": pkuserToDelete, "username": "CptA4gscyRZ3aTYk"}}, "loading": false, "networkStatus": 7, "stale": false})
-  })
+  }, 30000)
 
   it('Finding a finding user by username', async () => {
     await expect(client.query({
@@ -43,7 +43,7 @@ describe('Testing userQuery', () => {
           }
         }`,
     })).resolves.toStrictEqual({"data": {"findUserByUsername": {"__typename": "User", "pkuser": pkuserToDelete}}, "loading": false, "networkStatus": 7, "stale": false})
-  })
+  }, 30000)
 
 });
 
