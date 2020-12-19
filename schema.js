@@ -35,6 +35,7 @@ type Mutation {
 
 type Query {
     findUser(pkuser: Int!): User!
+    findUserByUsername(username: String!): User!
     findManyUsers(firstName: String!): [User!]!
     findAdventureById(pkadventure: Int!): Adventure
     findAdventureByCoordinates(lat: Float!, lng: Float!): [Location]
