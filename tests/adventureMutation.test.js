@@ -1,15 +1,21 @@
-const {
-    createAdventure,
-    addImageToAdventure,
-    saveAdventure,
-    unsaveAdventure,
-    visitAdventure,
-    unvisitAdventure,
-    reviewAdventure,
-    deleteReviewAdventure,
-    deleteAdventure
-} = require('../resolvers/adventure/adventureMutation.js')
+// const {
+//     createAdventure,
+//     addImageToAdventure,
+//     saveAdventure,
+//     unsaveAdventure,
+//     visitAdventure,
+//     unvisitAdventure,
+//     reviewAdventure,
+//     deleteReviewAdventure,
+//     deleteAdventure
+// } = require('../resolvers/adventure/adventureMutation.js')
 
-test('Test', () => {
-    expect(1).toBe(1)
+// const {
+//     server
+// } = require('./testinit')
+
+describe('sum of 2', () => {
+    it('2+2 = 4', () => {
+        expect(2+2).toEqual(4)
+    })
 })

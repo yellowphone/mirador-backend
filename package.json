@@ -19,6 +19,9 @@
   "homepage": "https://github.com/geomin76/travelapp_backend#readme",
   "dependencies": {
     "@prisma/client": "^2.7.1",
+    "apollo-cache-inmemory": "^1.6.6",
+    "apollo-client": "^2.6.10",
+    "apollo-link-http": "^1.5.17",
     "apollo-server": "^2.18.1",
     "apollo-server-express": "^2.18.0-rc.1",
     "aws-sdk": "^2.803.0",
@@ -26,8 +29,10 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "graphql": "^15.4.0",
+    "graphql-tag": "^2.11.0",
     "graphql-tools": "7.0.1",
     "jest": "^26.6.3",
+    "node-fetch": "^2.6.1",
     "nodemon": "^2.0.6",
     "pg": "^8.5.1"
   },
