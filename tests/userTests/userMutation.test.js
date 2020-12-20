@@ -17,6 +17,20 @@ describe('Testing userMutation', () => {
     })).resolves.toStrictEqual({"data": {"createUser": {"__typename": "User", "username": "CptA4gscyRZ3aTYk"}}})
   }, 30000)
 
+
+  it('No duplicates of username', async () => {
+    await expect(client.mutate({
+      mutation: gql`
+      mutation {
+        createUser(username: "CptA4gscyRZ3aTYk") {
+          pkuser
+        }
+      }
+      `,
+    })).rejects.toThrowError("Network error: Response not successful: Received status code 400");
+  }, 30000)
+  
+
   it('Deleting a user', async () => {
     //Find primary key for test user to delete
     const res = await client.query({

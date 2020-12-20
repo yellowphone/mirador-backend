@@ -16,12 +16,12 @@ beforeAll(async (done) => {
   pkuserToDelete = res.data["createUser"]["pkuser"]
   console.log(`User created with pkuser: ${pkuserToDelete}`)
   done()
-}) 
+}, 30000) 
 
 
 describe('Testing userQuery', () => {
 
-  it('Finding a finding user by primary key', async () => {
+  it('Finding a finding user by primary key', async (done) => {
     await expect(client.query({
       query: gql`
         query {
@@ -32,9 +32,10 @@ describe('Testing userQuery', () => {
         }
       `,
     })).resolves.toStrictEqual({"data": {"findUser": {"__typename": "User", "pkuser": pkuserToDelete, "username": "CptA4gscyRZ3aTYk"}}, "loading": false, "networkStatus": 7, "stale": false})
+    done()
   }, 30000)
 
-  it('Finding a finding user by username', async () => {
+  it('Finding a finding user by username', async (done) => {
     await expect(client.query({
       query: gql`
         query {
@@ -43,6 +44,7 @@ describe('Testing userQuery', () => {
           }
         }`,
     })).resolves.toStrictEqual({"data": {"findUserByUsername": {"__typename": "User", "pkuser": pkuserToDelete}}, "loading": false, "networkStatus": 7, "stale": false})
+    done()
   }, 30000)
 
 });
@@ -60,4 +62,4 @@ afterAll(async (done) => {
   })
   console.log(`Deleted ${res.data["deleteUser"]["pkuser"]}`)
   done()
-})
+}, 30000)
