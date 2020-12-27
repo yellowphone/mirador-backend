@@ -15,7 +15,7 @@ describe('Testing userMutation', () => {
         }
       `,
     })).resolves.toStrictEqual({"data": {"createUser": {"__typename": "User", "username": "CptA4gscyRZ3aTYk"}}})
-  }, 30000)
+  })
 
 
   it('No duplicates of username', async () => {
@@ -28,7 +28,7 @@ describe('Testing userMutation', () => {
       }
       `,
     })).rejects.toThrowError("Network error: Response not successful: Received status code 400");
-  }, 30000)
+  })
   
 
   it('Deleting a user', async () => {
@@ -55,7 +55,7 @@ describe('Testing userMutation', () => {
       `,
     })).resolves.toStrictEqual({"data": {"deleteUser": {"__typename": "User", "pkuser": pkuserToDelete,"username": "CptA4gscyRZ3aTYk"}}})
 
-  }, 30000)
+  })
 
   // NEED A BETTER RESPONSE FROM ERROR
   // it('No duplicates of username', async () => {

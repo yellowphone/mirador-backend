@@ -3,23 +3,23 @@
 const gql = require('graphql-tag');
 const { client } = require('../testInit');
 
-var testUser = 0
-var testBlog = 0
+// var testUser = 0
+// var testBlog = 0
 
-// Run before any userQuery tests are run
-beforeAll(async (done) => {
-  const res = await client.mutate({
-    mutation: gql`
-      mutation {
-        createUser(username: "CptA4gscyRZ3aTYk", email: "CptA4gscyRZ3aTYk", password: "test", firstname: "test", lastname: "test") {
-          pkuser
-        }
-      }`
-  })
-  testUser = res.data["createUser"]["pkuser"]
-  console.log(`User created with pkuser: ${testUser}`)
-  done()
-}, 30000) 
+// // Run before any userQuery tests are run
+// beforeAll(async (done) => {
+//   const res = await client.mutate({
+//     mutation: gql`
+//       mutation {
+//         createUser(username: "CptA4gscyRZ3aTYk", email: "CptA4gscyRZ3aTYk", password: "test", firstname: "test", lastname: "test") {
+//           pkuser
+//         }
+//       }`
+//   })
+//   testUser = res.data["createUser"]["pkuser"]
+//   console.log(`User created with pkuser: ${testUser}`)
+//   done()
+// }, 30000) 
 
 describe('Testing adventureMutation', () => {
     it('adds 1 + 2 to equal 3', () => {
@@ -67,15 +67,15 @@ describe('Testing adventureMutation', () => {
 
 
 // Run after all userQuery tests are run
-afterAll(async (done) => {
-    const res = await client.mutate({
-      mutation: gql`
-        mutation {
-          deleteUser(pkuser: ${testUser}) {
-            pkuser
-          }
-        }`
-    })
-    console.log(`Deleted ${res.data["deleteUser"]["pkuser"]}`)
-    done()
-}, 30000)
+// afterAll(async (done) => {
+//     const res = await client.mutate({
+//       mutation: gql`
+//         mutation {
+//           deleteUser(pkuser: ${testUser}) {
+//             pkuser
+//           }
+//         }`
+//     })
+//     console.log(`Deleted ${res.data["deleteUser"]["pkuser"]}`)
+//     done()
+// }, 30000)
