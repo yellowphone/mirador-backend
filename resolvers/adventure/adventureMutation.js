@@ -232,6 +232,12 @@ const unvisitAdventure = async (parent, args, { prisma }) => {
 
 const deleteAdventure = async(parent, args, { prisma }) => {
     try {
+        await prisma.locations.delete({
+            where: {
+                pklocation: args.pkadventure
+            }
+        })
+
         const adventure = await prisma.adventures.delete({
             where: {
                 pkadventure: args.pkadventure

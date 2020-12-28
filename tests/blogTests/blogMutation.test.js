@@ -18,11 +18,6 @@ beforeAll(async () => {
   console.log(`User created with pkuser: ${testUser}`)
 })
 
-// afterEach(() => { 
-//     jest.clearAllMocks(); 
-//     jest.resetAllMocks();
-// });
-
 describe('Testing blogMutation', () => {
 
     it('Creating a blog', async () => {
