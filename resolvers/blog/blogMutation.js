@@ -1,5 +1,4 @@
 const { ApolloError } = require('apollo-server');
-const { VariablesAreInputTypesRule } = require('graphql');
 
 const createBlog = async (parent, args, { prisma }) => {
     try {

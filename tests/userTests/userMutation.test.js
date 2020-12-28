@@ -5,6 +5,7 @@ const { client } = require('../testInit');
 
 describe('Testing userMutation', () => {
 
+  // Creating a user
   it('Creating a user', async () => {
     await expect(client.mutate({
       mutation: gql`
@@ -17,7 +18,7 @@ describe('Testing userMutation', () => {
     })).resolves.toStrictEqual({"data": {"createUser": {"__typename": "User", "username": "CptA4gscyRZ3aTYk"}}})
   })
 
-
+  // Ensure no duplicates for username
   it('No duplicates of username', async () => {
     await expect(client.mutate({
       mutation: gql`
@@ -30,7 +31,7 @@ describe('Testing userMutation', () => {
     })).rejects.toThrowError("Network error: Response not successful: Received status code 400");
   })
   
-
+  // Deleting a user
   it('Deleting a user', async () => {
     //Find primary key for test user to delete
     const res = await client.query({

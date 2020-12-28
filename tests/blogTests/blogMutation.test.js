@@ -20,8 +20,8 @@ beforeAll(async () => {
 
 describe('Testing blogMutation', () => {
 
+    // Creating a blog test
     it('Creating a blog', async () => {
-        console.log(`${testUser}`)
         await expect(client.mutate({
             mutation: gql`
                 mutation {
@@ -35,6 +35,57 @@ describe('Testing blogMutation', () => {
         })).resolves.toStrictEqual({"data": {"createBlog": {"__typename": "Blog", "title": "test", "fk_user_blog": testUser, "summary": "test", "content": "test"}}})
     })
 
+    // Saving a blog test
+    it('Saving a blog', async () => {
+        const res = await client.query({
+            query: gql`
+                query {
+                    findUser(pkuser: ${testUser}) {
+                        blogs {
+                            pkblog
+                        }
+                    }
+                }`
+        })
+        testBlog = res.data["findUser"]["blogs"][0]["pkblog"]
+        console.log(`Test blog with primary key: ${testBlog}`)
+
+        await expect(client.mutate({
+            mutation: gql`
+                mutation {
+                    saveBlog(saving_user: ${testUser}, saving_blog: ${testBlog}) {
+                        saving_user
+                        saving_blog
+                    }
+                }`
+        })).resolves.toStrictEqual({"data": {"saveBlog": {"__typename": "Saved_Blog", "saving_user": testUser, "saving_blog": testBlog}}})
+    })
+
+    // Unsaving a blog test
+    it('Unsaving a blog', async () => {
+        const res = await client.query({
+            query: gql`
+            query {
+                findUser(pkuser: ${testUser}) {
+                    saved_blogs {
+                        pksaved_blog
+                    }
+                }
+            }`
+        })
+        const testSaved_Blog = res.data["findUser"]["saved_blogs"][0]["pksaved_blog"]
+        await expect(client.mutate({
+            mutation: gql`
+                mutation {
+                    unsaveBlog(pksaved_blog: ${testSaved_Blog}) {
+                        pksaved_blog
+                    }
+                }`
+        })).resolves.toEqual({"data": {"unsaveBlog": {"__typename": "Saved_Blog", "pksaved_blog": testSaved_Blog}}})
+
+    })
+
+    // Deleting a blog test
     it('Deleting a blog', async () => {
         const res = await client.query({
             query: gql`
