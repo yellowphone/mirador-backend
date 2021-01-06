@@ -38,7 +38,7 @@ type Query {
     findUserByUsername(username: String!): User!
     findManyUsers(firstName: String!): [User!]!
     findAdventureById(pkadventure: Int!): Adventure
-    findAdventureByCoordinates(lat: Float!, lng: Float!): [Location]
+    findAdventureByCoordinates(lat: Float!, lng: Float!): [Adventure_Card]
     findBlogById(pkblog: Int!): Blog
     findItineraryById(pkitinerary: Int!): Itinerary
 }
@@ -188,6 +188,20 @@ type Location {
     fk_adventure_location: Int!
     adventures: Adventure
     distance: Float
+}
+
+type Adventure_Card {
+    lat: Float
+    lng: Float
+    fk_adventure_location: Int!
+    distance: Float
+    title: String
+    summary: String
+    created_on: DateTime
+    miles: Float
+    elevation: Int
+    climbing: String
+    difficulty: Difficulty_Level
 }
 
 type Itinerary {

@@ -32,11 +32,24 @@ const findAdventureByCoordinates = async(parent, args, { prisma }) => {
     try {
         // const result = await prisma.$queryRaw<User[]>('SELECT * FROM User;')        
         // 3959 is miles, 6371 is kms
+        // const results = await prisma.$queryRaw(
+        //     `
+        //     SELECT * FROM (SELECT * , ( 3959 * acos( cos( radians($1) ) * cos( radians( lat ) ) * cos( radians( lng ) - radians($2) ) + sin( radians($3) ) * sin( radians( lat ) ) ) ) AS distance FROM locations) newTable
+        //     WHERE distance < 50
+        //     `,
+        //     args.lat,
+        //     args.lng,
+        //     args.lat
+        // )
+
         const results = await prisma.$queryRaw(
-            `
-            SELECT * FROM (SELECT * ,( 3959 * acos( cos( radians($1) ) * cos( radians( lat ) ) * cos( radians( lng ) - radians($2) ) + sin( radians($3) ) * sin( radians( lat ) ) ) ) AS distance FROM locations) newTable
+            `SELECT * FROM (
+                (SELECT *,( 3959 * acos( cos( radians($1) ) * cos( radians( lat ) ) * cos( radians( lng ) - radians($2) ) + sin( radians($3) ) * sin( radians( lat ) ) ) ) AS distance FROM locations) newTable
+                    INNER JOIN
+                adventures a ON newTable.fk_adventure_location = a.pkadventure
+            ) al
             WHERE distance < 50
-            `,
+            ORDER BY distance;`,
             args.lat,
             args.lng,
             args.lat
