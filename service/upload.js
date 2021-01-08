@@ -32,12 +32,12 @@ const uploadPhoto = async (imageFile) => {
     })
 }
 
-const addImageToAdventureHelper = async(prisma, pkadventure, Key, Location, caption, pkuser) => {
-    const adventure_image = await prisma.adventure_images.create({
+const addImageToExperienceHelper = async(prisma, pkexperience, Key, Location, caption, pkuser) => {
+    const experience_image = await prisma.experience_images.create({
         data: {
-            adventures: {
+            experiences: {
                 connect: {
-                    pkadventure: pkadventure
+                    pkexperience: pkexperience
                 }
             },
             images: {
@@ -54,10 +54,10 @@ const addImageToAdventureHelper = async(prisma, pkadventure, Key, Location, capt
             }
         }
     })
-    console.log(adventure_image)
+    console.log(experience_image)
 }
 
 module.exports = {
     uploadPhoto,
-    addImageToAdventureHelper
+    addImageToExperienceHelper
 }
