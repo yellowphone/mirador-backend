@@ -6,16 +6,16 @@ const {
 } = require('./user/userMutation')
 
 const {
-    createAdventure,
-    addImageToAdventure,
-    saveAdventure,
-    unsaveAdventure,
-    visitAdventure,
-    reviewAdventure,
-    deleteReviewAdventure,
-    unvisitAdventure,
-    deleteAdventure
-} = require('./adventure/adventureMutation')
+    createExperience,
+    addImageToExperience,
+    saveExperience,
+    unsaveExperience,
+    visitExperience,
+    reviewExperience,
+    deleteReviewExperience,
+    unvisitExperience,
+    deleteExperience
+} = require('./experience/experienceMutation')
 
 const {
     createBlog,
@@ -42,15 +42,15 @@ module.exports = {
     followUser,
     unfollowUser,
     deleteUser,
-    createAdventure,
-    addImageToAdventure,
-    saveAdventure,
-    unsaveAdventure,
-    visitAdventure,
-    reviewAdventure,
-    deleteReviewAdventure,
-    unvisitAdventure,
-    deleteAdventure,
+    createExperience,
+    addImageToExperience,
+    saveExperience,
+    unsaveExperience,
+    visitExperience,
+    reviewExperience,
+    deleteReviewExperience,
+    unvisitExperience,
+    deleteExperience,
     createBlog,
     saveBlog,
     unsaveBlog,

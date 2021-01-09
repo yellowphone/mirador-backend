@@ -7,7 +7,7 @@ const findUser = async (parent, args, { prisma }) => {
                 pkuser: args.pkuser
             },
             include: {
-                adventures: true,
+                experiences: true,
                 blogs: true,
                 followers_followers_user_followedTousers: {
                     include: {
@@ -19,14 +19,73 @@ const findUser = async (parent, args, { prisma }) => {
                         users_followers_user_followedTousers: true,
                     }
                 },
-                saved_adventures: {
+                saved_experiences: {
                     include: {
-                        adventures: true, 
+                        experiences: true, 
                     }
                 },
-                visited_adventures: {
+                visited_experiences: {
                     include: {
-                        adventures: true, 
+                        experiences: true, 
+                    }
+                },
+                user_itineraries: {
+                    include: {
+                        itineraries: true,
+                    }
+                },
+                saved_blogs: {
+                    include: {
+                        blogs: true,
+                    }
+                },
+                liked_blogs: {
+                    include: {
+                        blogs: true
+                    }
+                },
+                saved_itineraries: {
+                    include: {
+                        itineraries: true,
+                    }
+                }
+            },
+        })
+        return results
+    }
+    catch(err) {
+        console.error(err)
+        return new ApolloError(err)
+    }
+}
+
+const findUserByUsername = async (parent, args, { prisma }) => {
+    try {
+        const results = await prisma.users.findOne({
+            where: {
+                username: args.username
+            },
+            include: {
+                experiences: true,
+                blogs: true,
+                followers_followers_user_followedTousers: {
+                    include: {
+                        users_followers_user_followingTousers: true
+                    }
+                },
+                followers_followers_user_followingTousers: {
+                    include: {
+                        users_followers_user_followedTousers: true,
+                    }
+                },
+                saved_experiences: {
+                    include: {
+                        experiences: true, 
+                    }
+                },
+                visited_experiences: {
+                    include: {
+                        experiences: true, 
                     }
                 },
                 user_itineraries: {
@@ -67,12 +126,12 @@ const findManyUsers = async (parent, args, { prisma }) => {
                 firstname: args.firstname
             },
             include: {
-                adventures: true,
+                experiences: true,
                 blogs: true,
                 followers_followers_user_followedTousers: true,
                 followers_followers_user_followingTousers: true,
-                saved_adventures: true,
-                visited_adventures: true
+                saved_experiences: true,
+                visited_experiences: true
             },
         })
         return results
@@ -85,5 +144,6 @@ const findManyUsers = async (parent, args, { prisma }) => {
 
 module.exports = {
     findUser,
+    findUserByUsername,
     findManyUsers
 }

@@ -1,19 +1,19 @@
 const { ApolloError } = require('apollo-server');
 
-const findAdventureById = async(parent, args, { prisma }) => {
+const findExperienceById = async(parent, args, { prisma }) => {
     try {
-        const results = await prisma.adventures.findOne({
+        const results = await prisma.experiences.findOne({
             where: {
-                pkadventure: args.pkadventure
+                pkexperience: args.pkexperience
             },
             include: {
                 locations: true,
-                adventure_images: {
+                experience_images: {
                     include: {
                         images: true
                     }
                 },
-                review_adventures: {
+                review_experiences: {
                     include: {
                         users: true,
                     }
@@ -28,26 +28,28 @@ const findAdventureById = async(parent, args, { prisma }) => {
     }
 }
 
-const findAdventureByCoordinates = async(parent, args, { prisma }) => {
+const findExperienceByCoordinates = async(parent, args, { prisma }) => {
     try {
-        /**
-         * Want to return specific object type, but can only be done in TypeScript Generic
-         * Pretty sure Bailey wants to turn into TS so we can get to that when we get there
-         * 
-         * const result = await prisma.$queryRaw<User[]>('SELECT * FROM User;')
-         * */
-        
-        // Look into more efficient methods if possible for getting GPS coordinates
+        // const result = await prisma.$queryRaw<User[]>('SELECT * FROM User;')        
         // 3959 is miles, 6371 is kms
+        // const results = await prisma.$queryRaw(
+        //     `
+        //     SELECT * FROM (SELECT * , ( 3959 * acos( cos( radians($1) ) * cos( radians( lat ) ) * cos( radians( lng ) - radians($2) ) + sin( radians($3) ) * sin( radians( lat ) ) ) ) AS distance FROM locations) newTable
+        //     WHERE distance < 50
+        //     `,
+        //     args.lat,
+        //     args.lng,
+        //     args.lat
+        // )
+
         const results = await prisma.$queryRaw(
             `SELECT * FROM (
                 (SELECT *,( 3959 * acos( cos( radians($1) ) * cos( radians( lat ) ) * cos( radians( lng ) - radians($2) ) + sin( radians($3) ) * sin( radians( lat ) ) ) ) AS distance FROM locations) newTable
                     INNER JOIN
-                adventures a ON newTable.fk_adventure_location = a.pkadventure
+                experiences a ON newTable.fk_experience_location = a.pkexperience
             ) al
             WHERE distance < 50
-            ORDER BY distance
-            LIMIT 20;`,
+            ORDER BY distance;`,
             args.lat,
             args.lng,
             args.lat
@@ -62,6 +64,6 @@ const findAdventureByCoordinates = async(parent, args, { prisma }) => {
 }
 
 module.exports = {
-    findAdventureById,
-    findAdventureByCoordinates
+    findExperienceById,
+    findExperienceByCoordinates
 }
