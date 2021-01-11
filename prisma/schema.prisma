@@ -11,7 +11,7 @@ model blogs {
   pkblog        Int             @id @default(autoincrement())
   title         String
   summary       String?
-  content       String?
+  content       Json?
   created_on    DateTime?       @default(now())
   fk_user_blog  Int
   users         users           @relation(fields: [fk_user_blog], references: [pkuser])

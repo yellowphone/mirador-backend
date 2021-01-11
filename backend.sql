@@ -70,7 +70,7 @@ CREATE TABLE blogs (
     pkBlog SERIAL PRIMARY KEY,
     title VARCHAR(60) NOT NULL,
     summary VARCHAR(255),
-    content VARCHAR,
+    content JSON,
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     fk_user_blog INTEGER NOT NULL,
     CONSTRAINT author FOREIGN KEY(fk_user_blog) REFERENCES users(pkUser)

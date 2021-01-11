@@ -2,6 +2,7 @@ const { ApolloServer, gql } = require('apollo-server');
 
 const typeDefs = gql`
 scalar DateTime
+scalar Json
 
 type Mutation {
     createUser(email: String!, username: String!, password: String!, firstname: String!, lastname: String!): User!
@@ -17,7 +18,7 @@ type Mutation {
     deleteReviewExperience(pkreview_experience: Int!): Review_Experience
     unvisitExperience(pkvisited_experience: Int!): Visited_Experience
     deleteExperience(pkexperience: Int!): Experience!
-    createBlog(title: String, pkuser: Int!, summary: String, content: String): Blog!
+    createBlog(title: String, pkuser: Int!, summary: String, content: Json): Blog!
     saveBlog(saving_user: Int!, saving_blog: Int!): Saved_Blog
     unsaveBlog(pksaved_blog: Int!): Saved_Blog
     likeBlog(liking_user: Int!, liking_blog: Int!): Liked_Blog
@@ -145,7 +146,7 @@ type Blog {
     pkblog: Int!
     title: String!
     summary: String
-    content: String
+    content: Json 
     created_on: DateTime
     fk_user_blog: Int!
     comment_blogs: [Comment_Blog]
