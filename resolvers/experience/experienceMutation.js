@@ -1,9 +1,9 @@
 const { ApolloError } = require('apollo-server');
-const { uploadPhoto, addImageToAdventureHelper } = require('../../service/upload')
+const { uploadPhoto, addImageToExperienceHelper } = require('../../service/upload')
 
-const createAdventure = async (parent, args, { prisma }) => {
+const createExperience = async (parent, args, { prisma }) => {
     try {
-        const adventure = await prisma.adventures.create({
+        const experience = await prisma.experiences.create({
             data: {
                 title: args.title,
                 summary: args.summary,
@@ -25,7 +25,7 @@ const createAdventure = async (parent, args, { prisma }) => {
             },
             include: {
                 locations: true,
-                adventure_images: {
+                experience_images: {
                     include: {
                         images: true
                     }
@@ -40,7 +40,7 @@ const createAdventure = async (parent, args, { prisma }) => {
 
                 // Wait for image to upload to bucket, then add to SQL
                 await uploadPhoto(img).then(data => {
-                    addImageToAdventureHelper(prisma, adventure.pkadventure, data.Key, data.Location, args.caption, args.pkuser)
+                    addImageToExperienceHelper(prisma, experience.pkexperience, data.Key, data.Location, args.caption, args.pkuser)
                 })
                 .catch(err => {
                     console.error(err)
@@ -48,7 +48,7 @@ const createAdventure = async (parent, args, { prisma }) => {
 
             }
         }
-        return adventure
+        return experience
     }
     catch(err) {
         console.error(err)
@@ -56,7 +56,7 @@ const createAdventure = async (parent, args, { prisma }) => {
     }    
 }
 
-const addImageToAdventure = async (parent, args, { prisma }) => {
+const addImageToExperience = async (parent, args, { prisma }) => {
     try {
         // for loop through images, and upload each individual image
         for (var i = 0; i < args.images.length; i++) {
@@ -64,13 +64,13 @@ const addImageToAdventure = async (parent, args, { prisma }) => {
 
             // Wait for image to upload to bucket, then add to SQL
             await uploadPhoto(img).then(data => {
-                addImageToAdventureHelper(prisma, args.pkadventure, data.Key, data.Location, args.caption, args.pkuser)
+                addImageToExperienceHelper(prisma, args.pkexperience, data.Key, data.Location, args.caption, args.pkuser)
             })
             .catch(err => {
                 console.error(err)
             })
         }
-        return "Added image to adventure"
+        return "Added image to experience"
     }
     catch(err) {
         console.error(err)
@@ -78,27 +78,27 @@ const addImageToAdventure = async (parent, args, { prisma }) => {
     }
 }
 
-const saveAdventure = async (parent, args, { prisma }) => {
+const saveExperience = async (parent, args, { prisma }) => {
     try {
-        const saved_adventure = await prisma.saved_adventures.create({
+        const saved_experience = await prisma.saved_experiences.create({
             data: {
                 users: {
                     connect: {
                         pkuser: args.saving_user
                     }
                 },
-                adventures: {
+                experiences: {
                     connect: {
-                        pkadventure: args.saving_adventure
+                        pkexperience: args.saving_experience
                     }
                 }
             },
             include: {
                 users: true,
-                adventures: true
+                experiences: true
             }
         })
-        return saved_adventure
+        return saved_experience
     }
     catch(err) {
         console.error(err)
@@ -106,14 +106,14 @@ const saveAdventure = async (parent, args, { prisma }) => {
     }
 }
 
-const unsaveAdventure = async (parent, args, { prisma }) => {
+const unsaveExperience = async (parent, args, { prisma }) => {
     try {
-        const saved_adventure = await prisma.saved_adventures.delete({
+        const saved_experience = await prisma.saved_experiences.delete({
             where: {
-                pksaved_adventure: args.pksaved_adventure
+                pksaved_experience: args.pksaved_experience
             }
         })
-        return saved_adventure
+        return saved_experience
     }
     catch(err) {
         console.error(err)
@@ -121,27 +121,27 @@ const unsaveAdventure = async (parent, args, { prisma }) => {
     }
 }
 
-const visitAdventure = async (parent, args, { prisma }) => {
+const visitExperience = async (parent, args, { prisma }) => {
     try {
-        const visited_adventure = await prisma.visited_adventures.create({
+        const visited_experience = await prisma.visited_experiences.create({
             data: {
                 users: {
                     connect: {
                         pkuser: args.visiting_user
                     }
                 },
-                adventures: {
+                experiences: {
                     connect: {
-                        pkadventure: args.visiting_adventure
+                        pkexperience: args.visiting_experience
                     }
                 }
             },
             include: {
                 users: true,
-                adventures: true
+                experiences: true
             }
         })
-        return visited_adventure
+        return visited_experience
     }
     catch(err) {
         console.error(err)
@@ -149,9 +149,9 @@ const visitAdventure = async (parent, args, { prisma }) => {
     }
 }
 
-const reviewAdventure = async (parent, args, { prisma }) => {
+const reviewExperience = async (parent, args, { prisma }) => {
     try {
-        const review_adventure = await prisma.review_adventures.create({
+        const review_experience = await prisma.review_experiences.create({
             data: {
                 rating: args.rating,
                 content: args.content,
@@ -160,19 +160,19 @@ const reviewAdventure = async (parent, args, { prisma }) => {
                         pkuser: args.review_user
                     }
                 },
-                adventures: {
+                experiences: {
                     connect: {
-                        pkadventure: args.review_adventure
+                        pkexperience: args.review_experience
                     }
                 }
             },
             include: {
                 users: true,
-                adventures: true
+                experiences: true
             }
         })
 
-        // TODO: Need to link these adventure images with the review
+        // TODO: Need to link these experience images with the review
         
         // for loop through images, and upload each individual image
         if (args.images) {
@@ -181,7 +181,7 @@ const reviewAdventure = async (parent, args, { prisma }) => {
 
                 // Wait for image to upload to bucket, then add to SQL
                 await uploadPhoto(img).then(data => {
-                    addImageToAdventureHelper(prisma, args.review_adventure, data.Key, data.Location, args.caption, args.review_user)
+                    addImageToExperienceHelper(prisma, args.review_experience, data.Key, data.Location, args.caption, args.review_user)
                 })
                 .catch(err => {
                     console.error(err)
@@ -189,7 +189,7 @@ const reviewAdventure = async (parent, args, { prisma }) => {
             }
         }
         
-        return review_adventure
+        return review_experience
     }
     catch(err) {
         console.error(err)
@@ -197,31 +197,14 @@ const reviewAdventure = async (parent, args, { prisma }) => {
     }
 }
 
-const deleteReviewAdventure = async(parent, args, { prisma }) => {
+const deleteReviewExperience = async(parent, args, { prisma }) => {
     try {
-        const review_adventure = await prisma.review_adventures.delete({
+        const review_experience = await prisma.review_experiences.delete({
             where: {
-                pkreview_adventure: args.pkreview_adventure
+                pkreview_experience: args.pkreview_experience
             }
         })
-        return review_adventure
-    }
-    catch(err) {
-        console.error(err)
-        return new ApolloError(err)
-    }
-}
-
-
-
-const unvisitAdventure = async (parent, args, { prisma }) => {
-    try {
-        const visited_adventure = await prisma.visited_adventures.delete({
-            where: {
-                pkvisited_adventure: args.pkvisited_adventure
-            }
-        })
-        return visited_adventure
+        return review_experience
     }
     catch(err) {
         console.error(err)
@@ -230,14 +213,37 @@ const unvisitAdventure = async (parent, args, { prisma }) => {
 }
 
 
-const deleteAdventure = async(parent, args, { prisma }) => {
+
+const unvisitExperience = async (parent, args, { prisma }) => {
     try {
-        const adventure = await prisma.adventures.delete({
+        const visited_experience = await prisma.visited_experiences.delete({
             where: {
-                pkadventure: args.pkadventure
+                pkvisited_experience: args.pkvisited_experience
             }
         })
-        return adventure
+        return visited_experience
+    }
+    catch(err) {
+        console.error(err)
+        return new ApolloError(err)
+    }
+}
+
+
+const deleteExperience = async(parent, args, { prisma }) => {
+    try {
+        await prisma.locations.delete({
+            where: {
+                pklocation: args.pkexperience
+            }
+        })
+
+        const experience = await prisma.experiences.delete({
+            where: {
+                pkexperience: args.pkexperience
+            }
+        })
+        return experience
     }
     catch(err) {
         console.error(err)
@@ -246,13 +252,13 @@ const deleteAdventure = async(parent, args, { prisma }) => {
 }
 
 module.exports = {
-    createAdventure,
-    addImageToAdventure,
-    saveAdventure,
-    unsaveAdventure,
-    visitAdventure,
-    unvisitAdventure,
-    reviewAdventure,
-    deleteReviewAdventure,
-    deleteAdventure
+    createExperience,
+    addImageToExperience,
+    saveExperience,
+    unsaveExperience,
+    visitExperience,
+    unvisitExperience,
+    reviewExperience,
+    deleteReviewExperience,
+    deleteExperience
 }

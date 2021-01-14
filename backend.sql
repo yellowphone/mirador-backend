@@ -24,46 +24,46 @@ CREATE TABLE followers (
 
 create type difficulty_level as enum('EASY', 'MODERATE', 'HARD');
 
-CREATE TABLE adventures (
-    pkAdventure SERIAL PRIMARY KEY,
+CREATE TABLE experiences (
+    pkexperience SERIAL PRIMARY KEY,
     title VARCHAR(60) NOT NULL,
     summary VARCHAR(255),
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    fk_user_adventure INTEGER NOT NULL,
-    CONSTRAINT author FOREIGN KEY(fk_user_adventure) REFERENCES users(pkUser),
+    fk_user_experience INTEGER NOT NULL,
+    CONSTRAINT author FOREIGN KEY(fk_user_experience) REFERENCES users(pkUser),
     miles FLOAT(2),
     elevation INTEGER,
     climbing VARCHAR(5), -- max could be 5.15a or something like that
     difficulty difficulty_level
 );
 
-CREATE TABLE saved_adventures(
-    pksaved_adventure SERIAL PRIMARY KEY,
+CREATE TABLE saved_experiences(
+    pksaved_experience SERIAL PRIMARY KEY,
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     saving_user INTEGER NOT NULL,
     CONSTRAINT suser FOREIGN KEY (saving_user) REFERENCES users(pkUser),
-    saving_adventure INTEGER NOT NULL,
-    CONSTRAINT sadventure FOREIGN KEY (saving_adventure) REFERENCES adventures(pkAdventure)
+    saving_experience INTEGER NOT NULL,
+    CONSTRAINT sexperience FOREIGN KEY (saving_experience) REFERENCES experiences(pkexperience)
 );
 
-CREATE TABLE visited_adventures(
-    pkvisited_adventure SERIAL PRIMARY KEY,
+CREATE TABLE visited_experiences(
+    pkvisited_experience SERIAL PRIMARY KEY,
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     visiting_user INTEGER NOT NULL,
     CONSTRAINT vuser FOREIGN KEY (visiting_user) REFERENCES users(pkUser),
-    visiting_adventure INTEGER NOT NULL,
-    CONSTRAINT vadventure FOREIGN KEY (visiting_adventure) REFERENCES adventures(pkAdventure)
+    visiting_experience INTEGER NOT NULL,
+    CONSTRAINT vexperience FOREIGN KEY (visiting_experience) REFERENCES experiences(pkexperience)
 );
 
-CREATE TABLE review_adventures(
-    pkreview_adventure SERIAL PRIMARY KEY,
+CREATE TABLE review_experiences(
+    pkreview_experience SERIAL PRIMARY KEY,
     rating INT NOT NULL,
     content VARCHAR(750),
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     review_user INTEGER NOT NULL,
     CONSTRAINT ruser FOREIGN KEY(review_user) REFERENCES users(pkUser),
-    review_adventure INTEGER NOT NULL,
-    CONSTRAINT radventure FOREIGN KEY(review_adventure) REFERENCES adventures(pkAdventure)
+    review_experience INTEGER NOT NULL,
+    CONSTRAINT rexperience FOREIGN KEY(review_experience) REFERENCES experiences(pkexperience)
 );
 
 CREATE TABLE blogs (
@@ -108,8 +108,8 @@ CREATE TABLE locations (
     pkLocation SERIAL PRIMARY KEY,
     lat DECIMAL(8, 6),
     lng DECIMAL(9, 6),
-    fk_adventure_location INTEGER NOT NULL UNIQUE,
-    CONSTRAINT place FOREIGN KEY(fk_adventure_location) REFERENCES adventures(pkAdventure)
+    fk_experience_location INTEGER NOT NULL UNIQUE,
+    CONSTRAINT place FOREIGN KEY(fk_experience_location) REFERENCES experiences(pkexperience)
 );
 
 CREATE TABLE itineraries (
@@ -149,10 +149,10 @@ CREATE TABLE images (
     CONSTRAINT author FOREIGN KEY(fk_user_image) REFERENCES users(pkUser)
 );
 
-CREATE TABLE adventure_images (
-    pkadventure_image SERIAL PRIMARY KEY,
-    adding_adventure INTEGER NOT NULL,
-    CONSTRAINT aadventure FOREIGN KEY (adding_adventure) REFERENCES adventures(pkAdventure),
+CREATE TABLE experience_images (
+    pkexperience_image SERIAL PRIMARY KEY,
+    adding_experience INTEGER NOT NULL,
+    CONSTRAINT aexperience FOREIGN KEY (adding_experience) REFERENCES experiences(pkexperience),
     adding_image INTEGER NOT NULL,
     CONSTRAINT aimage FOREIGN KEY (adding_image) REFERENCES images(pkimage)
 );

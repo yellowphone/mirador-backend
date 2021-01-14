@@ -8,15 +8,15 @@ type Mutation {
     followUser(user_following: Int!, user_followed: Int!): Follower!
     unfollowUser(pkfollower: Int!): Follower!
     deleteUser(pkuser: Int!): User!
-    createAdventure(title: String, pkuser: Int!, summary: String, miles: Float, elevation: Int, climbing: String, difficulty: Difficulty_Level, lat: Float!, lng: Float!, images: [Upload!], caption: String): Adventure!
-    addImageToAdventure(images: [Upload!]!, pkadventure: Int!, caption: String, pkuser: Int!): String
-    saveAdventure(saving_user: Int!, saving_adventure: Int!): Saved_Adventure!
-    unsaveAdventure(pksaved_adventure: Int!): Saved_Adventure!
-    visitAdventure(visiting_user: Int!, visiting_adventure: Int!): Visited_Adventure
-    reviewAdventure(rating: Int!, content: String, review_user: Int!, review_adventure: Int!, images: [Upload!]): Review_Adventure
-    deleteReviewAdventure(pkreview_adventure: Int!): Review_Adventure
-    unvisitAdventure(pkvisited_adventure: Int!): Visited_Adventure
-    deleteAdventure(pkadventure: Int!): Adventure!
+    createExperience(title: String, pkuser: Int!, summary: String, miles: Float, elevation: Int, climbing: String, difficulty: Difficulty_Level, lat: Float!, lng: Float!, images: [Upload!], caption: String): Experience!
+    addImageToExperience(images: [Upload!]!, pkexperience: Int!, caption: String, pkuser: Int!): String
+    saveExperience(saving_user: Int!, saving_experience: Int!): Saved_Experience!
+    unsaveExperience(pksaved_experience: Int!): Saved_Experience!
+    visitExperience(visiting_user: Int!, visiting_experience: Int!): Visited_Experience
+    reviewExperience(rating: Int!, content: String, review_user: Int!, review_experience: Int!, images: [Upload!]): Review_Experience
+    deleteReviewExperience(pkreview_experience: Int!): Review_Experience
+    unvisitExperience(pkvisited_experience: Int!): Visited_Experience
+    deleteExperience(pkexperience: Int!): Experience!
     createBlog(title: String, pkuser: Int!, summary: String, content: String): Blog!
     saveBlog(saving_user: Int!, saving_blog: Int!): Saved_Blog
     unsaveBlog(pksaved_blog: Int!): Saved_Blog
@@ -35,9 +35,10 @@ type Mutation {
 
 type Query {
     findUser(pkuser: Int!): User!
+    findUserByUsername(username: String!): User!
     findManyUsers(firstName: String!): [User!]!
-    findAdventureById(pkadventure: Int!): Adventure
-    findAdventureByCoordinates(lat: Float!, lng: Float!): [Card_Data]
+    findExperienceById(pkexperience: Int!): Experience
+    findExperienceByCoordinates(lat: Float!, lng: Float!): [Experience_Card]
     findBlogById(pkblog: Int!): Blog
     findItineraryById(pkitinerary: Int!): Itinerary
 }
@@ -51,12 +52,12 @@ type User {
     lastname : String
     bio: String
     created_on: DateTime
-    adventures: [Adventure]
+    experiences: [Experience]
     blogs: [Blog]
     followers_followers_user_followedTousers: [Follower]
     followers_followers_user_followingTousers: [Follower]
-    saved_adventures: [Saved_Adventure]
-    visited_adventures: [Visited_Adventure]
+    saved_experiences: [Saved_Experience]
+    visited_experiences: [Visited_Experience]
     user_itineraries: [User_Itinerary]
     saved_blogs: [Saved_Blog]
     saved_itineraries: [Saved_Itinerary]
@@ -72,19 +73,19 @@ type Follower {
     users_followers_user_followingTousers: User
 }
 
-type Adventure {
-    pkadventure: Int!
+type Experience {
+    pkexperience: Int!
     title: String!
     summary: String
     created_on: DateTime
-    fk_user_adventure: Int!
+    fk_user_experience: Int!
     locations: Location
     miles: Float
     elevation: Int
     climbing: String
     difficulty: Difficulty_Level
-    adventure_images: [Adventure_Image]
-    review_adventures: [Review_Adventure]
+    experience_images: [Experience_Image]
+    review_experiences: [Review_Experience]
 }
 
 enum Difficulty_Level {
@@ -93,11 +94,11 @@ enum Difficulty_Level {
     HARD
 }
 
-type Adventure_Image {
-    pkadventure_image: Int!
-    adding_adventure: Int!
+type Experience_Image {
+    pkexperience_image: Int!
+    adding_experience: Int!
     adding_image: Int!
-    adventures: Adventure
+    experiences: Experience
     images: Image
 }
 
@@ -111,33 +112,33 @@ type Image {
     users: User
 }
 
-type Saved_Adventure {
-    pksaved_adventure: Int!
+type Saved_Experience {
+    pksaved_experience: Int!
     created_on: DateTime
     saving_user: Int!
-    saving_adventure: Int!
-    adventures: Adventure
+    saving_experience: Int!
+    experiences: Experience
     users: User
 }
 
-type Visited_Adventure {
-    pkvisited_adventure: Int!
+type Visited_Experience {
+    pkvisited_experience: Int!
     created_on: DateTime
     visiting_user: Int!
-    visiting_adventure: Int!
-    adventures: Adventure
+    visiting_experience: Int!
+    experiences: Experience
     users: User
 }
 
-type Review_Adventure {
-    pkreview_adventure: Int!
+type Review_Experience {
+    pkreview_experience: Int!
     rating: Int!
     content: String
     created_on: DateTime
     review_user: Int!
-    review_adventure: Int!
+    review_experience: Int!
     users: User
-    adventures: Adventure
+    experiences: Experience
 }
 
 type Blog {
@@ -184,18 +185,23 @@ type Location {
     pklocation: Int!
     lat: Float
     lng: Float
-    fk_adventure_location: Int!
-    adventures: Adventure
+    fk_experience_location: Int!
+    experiences: Experience
     distance: Float
 }
 
-type Card_Data {
-    pklocation: Int!
+type Experience_Card {
     lat: Float
     lng: Float
+    fk_experience_location: Int!
     distance: Float
-    pkadventure: Int!
     title: String
+    summary: String
+    created_on: DateTime
+    miles: Float
+    elevation: Int
+    climbing: String
+    difficulty: Difficulty_Level
 }
 
 type Itinerary {
