@@ -28,6 +28,21 @@ const findExperienceById = async(parent, args, { prisma }) => {
     }
 }
 
+const findExperienceByTitle = async(parent, args, { prisma }) => {
+    try {
+        const results = await prisma.experiences.findMany({
+            where: {
+                title: args.title
+            }
+        })
+        return results
+    }
+    catch(err) {
+        console.error(err)
+        return new ApolloError(err)
+    }
+}
+
 const findExperienceByCoordinates = async(parent, args, { prisma }) => {
     try {
         // const result = await prisma.$queryRaw<User[]>('SELECT * FROM User;')        
@@ -65,5 +80,6 @@ const findExperienceByCoordinates = async(parent, args, { prisma }) => {
 
 module.exports = {
     findExperienceById,
+    findExperienceByTitle,
     findExperienceByCoordinates
 }

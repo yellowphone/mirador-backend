@@ -39,6 +39,7 @@ type Query {
     findUserByUsername(username: String!): User!
     findManyUsers(firstName: String!): [User!]!
     findExperienceById(pkexperience: Int!): Experience
+    findExperienceByTitle(title: String!): [Experience]
     findExperienceByCoordinates(lat: Float!, lng: Float!): [Experience_Card]
     findBlogById(pkblog: Int!): Blog
     findItineraryById(pkitinerary: Int!): Itinerary
