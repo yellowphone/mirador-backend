@@ -11,7 +11,16 @@ const createBlog = async (parent, args, { prisma }) => {
                     connect: {
                         pkuser: args.pkuser
                     }
+                },
+                blog_locations: {
+                    create: {
+                        lat: args.lat,
+                        lng: args.lng
+                    }
                 }
+            },
+            include: {
+                blog_locations: true
             }
         })
         return blog

@@ -8,33 +8,27 @@ datasource db {
 }
 
 model blogs {
-  pkblog        Int             @id @default(autoincrement())
-  title         String
-  summary       String?
-  content       Json?
-  created_on    DateTime?       @default(now())
-  fk_user_blog  Int
-  users         users           @relation(fields: [fk_user_blog], references: [pkuser])
-  comment_blogs comment_blogs[]
-  liked_blogs   liked_blogs[]
-  saved_blogs   saved_blogs[]
+  pkblog         Int             @id @default(autoincrement())
+  title          String
+  summary        String?
+  content        Json?
+  created_on     DateTime?       @default(now())
+  fk_user_blog   Int
+  users          users           @relation(fields: [fk_user_blog], references: [pkuser])
+  blog_locations blog_locations?
+  comment_blogs  comment_blogs[]
+  liked_blogs    liked_blogs[]
+  saved_blogs    saved_blogs[]
 }
 
 model itineraries {
-  pkitinerary       Int                 @id @default(autoincrement())
-  title             String
-  summary           String?
-  created_on        DateTime?           @default(now())
-  saved_itineraries saved_itineraries[]
-  user_itineraries  user_itineraries[]
-}
-
-model locations {
-  pklocation             Int         @id @default(autoincrement())
-  lat                    Float?
-  lng                    Float?
-  fk_experience_location Int         @unique
-  experiences            experiences @relation(fields: [fk_experience_location], references: [pkexperience])
+  pkitinerary         Int                  @id @default(autoincrement())
+  title               String
+  summary             String?
+  created_on          DateTime?            @default(now())
+  itinerary_locations itinerary_locations?
+  saved_itineraries   saved_itineraries[]
+  user_itineraries    user_itineraries[]
 }
 
 model users {
@@ -136,21 +130,21 @@ model experience_images {
 }
 
 model experiences {
-  pkexperience        Int                   @id @default(autoincrement())
-  title               String
-  summary             String?
-  created_on          DateTime?             @default(now())
-  fk_user_experience  Int
-  miles               Float?
-  elevation           Int?
-  climbing            String?
-  difficulty          difficulty_level?
-  users               users                 @relation(fields: [fk_user_experience], references: [pkuser])
-  experience_images   experience_images[]
-  locations           locations?
-  review_experiences  review_experiences[]
-  saved_experiences   saved_experiences[]
-  visited_experiences visited_experiences[]
+  pkexperience         Int                   @id @default(autoincrement())
+  title                String
+  summary              String?
+  created_on           DateTime?             @default(now())
+  fk_user_experience   Int
+  miles                Float?
+  elevation            Int?
+  climbing             String?
+  difficulty           difficulty_level?
+  users                users                 @relation(fields: [fk_user_experience], references: [pkuser])
+  experience_images    experience_images[]
+  experience_locations experience_locations?
+  review_experiences   review_experiences[]
+  saved_experiences    saved_experiences[]
+  visited_experiences  visited_experiences[]
 }
 
 model review_experiences {
@@ -180,6 +174,30 @@ model visited_experiences {
   visiting_experience  Int
   experiences          experiences @relation(fields: [visiting_experience], references: [pkexperience])
   users                users       @relation(fields: [visiting_user], references: [pkuser])
+}
+
+model blog_locations {
+  pkblog_location  Int    @id @default(autoincrement())
+  lat              Float?
+  lng              Float?
+  fk_blog_location Int    @unique
+  blogs            blogs  @relation(fields: [fk_blog_location], references: [pkblog])
+}
+
+model experience_locations {
+  pkexperience_location  Int         @id @default(autoincrement())
+  lat                    Float?
+  lng                    Float?
+  fk_experience_location Int         @unique
+  experiences            experiences @relation(fields: [fk_experience_location], references: [pkexperience])
+}
+
+model itinerary_locations {
+  pkitinerary_location  Int         @id @default(autoincrement())
+  lat                   Float?
+  lng                   Float?
+  fk_itinerary_location Int         @unique
+  itineraries           itineraries @relation(fields: [fk_itinerary_location], references: [pkitinerary])
 }
 
 enum difficulty_level {

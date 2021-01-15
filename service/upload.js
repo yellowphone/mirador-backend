@@ -24,7 +24,7 @@ const uploadPhoto = async (imageFile) => {
                 throw err;
             }
             if (data) {
-                console.log(`File uploaded successfully. ${data.Location}`);
+                console.log(`File uploaded successfully. ${data.Experience_Location}`);
                 return resolve(data);
             }
 
@@ -32,7 +32,7 @@ const uploadPhoto = async (imageFile) => {
     })
 }
 
-const addImageToExperienceHelper = async(prisma, pkexperience, Key, Location, caption, pkuser) => {
+const addImageToExperienceHelper = async(prisma, pkexperience, Key, Experience_Location, caption, pkuser) => {
     const experience_image = await prisma.experience_images.create({
         data: {
             experiences: {
@@ -43,7 +43,7 @@ const addImageToExperienceHelper = async(prisma, pkexperience, Key, Location, ca
             images: {
                 create: {
                     identifier: Key,
-                    url: Location,
+                    url: Experience_Location,
                     caption: caption,
                     users: {
                         connect: {

@@ -7,7 +7,7 @@ const findExperienceById = async(parent, args, { prisma }) => {
                 pkexperience: args.pkexperience
             },
             include: {
-                locations: true,
+                experience_locations: true,
                 experience_images: {
                     include: {
                         images: true
@@ -32,7 +32,9 @@ const findExperienceByTitle = async(parent, args, { prisma }) => {
     try {
         const results = await prisma.experiences.findMany({
             where: {
-                title: args.title
+                title: {
+                    contains: args.title
+                }
             }
         })
         return results
@@ -59,7 +61,7 @@ const findExperienceByCoordinates = async(parent, args, { prisma }) => {
 
         const results = await prisma.$queryRaw(
             `SELECT * FROM (
-                (SELECT *,( 3959 * acos( cos( radians($1) ) * cos( radians( lat ) ) * cos( radians( lng ) - radians($2) ) + sin( radians($3) ) * sin( radians( lat ) ) ) ) AS distance FROM locations) newTable
+                (SELECT *,( 3959 * acos( cos( radians($1) ) * cos( radians( lat ) ) * cos( radians( lng ) - radians($2) ) + sin( radians($3) ) * sin( radians( lat ) ) ) ) AS distance FROM experience_locations) newTable
                     INNER JOIN
                 experiences a ON newTable.fk_experience_location = a.pkexperience
             ) al

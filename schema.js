@@ -18,7 +18,7 @@ type Mutation {
     deleteReviewExperience(pkreview_experience: Int!): Review_Experience
     unvisitExperience(pkvisited_experience: Int!): Visited_Experience
     deleteExperience(pkexperience: Int!): Experience!
-    createBlog(title: String, pkuser: Int!, summary: String, content: Json): Blog!
+    createBlog(title: String, pkuser: Int!, summary: String, content: Json, lat: Float!, lng: Float!): Blog!
     saveBlog(saving_user: Int!, saving_blog: Int!): Saved_Blog
     unsaveBlog(pksaved_blog: Int!): Saved_Blog
     likeBlog(liking_user: Int!, liking_blog: Int!): Liked_Blog
@@ -81,7 +81,7 @@ type Experience {
     summary: String
     created_on: DateTime
     fk_user_experience: Int!
-    locations: Location
+    experience_locations: Experience_Location
     miles: Float
     elevation: Int
     climbing: String
@@ -150,6 +150,7 @@ type Blog {
     content: Json 
     created_on: DateTime
     fk_user_blog: Int!
+    blog_locations: Blog_Location
     comment_blogs: [Comment_Blog]
     liked_blogs: [Liked_Blog]
     saved_blogs: [Saved_Blog]
@@ -183,12 +184,30 @@ type Comment_Blog {
     users: User
 }
 
-type Location {
-    pklocation: Int!
+type Experience_Location {
+    pkexperience_location: Int!
     lat: Float
     lng: Float
     fk_experience_location: Int!
     experiences: Experience
+    distance: Float
+}
+
+type Blog_Location {
+    pkblog_location: Int!
+    lat: Float
+    lng: Float
+    fk_blog_location: Int!
+    blogs: Blog
+    distance: Float
+}
+
+type Itinerary_Location {
+    pkitinerary_location: Int!
+    lat: Float
+    lng: Float
+    fk_itinerary_location: Int!
+    itineraries: Itinerary
     distance: Float
 }
 

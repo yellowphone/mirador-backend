@@ -16,7 +16,7 @@ const createExperience = async (parent, args, { prisma }) => {
                         pkuser: args.pkuser
                     }
                 },
-                locations: {
+                experience_locations: {
                     create: {
                         lat: args.lat,
                         lng: args.lng
@@ -24,7 +24,7 @@ const createExperience = async (parent, args, { prisma }) => {
                 },
             },
             include: {
-                locations: true,
+                experience_locations: true,
                 experience_images: {
                     include: {
                         images: true
@@ -40,7 +40,7 @@ const createExperience = async (parent, args, { prisma }) => {
 
                 // Wait for image to upload to bucket, then add to SQL
                 await uploadPhoto(img).then(data => {
-                    addImageToExperienceHelper(prisma, experience.pkexperience, data.Key, data.Location, args.caption, args.pkuser)
+                    addImageToExperienceHelper(prisma, experience.pkexperience, data.Key, data.Experience_Location, args.caption, args.pkuser)
                 })
                 .catch(err => {
                     console.error(err)
@@ -64,7 +64,7 @@ const addImageToExperience = async (parent, args, { prisma }) => {
 
             // Wait for image to upload to bucket, then add to SQL
             await uploadPhoto(img).then(data => {
-                addImageToExperienceHelper(prisma, args.pkexperience, data.Key, data.Location, args.caption, args.pkuser)
+                addImageToExperienceHelper(prisma, args.pkexperience, data.Key, data.Experience_Location, args.caption, args.pkuser)
             })
             .catch(err => {
                 console.error(err)
@@ -181,7 +181,7 @@ const reviewExperience = async (parent, args, { prisma }) => {
 
                 // Wait for image to upload to bucket, then add to SQL
                 await uploadPhoto(img).then(data => {
-                    addImageToExperienceHelper(prisma, args.review_experience, data.Key, data.Location, args.caption, args.review_user)
+                    addImageToExperienceHelper(prisma, args.review_experience, data.Key, data.Experience_Location, args.caption, args.review_user)
                 })
                 .catch(err => {
                     console.error(err)
@@ -232,9 +232,9 @@ const unvisitExperience = async (parent, args, { prisma }) => {
 
 const deleteExperience = async(parent, args, { prisma }) => {
     try {
-        await prisma.locations.delete({
+        await prisma.experience_locations.delete({
             where: {
-                pklocation: args.pkexperience
+                pkexperience_location: args.pkexperience
             }
         })
 
