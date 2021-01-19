@@ -26,11 +26,10 @@ view the details about your newly running container.
 4. Now you can run `docker exec -it <container-id> bash` to enter into the container.
 
 5. You should see that backend.sql should already be in the container due to the COPY statement
-from our docker file. Run `psql -U test demo < backend.sql` to import the table contents to this image.
+from our docker file. Run `psql -U test dev < backend.sql` to import the table contents to this image.
 
-Command to dump to db once in the conatiner: `psql -U test demo < backend.sql`
-
-command to get into the database creat: `psql -U test -d demo`
+Command to into into psql database terminal: `psql -h localhost -p 5432 -U test dev` followed by `\c dev`
+to connect to the dev database
 
 ## Contributors
 
