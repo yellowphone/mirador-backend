@@ -6,10 +6,12 @@ CREATE TABLE users (
     pkUser SERIAL PRIMARY KEY,
     email VARCHAR(64) UNIQUE NOT NULL,
 	username VARCHAR(20) UNIQUE NOT NULL,
-    password VARCHAR(128) NOT NULL,
+    access_token VARCHAR(256) NOT NULL,
+    userId VARCHAR(1256) NOT NULL,
     firstname VARCHAR(50) NOT NULL,
 	lastname VARCHAR(50) NOT NULL,
     bio VARCHAR(255),
+    account_type account_type NOT NULL,
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
@@ -23,6 +25,8 @@ CREATE TABLE followers (
 );
 
 create type difficulty_level as enum('EASY', 'MODERATE', 'HARD');
+
+create type account_type as enum('UNDEFINED, 'GOOGLE', 'FACEBOOK');
 
 CREATE TABLE experiences (
     pkexperience SERIAL PRIMARY KEY,
