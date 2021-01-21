@@ -32,6 +32,7 @@ type Mutation {
     addUserToItinerary(adding_user: Int!, adding_itinerary: Int!): User_Itinerary!
     deleteUserFromItinerary(pkuser_itinerary: Int!): Itinerary
     deleteItinerary(pkitinerary: Int!): Itinerary!
+    createImage(pkuser: Int!, caption: String, file: Upload!): Image
 }
 
 type Query {

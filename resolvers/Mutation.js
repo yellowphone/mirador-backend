@@ -37,6 +37,10 @@ const {
     deleteItinerary
 } = require('./itinerary/itineraryMutation')
 
+const {
+    createImage
+} = require('../service/upload')
+
 module.exports = {
     createUser,
     followUser,
@@ -64,5 +68,6 @@ module.exports = {
     unsaveItinerary,
     addUserToItinerary,
     deleteUserFromItinerary,
-    deleteItinerary
+    deleteItinerary,
+    createImage
 }

@@ -1,10 +1,11 @@
 const fs = require('fs');
 const AWS = require('aws-sdk');
 const { v4: uuidv4 } = require('uuid');
+const { ApolloError } = require('apollo-server');
 
-const uploadPhoto = async (imageFile) => {
+const uploadPhoto = async (createReadStream, filename) => {
 
-    const { createReadStream, filename } = await imageFile;
+    const stream = createReadStream();
 
     const s3 = new AWS.S3({
         accessKeyId: process.env.AWS_ID,
@@ -18,7 +19,7 @@ const uploadPhoto = async (imageFile) => {
         s3.upload({
             Bucket: process.env.BUCKET_NAME,
             Key: `${val}-${filename}`, // File name you want to save as in S3
-            Body: createReadStream()
+            Body: stream
         }, function(err, data) {
             if (err) {
                 throw err;
@@ -30,6 +31,44 @@ const uploadPhoto = async (imageFile) => {
 
         });
     })
+}
+
+const createImage = async (parent, args, { prisma }) => {
+    try {
+
+        const file = await args.file
+        const { createReadStream, filename } = file
+        console.log(args)
+
+        var img = null
+        
+        await uploadPhoto(createReadStream, filename).then(data => {
+            img = data
+        })
+
+        if (img != null) {
+            const image = await prisma.images.create({
+                data: {
+                    identifier: img.Key,
+                    url: img.Location,
+                    caption: args.caption,
+                    users: {
+                        connect: {
+                            pkuser: args.pkuser
+                        }
+                    }
+                }
+            })
+            return image
+        }
+        else {
+            return new ApolloError("Image not uploaded")
+        }
+    }
+    catch(err) {
+        console.error(err)
+        return new ApolloError(err)
+    }
 }
 
 const addImageToExperienceHelper = async(prisma, pkexperience, Key, Experience_Location, caption, pkuser) => {
@@ -59,5 +98,6 @@ const addImageToExperienceHelper = async(prisma, pkexperience, Key, Experience_L
 
 module.exports = {
     uploadPhoto,
+    createImage,
     addImageToExperienceHelper
 }
