@@ -38,14 +38,15 @@ const createImage = async (parent, args, { prisma }) => {
 
         const file = await args.file
         const { createReadStream, filename } = file
-        console.log(args)
 
         var img = null
         
+        // Uploading to AWS S3 bucket and grabbing metadata
         await uploadPhoto(createReadStream, filename).then(data => {
             img = data
         })
 
+        // Adding AWS S3 image metadata to Image table in DB
         if (img != null) {
             const image = await prisma.images.create({
                 data: {
