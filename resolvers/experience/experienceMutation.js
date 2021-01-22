@@ -16,7 +16,7 @@ const createExperience = async (parent, args, { prisma }) => {
                         pkuser: args.pkuser
                     }
                 },
-                locations: {
+                experience_locations: {
                     create: {
                         lat: args.lat,
                         lng: args.lng
@@ -24,7 +24,7 @@ const createExperience = async (parent, args, { prisma }) => {
                 },
             },
             include: {
-                locations: true,
+                experience_locations: true,
                 experience_images: {
                     include: {
                         images: true
@@ -232,9 +232,9 @@ const unvisitExperience = async (parent, args, { prisma }) => {
 
 const deleteExperience = async(parent, args, { prisma }) => {
     try {
-        await prisma.locations.delete({
+        await prisma.experience_locations.delete({
             where: {
-                pklocation: args.pkexperience
+                pkexperience_location: args.pkexperience
             }
         })
 

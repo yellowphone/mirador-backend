@@ -74,7 +74,7 @@ CREATE TABLE blogs (
     pkBlog SERIAL PRIMARY KEY,
     title VARCHAR(60) NOT NULL,
     summary VARCHAR(255),
-    content VARCHAR,
+    content JSON,
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     fk_user_blog INTEGER NOT NULL,
     CONSTRAINT author FOREIGN KEY(fk_user_blog) REFERENCES users(pkUser)
@@ -108,12 +108,20 @@ CREATE TABLE comment_blogs(
     CONSTRAINT cblog FOREIGN KEY (comment_blog) REFERENCES blogs(pkBlog)
 );
 
-CREATE TABLE locations (
-    pkLocation SERIAL PRIMARY KEY,
+CREATE TABLE experience_locations (
+    pkexperience_location SERIAL PRIMARY KEY,
     lat DECIMAL(8, 6),
     lng DECIMAL(9, 6),
     fk_experience_location INTEGER NOT NULL UNIQUE,
     CONSTRAINT place FOREIGN KEY(fk_experience_location) REFERENCES experiences(pkexperience)
+);
+
+CREATE TABLE blog_locations (
+    pkblog_location SERIAL PRIMARY KEY,
+    lat DECIMAL(8, 6),
+    lng DECIMAL(9, 6),
+    fk_blog_location INTEGER NOT NULL UNIQUE,
+    CONSTRAINT place FOREIGN KEY(fk_blog_location) REFERENCES blogs(pkBlog)
 );
 
 CREATE TABLE itineraries (
@@ -123,6 +131,14 @@ CREATE TABLE itineraries (
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 
     -- foreign key to calendar/jumble/list format for planner
+);
+
+CREATE TABLE itinerary_locations (
+    pkitinerary_location SERIAL PRIMARY KEY,
+    lat DECIMAL(8, 6),
+    lng DECIMAL(9, 6),
+    fk_itinerary_location INTEGER NOT NULL UNIQUE,
+    CONSTRAINT place FOREIGN KEY(fk_itinerary_location) REFERENCES itineraries(pkItinerary)
 );
 
 CREATE TABLE saved_itineraries(

@@ -2,6 +2,7 @@ const { ApolloServer, gql } = require('apollo-server');
 
 const typeDefs = gql`
 scalar DateTime
+scalar Json
 
 type Mutation {
     createUser(email: String!, username: String!, password: String!, firstname: String!, lastname: String!): User!
@@ -17,7 +18,7 @@ type Mutation {
     deleteReviewExperience(pkreview_experience: Int!): Review_Experience
     unvisitExperience(pkvisited_experience: Int!): Visited_Experience
     deleteExperience(pkexperience: Int!): Experience!
-    createBlog(title: String, pkuser: Int!, summary: String, content: String): Blog!
+    createBlog(title: String, pkuser: Int!, summary: String, content: Json, lat: Float!, lng: Float!): Blog!
     saveBlog(saving_user: Int!, saving_blog: Int!): Saved_Blog
     unsaveBlog(pksaved_blog: Int!): Saved_Blog
     likeBlog(liking_user: Int!, liking_blog: Int!): Liked_Blog
@@ -31,6 +32,7 @@ type Mutation {
     addUserToItinerary(adding_user: Int!, adding_itinerary: Int!): User_Itinerary!
     deleteUserFromItinerary(pkuser_itinerary: Int!): Itinerary
     deleteItinerary(pkitinerary: Int!): Itinerary!
+    createImage(pkuser: Int!, caption: String, file: Upload!): Image
 }
 
 type Query {
@@ -38,6 +40,7 @@ type Query {
     findUserByUsername(username: String!): User!
     findManyUsers(firstName: String!): [User!]!
     findExperienceById(pkexperience: Int!): Experience
+    findExperienceByTitle(title: String!): [Experience]
     findExperienceByCoordinates(lat: Float!, lng: Float!): [Experience_Card]
     findBlogById(pkblog: Int!): Blog
     findItineraryById(pkitinerary: Int!): Itinerary
@@ -79,7 +82,7 @@ type Experience {
     summary: String
     created_on: DateTime
     fk_user_experience: Int!
-    locations: Location
+    experience_locations: Experience_Location
     miles: Float
     elevation: Int
     climbing: String
@@ -145,9 +148,10 @@ type Blog {
     pkblog: Int!
     title: String!
     summary: String
-    content: String
+    content: Json 
     created_on: DateTime
     fk_user_blog: Int!
+    blog_locations: Blog_Location
     comment_blogs: [Comment_Blog]
     liked_blogs: [Liked_Blog]
     saved_blogs: [Saved_Blog]
@@ -181,12 +185,30 @@ type Comment_Blog {
     users: User
 }
 
-type Location {
-    pklocation: Int!
+type Experience_Location {
+    pkexperience_location: Int!
     lat: Float
     lng: Float
     fk_experience_location: Int!
     experiences: Experience
+    distance: Float
+}
+
+type Blog_Location {
+    pkblog_location: Int!
+    lat: Float
+    lng: Float
+    fk_blog_location: Int!
+    blogs: Blog
+    distance: Float
+}
+
+type Itinerary_Location {
+    pkitinerary_location: Int!
+    lat: Float
+    lng: Float
+    fk_itinerary_location: Int!
+    itineraries: Itinerary
     distance: Float
 }
 
