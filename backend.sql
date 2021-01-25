@@ -1,6 +1,7 @@
 DROP SCHEMA public CASCADE;
 CREATE SCHEMA public;
 
+create type account_type as enum('UNDEFINED', 'GOOGLE', 'FACEBOOK');
 
 CREATE TABLE users (
     pkUser SERIAL PRIMARY KEY,
@@ -26,7 +27,7 @@ CREATE TABLE followers (
 
 create type difficulty_level as enum('EASY', 'MODERATE', 'HARD');
 
-create type account_type as enum('UNDEFINED, 'GOOGLE', 'FACEBOOK');
+create type tag as enum('HIKING', 'CLIMBING', 'PARK', 'SWIMMING', 'FOOD', 'BAR');
 
 CREATE TABLE experiences (
     pkexperience SERIAL PRIMARY KEY,
@@ -39,6 +40,13 @@ CREATE TABLE experiences (
     elevation INTEGER,
     climbing VARCHAR(5), -- max could be 5.15a or something like that
     difficulty difficulty_level
+);
+
+CREATE TABLE experience_tags (
+    pkexperience_tag SERIAL PRIMARY KEY,
+    experience_tag tag,
+    experience_tagged INTEGER NOT NULL,
+    CONSTRAINT etag FOREIGN KEY(experience_tagged) REFERENCES experiences(pkexperience)
 );
 
 CREATE TABLE saved_experiences(

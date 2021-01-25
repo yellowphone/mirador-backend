@@ -5,11 +5,11 @@ scalar DateTime
 scalar Json
 
 type Mutation {
-    createUser(email: String!, username: String!, password: String!, firstname: String!, lastname: String!): User!
+    createUser(email: String!, username: String!, firstname: String!, lastname: String!, bio: String, userid: String!, access_token: String!, account_type: Account_Type!): User!
     followUser(user_following: Int!, user_followed: Int!): Follower!
     unfollowUser(pkfollower: Int!): Follower!
     deleteUser(pkuser: Int!): User!
-    createExperience(title: String, pkuser: Int!, summary: String, miles: Float, elevation: Int, climbing: String, difficulty: Difficulty_Level, lat: Float!, lng: Float!, images: [Upload!], caption: String): Experience!
+    createExperience(title: String, pkuser: Int!, summary: String, miles: Float, elevation: Int, climbing: String, difficulty: Difficulty_Level, lat: Float!, lng: Float!, images: [Upload!], caption: String, tags: [Tag]): Experience!
     addImageToExperience(images: [Upload!]!, pkexperience: Int!, caption: String, pkuser: Int!): String
     saveExperience(saving_user: Int!, saving_experience: Int!): Saved_Experience!
     unsaveExperience(pksaved_experience: Int!): Saved_Experience!
@@ -50,7 +50,9 @@ type User {
     pkuser: Int!
     username: String!
     email: String!
-    password: String!
+    access_token: String!
+    userid: String!
+    account_type: Account_Type
     firstname: String
     lastname : String
     bio: String
@@ -76,6 +78,12 @@ type Follower {
     users_followers_user_followingTousers: User
 }
 
+enum Account_Type {
+    UNDEFINED
+    GOOGLE
+    FACEBOOK
+}
+
 type Experience {
     pkexperience: Int!
     title: String!
@@ -89,6 +97,23 @@ type Experience {
     difficulty: Difficulty_Level
     experience_images: [Experience_Image]
     review_experiences: [Review_Experience]
+    experience_tags: [Experience_Tag]
+}
+
+type Experience_Tag {
+    pkexperience_tag: Int!
+    experience_tag: Tag
+    experience_tagged: Int
+    experiences: Experience
+}
+
+enum Tag {
+    HIKING
+    CLIMBING
+    PARK
+    SWIMMING
+    FOOD
+    BAR
 }
 
 enum Difficulty_Level {

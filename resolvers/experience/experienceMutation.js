@@ -29,24 +29,32 @@ const createExperience = async (parent, args, { prisma }) => {
                     include: {
                         images: true
                     }
-                }
+                },
             },
         })
 
+        if (args.tags) {
+            args.tags.map(async (tag) => {
+                await prisma.experience_tags.create({
+                    data: {
+                        experience_tag: tag,
+                        experiences: {
+                            connect: {
+                                pkexperience: experience.pkexperience
+                            }
+                        }
+                    }
+                })
+            })
+        }
+
         // for loop through images, and upload each individual image
         if (args.images) {
-            for (var i = 0; i < args.images.length; i++) {
-                var img = args.images[i]
-
-                // Wait for image to upload to bucket, then add to SQL
-                await uploadPhoto(img).then(data => {
+            args.images.map(async (image) => {
+                await uploadPhoto(image).then(data => {
                     addImageToExperienceHelper(prisma, experience.pkexperience, data.Key, data.Location, args.caption, args.pkuser)
                 })
-                .catch(err => {
-                    console.error(err)
-                }) 
-
-            }
+            })
         }
         return experience
     }

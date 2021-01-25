@@ -6,9 +6,12 @@ const createUser = async (parent, args, { prisma }) => {
             data: {
                 username: args.username,
                 email: args.email,
-                password: args.password,
                 firstname: args.firstname,
-                lastname: args.lastname
+                lastname: args.lastname,
+                bio: args.bio,
+                userid: args.userid,
+                access_token: args.access_token,
+                account_type: args.account_type
             }
         })
         return user;

@@ -35,10 +35,12 @@ model users {
   pkuser                                    Int                   @id @default(autoincrement())
   email                                     String                @unique
   username                                  String                @unique
-  password                                  String
+  access_token                              String
+  userid                                    String
   firstname                                 String
   lastname                                  String
   bio                                       String?
+  account_type                              account_type
   created_on                                DateTime              @default(now())
   blogs                                     blogs[]
   comment_blogs                             comment_blogs[]
@@ -142,6 +144,7 @@ model experiences {
   users                users                 @relation(fields: [fk_user_experience], references: [pkuser])
   experience_images    experience_images[]
   experience_locations experience_locations?
+  experience_tags      experience_tags[]
   review_experiences   review_experiences[]
   saved_experiences    saved_experiences[]
   visited_experiences  visited_experiences[]
@@ -200,8 +203,30 @@ model itinerary_locations {
   itineraries           itineraries @relation(fields: [fk_itinerary_location], references: [pkitinerary])
 }
 
+model experience_tags {
+  pkexperience_tag  Int         @id @default(autoincrement())
+  experience_tag    tag?
+  experience_tagged Int
+  experiences       experiences @relation(fields: [experience_tagged], references: [pkexperience])
+}
+
 enum difficulty_level {
   EASY
   MODERATE
   HARD
+}
+
+enum account_type {
+  UNDEFINED
+  GOOGLE
+  FACEBOOK
+}
+
+enum tag {
+  HIKING
+  CLIMBING
+  PARK
+  SWIMMING
+  FOOD
+  BAR
 }
