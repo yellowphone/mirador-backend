@@ -5,12 +5,12 @@ scalar DateTime
 scalar Json
 
 type Mutation {
-    createUser(email: String!, username: String!, firstname: String!, lastname: String!, bio: String, userid: String!, access_token: String!, account_type: Account_Type!, tags: [Tag]): User!
+    createUser(email: String!, username: String!, firstname: String!, lastname: String!, bio: String, userid: String!, access_token: String!, account_type: Account_Type!, tags: [Int]): User!
     deleteTagFromUser(pkuser_tag: Int!): User_Tag
     followUser(user_following: Int!, user_followed: Int!): Follower!
     unfollowUser(pkfollower: Int!): Follower!
     deleteUser(pkuser: Int!): User!
-    createExperience(title: String, pkuser: Int!, summary: String, miles: Float, elevation: Int, climbing: String, difficulty: Difficulty_Level, lat: Float!, lng: Float!, images: [Upload!], caption: String, tags: [Tag]): Experience!
+    createExperience(title: String, pkuser: Int!, summary: String, miles: Float, elevation: Int, climbing: String, difficulty: Difficulty_Level, lat: Float!, lng: Float!, images: [Upload!], caption: String, tags: [Int]): Experience!
     addImageToExperience(images: [Upload!]!, pkexperience: Int!, caption: String, pkuser: Int!): String
     deleteTagFromExperience(pkexperience_tag: Int!): Experience_Tag
     saveExperience(saving_user: Int!, saving_experience: Int!): Saved_Experience!
@@ -20,7 +20,7 @@ type Mutation {
     deleteReviewExperience(pkreview_experience: Int!): Review_Experience
     unvisitExperience(pkvisited_experience: Int!): Visited_Experience
     deleteExperience(pkexperience: Int!): Experience!
-    createBlog(title: String, pkuser: Int!, summary: String, content: Json, lat: Float!, lng: Float!, tags: [Tag]): Blog!
+    createBlog(title: String, pkuser: Int!, summary: String, content: Json, lat: Float!, lng: Float!, tags: [Int]): Blog!
     deleteTagFromBlog(pkblog_tag: Int!): Blog_Tag
     saveBlog(saving_user: Int!, saving_blog: Int!): Saved_Blog
     unsaveBlog(pksaved_blog: Int!): Saved_Blog
@@ -29,7 +29,7 @@ type Mutation {
     commentBlog(comment: String!, pkuser: Int!, pkblog: Int!): Comment_Blog
     deleteCommentBlog(pkcomment_blog: Int!): Comment_Blog
     deleteBlog(pkblog: Int!): Blog!
-    createItinerary(title: String, summary: String, tags: [Tag]): Itinerary!
+    createItinerary(title: String, summary: String, tags: [Int]): Itinerary!
     deleteTagFromItinerary(pkitinerary_tag: Int!): Itinerary_Tag
     saveItinerary(saving_user: Int!, saving_itinerary: Int!): Saved_Itinerary
     unsaveItinerary(pksaved_itinerary: Int!): Saved_Itinerary
@@ -37,6 +37,7 @@ type Mutation {
     deleteUserFromItinerary(pkuser_itinerary: Int!): Itinerary
     deleteItinerary(pkitinerary: Int!): Itinerary!
     createImage(pkuser: Int!, caption: String, file: Upload!): Image
+    addTag(tag: String!): Tag
 }
 
 type Query {
@@ -74,10 +75,16 @@ type User {
     user_tags: [User_Tag]
 }
 
+type Tag {
+    pktag: Int!
+    tag: String
+}
+
 type User_Tag {
     pkuser_tag: Int!
-    user_tag: Tag
+    user_tag: Int
     user_tagged: Int
+    tags: Tag
     users: User
 }
 
@@ -114,18 +121,10 @@ type Experience {
 
 type Experience_Tag {
     pkexperience_tag: Int!
-    experience_tag: Tag
+    experience_tag: Int
     experience_tagged: Int
+    tags: Tag
     experiences: Experience
-}
-
-enum Tag {
-    HIKING
-    CLIMBING
-    PARK
-    SWIMMING
-    FOOD
-    BAR
 }
 
 enum Difficulty_Level {
@@ -197,8 +196,9 @@ type Blog {
 
 type Blog_Tag {
     pkblog_tag: Int!
-    blog_tag: Tag
+    blog_tag: Int
     blog_tagged: Int
+    tags: Tag
     blogs: Blog
 }
 
@@ -282,8 +282,9 @@ type Itinerary {
 
 type Itinerary_Tag {
     pkitinerary_tag: Int!
-    itinerary_tag: Tag
+    itinerary_tag: Int
     itinerary_tagged: Int
+    tags: Tag
     itineraries: Itinerary
 }
 

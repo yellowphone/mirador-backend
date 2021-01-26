@@ -208,30 +208,43 @@ model itinerary_locations {
 
 model experience_tags {
   pkexperience_tag  Int         @id @default(autoincrement())
-  experience_tag    tag?
+  experience_tag    Int
   experience_tagged Int
+  tags              tags        @relation(fields: [experience_tag], references: [pktag])
   experiences       experiences @relation(fields: [experience_tagged], references: [pkexperience])
 }
 
 model blog_tags {
   pkblog_tag  Int   @id @default(autoincrement())
-  blog_tag    tag?
+  blog_tag    Int
   blog_tagged Int
+  tags        tags  @relation(fields: [blog_tag], references: [pktag])
   blogs       blogs @relation(fields: [blog_tagged], references: [pkblog])
 }
 
 model itinerary_tags {
   pkitinerary_tag  Int         @id @default(autoincrement())
-  itinerary_tag    tag?
+  itinerary_tag    Int
   itinerary_tagged Int
+  tags             tags        @relation(fields: [itinerary_tag], references: [pktag])
   itineraries      itineraries @relation(fields: [itinerary_tagged], references: [pkitinerary])
 }
 
 model user_tags {
   pkuser_tag  Int   @id @default(autoincrement())
-  user_tag    tag?
+  user_tag    Int
   user_tagged Int
+  tags        tags  @relation(fields: [user_tag], references: [pktag])
   users       users @relation(fields: [user_tagged], references: [pkuser])
+}
+
+model tags {
+  pktag           Int               @id @default(autoincrement())
+  tag             String
+  blog_tags       blog_tags[]
+  experience_tags experience_tags[]
+  itinerary_tags  itinerary_tags[]
+  user_tags       user_tags[]
 }
 
 enum difficulty_level {
@@ -244,13 +257,4 @@ enum account_type {
   UNDEFINED
   GOOGLE
   FACEBOOK
-}
-
-enum tag {
-  HIKING
-  CLIMBING
-  PARK
-  SWIMMING
-  FOOD
-  BAR
 }

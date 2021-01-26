@@ -23,7 +23,11 @@ const findBlogById = async (parent, args, { prisma }) => {
                     }
                 },
                 blog_locations: true,
-                blog_tags: true
+                blog_tags: {
+                    include: {
+                        tags: true
+                    }
+                }
             }
         })
         return results

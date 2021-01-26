@@ -37,7 +37,11 @@ const createExperience = async (parent, args, { prisma }) => {
             args.tags.map(async (tag) => {
                 await prisma.experience_tags.create({
                     data: {
-                        experience_tag: tag,
+                        tags: {
+                            connect: {
+                                pktag: tag
+                            }
+                        },
                         experiences: {
                             connect: {
                                 pkexperience: experience.pkexperience

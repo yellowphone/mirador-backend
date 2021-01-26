@@ -18,7 +18,11 @@ const findExperienceById = async(parent, args, { prisma }) => {
                         users: true,
                     }
                 },
-                experience_tags: true
+                experience_tags: {
+                    include: {
+                        tags: true
+                    }
+                }
             },
         })
         return results

@@ -3,8 +3,6 @@ CREATE SCHEMA public;
 
 create type account_type as enum('UNDEFINED', 'GOOGLE', 'FACEBOOK');
 
-create type tag as enum('HIKING', 'CLIMBING', 'PARK', 'SWIMMING', 'FOOD', 'BAR');
-
 CREATE TABLE users (
     pkUser SERIAL PRIMARY KEY,
     email VARCHAR(64) UNIQUE NOT NULL,
@@ -18,11 +16,17 @@ CREATE TABLE users (
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
+CREATE TABLE tags (
+    pktag SERIAL PRIMARY KEY,
+    tag VARCHAR(20) NOT NULL
+);
+
 CREATE TABLE user_tags (
     pkuser_tag SERIAL PRIMARY KEY,
-    user_tag tag,
+    user_tag INTEGER NOT NULL,
+    CONSTRAINT utag FOREIGN KEY(user_tag) REFERENCES tags(pktag),
     user_tagged INTEGER NOT NULL,
-    CONSTRAINT utag FOREIGN KEY(user_tagged) REFERENCES users(pkUser)
+    CONSTRAINT utagged FOREIGN KEY(user_tagged) REFERENCES users(pkUser)
 );
 
 CREATE TABLE followers (
@@ -51,9 +55,10 @@ CREATE TABLE experiences (
 
 CREATE TABLE experience_tags (
     pkexperience_tag SERIAL PRIMARY KEY,
-    experience_tag tag,
+    experience_tag INTEGER NOT NULL,
+    CONSTRAINT etag FOREIGN KEY(experience_tag) REFERENCES tags(pktag),
     experience_tagged INTEGER NOT NULL,
-    CONSTRAINT etag FOREIGN KEY(experience_tagged) REFERENCES experiences(pkexperience)
+    CONSTRAINT etagged FOREIGN KEY(experience_tagged) REFERENCES experiences(pkexperience)
 );
 
 CREATE TABLE saved_experiences(
@@ -97,9 +102,10 @@ CREATE TABLE blogs (
 
 CREATE TABLE blog_tags (
     pkblog_tag SERIAL PRIMARY KEY,
-    blog_tag tag,
+    blog_tag INTEGER NOT NULL,
+    CONSTRAINT btag FOREIGN KEY(blog_tag) REFERENCES tags(pktag),
     blog_tagged INTEGER NOT NULL,
-    CONSTRAINT btag FOREIGN KEY(blog_tagged) REFERENCES blogs(pkblog)
+    CONSTRAINT btagged FOREIGN KEY(blog_tagged) REFERENCES blogs(pkblog)
 );
 
 CREATE TABLE saved_blogs(
@@ -157,9 +163,10 @@ CREATE TABLE itineraries (
 
 CREATE TABLE itinerary_tags (
     pkitinerary_tag SERIAL PRIMARY KEY,
-    itinerary_tag tag,
+    itinerary_tag INTEGER NOT NULL,
+    CONSTRAINT itag FOREIGN KEY(itinerary_tag) REFERENCES tags(pktag),
     itinerary_tagged INTEGER NOT NULL,
-    CONSTRAINT itag FOREIGN KEY(itinerary_tagged) REFERENCES itineraries(pkItinerary)
+    CONSTRAINT itagged FOREIGN KEY(itinerary_tagged) REFERENCES itineraries(pkItinerary)
 );
 
 CREATE TABLE itinerary_locations (

@@ -28,7 +28,11 @@ const createBlog = async (parent, args, { prisma }) => {
             args.tags.map(async (tag) => {
                 await prisma.blog_tags.create({
                     data: {
-                        blog_tag: tag,
+                        tags: {
+                            connect: {
+                                pktag: tag
+                            }
+                        },
                         blogs: {
                             connect: {
                                 pkblog: blog.pkblog

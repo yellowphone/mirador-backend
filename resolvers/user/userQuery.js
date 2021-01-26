@@ -10,7 +10,11 @@ const findUser = async (parent, args, { prisma }) => {
                 experiences: {
                     include: {
                         experience_locations: true,
-                        experience_tags: true
+                        experience_tags: {
+                            include: {
+                                tags: true
+                            }
+                        }
                     }
                 },
                 blogs: {
@@ -19,7 +23,11 @@ const findUser = async (parent, args, { prisma }) => {
                         liked_blogs: true,
                         comment_blogs: true,
                         saved_blogs: true,
-                        blog_tags: true
+                        blog_tags: {
+                            include: {
+                                tags: true
+                            }
+                        }
                     }
                 },
                 followers_followers_user_followedTousers: {
@@ -62,7 +70,11 @@ const findUser = async (parent, args, { prisma }) => {
                         itineraries: true,
                     }
                 },
-                user_tags: true
+                user_tags: {
+                    include: {
+                        tags: true
+                    }
+                },
             },
         })
         return results

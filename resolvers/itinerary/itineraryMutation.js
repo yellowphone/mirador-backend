@@ -13,7 +13,11 @@ const createItinerary = async (parent, args, { prisma }) => {
             args.tags.map(async (tag) => {
                 await prisma.itinerary_tags.create({
                     data: {
-                        itinerary_tag: tag,
+                        tags: {
+                            connect: {
+                                pktag: tag
+                            }
+                        },
                         itineraries: {
                             connect: {
                                 pkitinerary: itinerary.pkitinerary

@@ -45,6 +45,10 @@ const {
     createImage
 } = require('../service/upload')
 
+const {
+    addTag
+} = require('../service/tags')
+
 module.exports = {
     createUser,
     deleteTagFromUser,
@@ -77,5 +81,6 @@ module.exports = {
     addUserToItinerary,
     deleteUserFromItinerary,
     deleteItinerary,
-    createImage
+    createImage,
+    addTag
 }

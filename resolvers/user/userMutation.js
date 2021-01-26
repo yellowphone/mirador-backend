@@ -19,7 +19,11 @@ const createUser = async (parent, args, { prisma }) => {
             args.tags.map(async (tag) => {
                 await prisma.user_tags.create({
                     data: {
-                        user_tag: tag,
+                        tags: {
+                            connect: {
+                                pktag: tag
+                            }
+                        },
                         users: {
                             connect: {
                                 pkuser: user.pkuser
