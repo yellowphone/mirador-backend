@@ -11,6 +11,7 @@ type Mutation {
     deleteUser(pkuser: Int!): User!
     createExperience(title: String, pkuser: Int!, summary: String, miles: Float, elevation: Int, climbing: String, difficulty: Difficulty_Level, lat: Float!, lng: Float!, images: [Upload!], caption: String, tags: [Tag]): Experience!
     addImageToExperience(images: [Upload!]!, pkexperience: Int!, caption: String, pkuser: Int!): String
+    deleteTagFromExperience(pkexperience_tag: Int!): Experience_Tag
     saveExperience(saving_user: Int!, saving_experience: Int!): Saved_Experience!
     unsaveExperience(pksaved_experience: Int!): Saved_Experience!
     visitExperience(visiting_user: Int!, visiting_experience: Int!): Visited_Experience
@@ -18,7 +19,8 @@ type Mutation {
     deleteReviewExperience(pkreview_experience: Int!): Review_Experience
     unvisitExperience(pkvisited_experience: Int!): Visited_Experience
     deleteExperience(pkexperience: Int!): Experience!
-    createBlog(title: String, pkuser: Int!, summary: String, content: Json, lat: Float!, lng: Float!): Blog!
+    createBlog(title: String, pkuser: Int!, summary: String, content: Json, lat: Float!, lng: Float!, tags: [Tag]): Blog!
+    deleteTagFromBlog(pkblog_tag: Int!): Blog_Tag
     saveBlog(saving_user: Int!, saving_blog: Int!): Saved_Blog
     unsaveBlog(pksaved_blog: Int!): Saved_Blog
     likeBlog(liking_user: Int!, liking_blog: Int!): Liked_Blog
@@ -180,6 +182,14 @@ type Blog {
     comment_blogs: [Comment_Blog]
     liked_blogs: [Liked_Blog]
     saved_blogs: [Saved_Blog]
+    blog_tags: [Blog_Tag]
+}
+
+type Blog_Tag {
+    pkblog_tag: Int!
+    blog_tag: Tag
+    blog_tagged: Int
+    blogs: Blog
 }
 
 type Saved_Blog {

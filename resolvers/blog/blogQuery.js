@@ -2,7 +2,7 @@ const { ApolloError } = require('apollo-server');
 
 const findBlogById = async (parent, args, { prisma }) => {
     try {
-        const results = await prisma.blogs.findOne({
+        const results = await prisma.blogs.findUnique({
             where: {
                 pkblog: args.pkblog
             },
@@ -22,7 +22,8 @@ const findBlogById = async (parent, args, { prisma }) => {
                         users: true
                     }
                 },
-                blog_locations: true
+                blog_locations: true,
+                blog_tags: true
             }
         })
         return results

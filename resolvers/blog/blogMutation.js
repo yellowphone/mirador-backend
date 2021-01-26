@@ -23,12 +23,43 @@ const createBlog = async (parent, args, { prisma }) => {
                 blog_locations: true
             }
         })
+
+        if (args.tags) {
+            args.tags.map(async (tag) => {
+                await prisma.blog_tags.create({
+                    data: {
+                        blog_tag: tag,
+                        blogs: {
+                            connect: {
+                                pkblog: blog.pkblog
+                            }
+                        }
+                    }
+                })
+            })
+        }
+
         return blog
     }
     catch(err) {
         console.error(err)
         return new ApolloError(err)
     }    
+}
+
+const deleteTagFromBlog = async (parent, args, { prisma }) => {
+    try {
+        const delete_tag = await prisma.blog_tags.delete({
+            where: {
+                pkblog_tag: args.pkblog_tag
+            }
+        })
+        return delete_tag
+    }
+    catch {
+        console.error(err)
+        return new ApolloError(err)
+    }
 }
 
 const saveBlog = async (parent, args, { prisma }) => {
@@ -179,6 +210,7 @@ const deleteBlog = async(parent, args, { prisma }) => {
 
 module.exports = {
     createBlog,
+    deleteTagFromBlog,
     saveBlog,
     unsaveBlog,
     likeBlog,

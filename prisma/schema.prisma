@@ -16,6 +16,7 @@ model blogs {
   fk_user_blog   Int
   users          users           @relation(fields: [fk_user_blog], references: [pkuser])
   blog_locations blog_locations?
+  blog_tags      blog_tags[]
   comment_blogs  comment_blogs[]
   liked_blogs    liked_blogs[]
   saved_blogs    saved_blogs[]
@@ -208,6 +209,13 @@ model experience_tags {
   experience_tag    tag?
   experience_tagged Int
   experiences       experiences @relation(fields: [experience_tagged], references: [pkexperience])
+}
+
+model blog_tags {
+  pkblog_tag  Int   @id @default(autoincrement())
+  blog_tag    tag?
+  blog_tagged Int
+  blogs       blogs @relation(fields: [blog_tagged], references: [pkblog])
 }
 
 enum difficulty_level {

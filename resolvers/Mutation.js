@@ -8,6 +8,7 @@ const {
 const {
     createExperience,
     addImageToExperience,
+    deleteTagFromExperience,
     saveExperience,
     unsaveExperience,
     visitExperience,
@@ -19,6 +20,7 @@ const {
 
 const {
     createBlog,
+    deleteTagFromBlog,
     saveBlog,
     unsaveBlog,
     likeBlog,
@@ -48,6 +50,7 @@ module.exports = {
     deleteUser,
     createExperience,
     addImageToExperience,
+    deleteTagFromExperience,
     saveExperience,
     unsaveExperience,
     visitExperience,
@@ -56,6 +59,7 @@ module.exports = {
     unvisitExperience,
     deleteExperience,
     createBlog,
+    deleteTagFromBlog,
     saveBlog,
     unsaveBlog,
     likeBlog,

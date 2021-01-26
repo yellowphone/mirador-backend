@@ -88,6 +88,13 @@ CREATE TABLE blogs (
     CONSTRAINT author FOREIGN KEY(fk_user_blog) REFERENCES users(pkUser)
 );
 
+CREATE TABLE blog_tags (
+    pkblog_tag SERIAL PRIMARY KEY,
+    blog_tag tag,
+    blog_tagged INTEGER NOT NULL,
+    CONSTRAINT btag FOREIGN KEY(blog_tagged) REFERENCES blogs(pkblog)
+);
+
 CREATE TABLE saved_blogs(
     pksaved_blog SERIAL PRIMARY KEY,
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
