@@ -61,7 +61,8 @@ const findUser = async (parent, args, { prisma }) => {
                     include: {
                         itineraries: true,
                     }
-                }
+                },
+                user_tags: true
             },
         })
         return results

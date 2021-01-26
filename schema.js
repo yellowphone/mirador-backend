@@ -5,7 +5,8 @@ scalar DateTime
 scalar Json
 
 type Mutation {
-    createUser(email: String!, username: String!, firstname: String!, lastname: String!, bio: String, userid: String!, access_token: String!, account_type: Account_Type!): User!
+    createUser(email: String!, username: String!, firstname: String!, lastname: String!, bio: String, userid: String!, access_token: String!, account_type: Account_Type!, tags: [Tag]): User!
+    deleteTagFromUser(pkuser_tag: Int!): User_Tag
     followUser(user_following: Int!, user_followed: Int!): Follower!
     unfollowUser(pkfollower: Int!): Follower!
     deleteUser(pkuser: Int!): User!
@@ -28,7 +29,8 @@ type Mutation {
     commentBlog(comment: String!, pkuser: Int!, pkblog: Int!): Comment_Blog
     deleteCommentBlog(pkcomment_blog: Int!): Comment_Blog
     deleteBlog(pkblog: Int!): Blog!
-    createItinerary(title: String, summary: String): Itinerary!
+    createItinerary(title: String, summary: String, tags: [Tag]): Itinerary!
+    deleteTagFromItinerary(pkitinerary_tag: Int!): Itinerary_Tag
     saveItinerary(saving_user: Int!, saving_itinerary: Int!): Saved_Itinerary
     unsaveItinerary(pksaved_itinerary: Int!): Saved_Itinerary
     addUserToItinerary(adding_user: Int!, adding_itinerary: Int!): User_Itinerary!
@@ -69,6 +71,14 @@ type User {
     saved_blogs: [Saved_Blog]
     saved_itineraries: [Saved_Itinerary]
     liked_blogs: [Liked_Blog]
+    user_tags: [User_Tag]
+}
+
+type User_Tag {
+    pkuser_tag: Int!
+    user_tag: Tag
+    user_tagged: Int
+    users: User
 }
 
 type Follower {
@@ -267,6 +277,14 @@ type Itinerary {
     summary: String
     created_on: DateTime
     user_itineraries: [User_Itinerary]
+    itinerary_tags: [Itinerary_Tag]
+}
+
+type Itinerary_Tag {
+    pkitinerary_tag: Int!
+    itinerary_tag: Tag
+    itinerary_tagged: Int
+    itineraries: Itinerary
 }
 
 type Saved_Itinerary {

@@ -12,7 +12,8 @@ const findItineraryById = async (parent, args, { prisma }) => {
                         users: true, 
                         itineraries: true
                     }
-                }
+                },
+                itinerary_tags: true
             }
         })
         return results

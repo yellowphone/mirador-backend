@@ -28,6 +28,7 @@ model itineraries {
   summary             String?
   created_on          DateTime?            @default(now())
   itinerary_locations itinerary_locations?
+  itinerary_tags      itinerary_tags[]
   saved_itineraries   saved_itineraries[]
   user_itineraries    user_itineraries[]
 }
@@ -55,6 +56,7 @@ model users {
   saved_experiences                         saved_experiences[]
   saved_itineraries                         saved_itineraries[]
   user_itineraries                          user_itineraries[]
+  user_tags                                 user_tags[]
   visited_experiences                       visited_experiences[]
 }
 
@@ -216,6 +218,20 @@ model blog_tags {
   blog_tag    tag?
   blog_tagged Int
   blogs       blogs @relation(fields: [blog_tagged], references: [pkblog])
+}
+
+model itinerary_tags {
+  pkitinerary_tag  Int         @id @default(autoincrement())
+  itinerary_tag    tag?
+  itinerary_tagged Int
+  itineraries      itineraries @relation(fields: [itinerary_tagged], references: [pkitinerary])
+}
+
+model user_tags {
+  pkuser_tag  Int   @id @default(autoincrement())
+  user_tag    tag?
+  user_tagged Int
+  users       users @relation(fields: [user_tagged], references: [pkuser])
 }
 
 enum difficulty_level {

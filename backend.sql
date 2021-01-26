@@ -3,6 +3,8 @@ CREATE SCHEMA public;
 
 create type account_type as enum('UNDEFINED', 'GOOGLE', 'FACEBOOK');
 
+create type tag as enum('HIKING', 'CLIMBING', 'PARK', 'SWIMMING', 'FOOD', 'BAR');
+
 CREATE TABLE users (
     pkUser SERIAL PRIMARY KEY,
     email VARCHAR(64) UNIQUE NOT NULL,
@@ -16,6 +18,13 @@ CREATE TABLE users (
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
+CREATE TABLE user_tags (
+    pkuser_tag SERIAL PRIMARY KEY,
+    user_tag tag,
+    user_tagged INTEGER NOT NULL,
+    CONSTRAINT utag FOREIGN KEY(user_tagged) REFERENCES users(pkUser)
+);
+
 CREATE TABLE followers (
     pkFollower SERIAL PRIMARY KEY,
     user_following INTEGER NOT NULL,
@@ -26,8 +35,6 @@ CREATE TABLE followers (
 );
 
 create type difficulty_level as enum('EASY', 'MODERATE', 'HARD');
-
-create type tag as enum('HIKING', 'CLIMBING', 'PARK', 'SWIMMING', 'FOOD', 'BAR');
 
 CREATE TABLE experiences (
     pkexperience SERIAL PRIMARY KEY,
@@ -146,6 +153,13 @@ CREATE TABLE itineraries (
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 
     -- foreign key to calendar/jumble/list format for planner
+);
+
+CREATE TABLE itinerary_tags (
+    pkitinerary_tag SERIAL PRIMARY KEY,
+    itinerary_tag tag,
+    itinerary_tagged INTEGER NOT NULL,
+    CONSTRAINT itag FOREIGN KEY(itinerary_tagged) REFERENCES itineraries(pkItinerary)
 );
 
 CREATE TABLE itinerary_locations (

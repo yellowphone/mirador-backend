@@ -1,5 +1,6 @@
 const { 
     createUser,
+    deleteTagFromUser,
     followUser,
     unfollowUser,
     deleteUser
@@ -32,6 +33,7 @@ const {
 
 const {
     createItinerary,
+    deleteTagFromItinerary,
     saveItinerary,
     unsaveItinerary,
     addUserToItinerary,
@@ -45,6 +47,7 @@ const {
 
 module.exports = {
     createUser,
+    deleteTagFromUser,
     followUser,
     unfollowUser,
     deleteUser,
@@ -68,6 +71,7 @@ module.exports = {
     deleteCommentBlog,
     deleteBlog,
     createItinerary,
+    deleteTagFromItinerary,
     saveItinerary,
     unsaveItinerary,
     addUserToItinerary,

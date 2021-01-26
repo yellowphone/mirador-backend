@@ -8,13 +8,43 @@ const createItinerary = async (parent, args, { prisma }) => {
                 summary: args.summary
             },
         })
-        console.log(itinerary)
+
+        if (args.tags) {
+            args.tags.map(async (tag) => {
+                await prisma.itinerary_tags.create({
+                    data: {
+                        itinerary_tag: tag,
+                        itineraries: {
+                            connect: {
+                                pkitinerary: itinerary.pkitinerary
+                            }
+                        }
+                    }
+                })
+            })
+        }
+
         return itinerary
     }
     catch(err) {
         console.error(err)
         return new ApolloError(err)
     }    
+}
+
+const deleteTagFromItinerary = async (parent, args, { prisma }) => {
+    try {
+        const delete_tag = await prisma.itinerary_tags.delete({
+            where: {
+                pkitinerary_tag: args.pkitinerary_tag
+            }
+        })
+        return delete_tag
+    }
+    catch {
+        console.error(err)
+        return new ApolloError(err)
+    }
 }
 
 const saveItinerary = async (parent, args, { prisma }) => {
@@ -121,6 +151,7 @@ const deleteItinerary = async(parent, args, { prisma }) => {
 
 module.exports = {
     createItinerary,
+    deleteTagFromItinerary,
     saveItinerary,
     unsaveItinerary,
     addUserToItinerary,
