@@ -3,6 +3,10 @@ CREATE SCHEMA public;
 
 create type account_type as enum('UNDEFINED', 'GOOGLE', 'FACEBOOK');
 
+create type difficulty_level as enum('EASY', 'MODERATE', 'HARD');
+
+create type account_type as enum('UNDEFINED', 'GOOGLE', 'FACEBOOK');
+
 CREATE TABLE users (
     pkUser SERIAL PRIMARY KEY,
     email VARCHAR(64) UNIQUE NOT NULL,
@@ -37,8 +41,6 @@ CREATE TABLE followers (
     CONSTRAINT user_followed FOREIGN KEY (user_followed) REFERENCES users(pkUser),
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
-create type difficulty_level as enum('EASY', 'MODERATE', 'HARD');
 
 CREATE TABLE experiences (
     pkexperience SERIAL PRIMARY KEY,
