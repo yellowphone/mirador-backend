@@ -2,7 +2,7 @@ const { ApolloError } = require('apollo-server');
 
 const findExperienceById = async(parent, args, { prisma }) => {
     try {
-        const results = await prisma.experiences.findOne({
+        const results = await prisma.experiences.findUnique({
             where: {
                 pkexperience: args.pkexperience
             },
@@ -16,6 +16,11 @@ const findExperienceById = async(parent, args, { prisma }) => {
                 review_experiences: {
                     include: {
                         users: true,
+                    }
+                },
+                experience_tags: {
+                    include: {
+                        tags: true
                     }
                 }
             },

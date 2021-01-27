@@ -6,7 +6,7 @@
 - `$ cd mirador_backend`
 - `$ npm install`
 - `$ npm run start`
-- Go to a browser and check out http://localhost:3000/graphql and play with GraphQL!
+- Go to a browser and check out http://localhost:4000/graphql and play with GraphQL!
 
 Make sure you are using Node v12.12.0! There is a Prisma bug with newer Node versions!
 

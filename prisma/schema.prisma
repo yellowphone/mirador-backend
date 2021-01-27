@@ -16,6 +16,7 @@ model blogs {
   fk_user_blog   Int
   users          users           @relation(fields: [fk_user_blog], references: [pkuser])
   blog_locations blog_locations?
+  blog_tags      blog_tags[]
   comment_blogs  comment_blogs[]
   liked_blogs    liked_blogs[]
   saved_blogs    saved_blogs[]
@@ -27,6 +28,7 @@ model itineraries {
   summary             String?
   created_on          DateTime?            @default(now())
   itinerary_locations itinerary_locations?
+  itinerary_tags      itinerary_tags[]
   saved_itineraries   saved_itineraries[]
   user_itineraries    user_itineraries[]
 }
@@ -55,6 +57,7 @@ model users {
   saved_experiences                         saved_experiences[]
   saved_itineraries                         saved_itineraries[]
   user_itineraries                          user_itineraries[]
+  user_tags                                 user_tags[]
   visited_experiences                       visited_experiences[]
 }
 
@@ -145,6 +148,7 @@ model experiences {
   users                users                 @relation(fields: [fk_user_experience], references: [pkuser])
   experience_images    experience_images[]
   experience_locations experience_locations?
+  experience_tags      experience_tags[]
   review_experiences   review_experiences[]
   saved_experiences    saved_experiences[]
   visited_experiences  visited_experiences[]
@@ -201,6 +205,47 @@ model itinerary_locations {
   lng                   Float?
   fk_itinerary_location Int         @unique
   itineraries           itineraries @relation(fields: [fk_itinerary_location], references: [pkitinerary])
+}
+
+model experience_tags {
+  pkexperience_tag  Int         @id @default(autoincrement())
+  experience_tag    Int
+  experience_tagged Int
+  tags              tags        @relation(fields: [experience_tag], references: [pktag])
+  experiences       experiences @relation(fields: [experience_tagged], references: [pkexperience])
+}
+
+model blog_tags {
+  pkblog_tag  Int   @id @default(autoincrement())
+  blog_tag    Int
+  blog_tagged Int
+  tags        tags  @relation(fields: [blog_tag], references: [pktag])
+  blogs       blogs @relation(fields: [blog_tagged], references: [pkblog])
+}
+
+model itinerary_tags {
+  pkitinerary_tag  Int         @id @default(autoincrement())
+  itinerary_tag    Int
+  itinerary_tagged Int
+  tags             tags        @relation(fields: [itinerary_tag], references: [pktag])
+  itineraries      itineraries @relation(fields: [itinerary_tagged], references: [pkitinerary])
+}
+
+model user_tags {
+  pkuser_tag  Int   @id @default(autoincrement())
+  user_tag    Int
+  user_tagged Int
+  tags        tags  @relation(fields: [user_tag], references: [pktag])
+  users       users @relation(fields: [user_tagged], references: [pkuser])
+}
+
+model tags {
+  pktag           Int               @id @default(autoincrement())
+  tag             String
+  blog_tags       blog_tags[]
+  experience_tags experience_tags[]
+  itinerary_tags  itinerary_tags[]
+  user_tags       user_tags[]
 }
 
 enum difficulty_level {

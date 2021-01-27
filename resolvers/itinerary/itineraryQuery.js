@@ -2,7 +2,7 @@ const { ApolloError } = require('apollo-server');
 
 const findItineraryById = async (parent, args, { prisma }) => {
     try {
-        const results = await prisma.itineraries.findOne({
+        const results = await prisma.itineraries.findUnique({
             where: {
                 pkitinerary: args.pkitinerary
             },
@@ -11,6 +11,11 @@ const findItineraryById = async (parent, args, { prisma }) => {
                     include: {
                         users: true, 
                         itineraries: true
+                    }
+                },
+                itinerary_tags: {
+                    include: {
+                        tags: true
                     }
                 }
             }
