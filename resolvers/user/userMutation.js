@@ -6,11 +6,33 @@ const createUser = async (parent, args, { prisma }) => {
             data: {
                 username: args.username,
                 email: args.email,
-                password: args.password,
                 firstname: args.firstname,
-                lastname: args.lastname
+                lastname: args.lastname,
+                bio: args.bio,
+                userid: args.userid,
+                access_token: args.access_token,
+                account_type: args.account_type
             }
         })
+
+        if (args.tags) {
+            args.tags.map(async (tag) => {
+                await prisma.user_tags.create({
+                    data: {
+                        tags: {
+                            connect: {
+                                pktag: tag
+                            }
+                        },
+                        users: {
+                            connect: {
+                                pkuser: user.pkuser
+                            }
+                        }
+                    }
+                })
+            })
+        }
         return user;
     }
     catch(err) {
@@ -22,6 +44,21 @@ const createUser = async (parent, args, { prisma }) => {
             return new ApolloError(err)
         }
     }    
+}
+
+const deleteTagFromUser = async (parent, args, { prisma }) => {
+    try {
+        const delete_tag = await prisma.user_tags.delete({
+            where: {
+                pkuser_tag: args.pkuser_tag
+            }
+        })
+        return delete_tag
+    }
+    catch {
+        console.error(err)
+        return new ApolloError(err)
+    }
 }
 
 const followUser = async(parent, args, {prisma}) => {
@@ -78,6 +115,7 @@ const deleteUser = async(parent, args, { prisma }) => {
 
 module.exports = {
     createUser,
+    deleteTagFromUser,
     followUser,
     unfollowUser,
     deleteUser

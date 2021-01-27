@@ -29,24 +29,36 @@ const createExperience = async (parent, args, { prisma }) => {
                     include: {
                         images: true
                     }
-                }
+                },
             },
         })
 
+        if (args.tags) {
+            args.tags.map(async (tag) => {
+                await prisma.experience_tags.create({
+                    data: {
+                        tags: {
+                            connect: {
+                                pktag: tag
+                            }
+                        },
+                        experiences: {
+                            connect: {
+                                pkexperience: experience.pkexperience
+                            }
+                        }
+                    }
+                })
+            })
+        }
+
         // for loop through images, and upload each individual image
         if (args.images) {
-            for (var i = 0; i < args.images.length; i++) {
-                var img = args.images[i]
-
-                // Wait for image to upload to bucket, then add to SQL
-                await uploadPhoto(img).then(data => {
+            args.images.map(async (image) => {
+                await uploadPhoto(image).then(data => {
                     addImageToExperienceHelper(prisma, experience.pkexperience, data.Key, data.Location, args.caption, args.pkuser)
                 })
-                .catch(err => {
-                    console.error(err)
-                }) 
-
-            }
+            })
         }
         return experience
     }
@@ -73,6 +85,21 @@ const addImageToExperience = async (parent, args, { prisma }) => {
         return "Added image to experience"
     }
     catch(err) {
+        console.error(err)
+        return new ApolloError(err)
+    }
+}
+
+const deleteTagFromExperience = async (parent, args, { prisma }) => {
+    try {
+        const delete_tag = await prisma.experience_tags.delete({
+            where: {
+                pkexperience_tag: args.pkexperience_tag
+            }
+        })
+        return delete_tag
+    }
+    catch {
         console.error(err)
         return new ApolloError(err)
     }
@@ -254,6 +281,7 @@ const deleteExperience = async(parent, args, { prisma }) => {
 module.exports = {
     createExperience,
     addImageToExperience,
+    deleteTagFromExperience,
     saveExperience,
     unsaveExperience,
     visitExperience,

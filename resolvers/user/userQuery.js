@@ -2,13 +2,34 @@ const { ApolloError } = require('apollo-server');
 
 const findUser = async (parent, args, { prisma }) => {
     try {
-        const results = await prisma.users.findOne({
+        const results = await prisma.users.findUnique({
             where: {
                 pkuser: args.pkuser
             },
             include: {
-                experiences: true,
-                blogs: true,
+                experiences: {
+                    include: {
+                        experience_locations: true,
+                        experience_tags: {
+                            include: {
+                                tags: true
+                            }
+                        }
+                    }
+                },
+                blogs: {
+                    include: {
+                        blog_locations: true,
+                        liked_blogs: true,
+                        comment_blogs: true,
+                        saved_blogs: true,
+                        blog_tags: {
+                            include: {
+                                tags: true
+                            }
+                        }
+                    }
+                },
                 followers_followers_user_followedTousers: {
                     include: {
                         users_followers_user_followingTousers: true
@@ -48,7 +69,12 @@ const findUser = async (parent, args, { prisma }) => {
                     include: {
                         itineraries: true,
                     }
-                }
+                },
+                user_tags: {
+                    include: {
+                        tags: true
+                    }
+                },
             },
         })
         return results
@@ -61,7 +87,7 @@ const findUser = async (parent, args, { prisma }) => {
 
 const findUserByUsername = async (parent, args, { prisma }) => {
     try {
-        const results = await prisma.users.findOne({
+        const results = await prisma.users.findUnique({
             where: {
                 username: args.username
             },

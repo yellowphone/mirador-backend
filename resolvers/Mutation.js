@@ -1,5 +1,6 @@
 const { 
     createUser,
+    deleteTagFromUser,
     followUser,
     unfollowUser,
     deleteUser
@@ -8,6 +9,7 @@ const {
 const {
     createExperience,
     addImageToExperience,
+    deleteTagFromExperience,
     saveExperience,
     unsaveExperience,
     visitExperience,
@@ -19,6 +21,7 @@ const {
 
 const {
     createBlog,
+    deleteTagFromBlog,
     saveBlog,
     unsaveBlog,
     likeBlog,
@@ -30,6 +33,7 @@ const {
 
 const {
     createItinerary,
+    deleteTagFromItinerary,
     saveItinerary,
     unsaveItinerary,
     addUserToItinerary,
@@ -41,13 +45,19 @@ const {
     createImage
 } = require('../service/upload')
 
+const {
+    addTag
+} = require('../service/tags')
+
 module.exports = {
     createUser,
+    deleteTagFromUser,
     followUser,
     unfollowUser,
     deleteUser,
     createExperience,
     addImageToExperience,
+    deleteTagFromExperience,
     saveExperience,
     unsaveExperience,
     visitExperience,
@@ -56,6 +66,7 @@ module.exports = {
     unvisitExperience,
     deleteExperience,
     createBlog,
+    deleteTagFromBlog,
     saveBlog,
     unsaveBlog,
     likeBlog,
@@ -64,10 +75,12 @@ module.exports = {
     deleteCommentBlog,
     deleteBlog,
     createItinerary,
+    deleteTagFromItinerary,
     saveItinerary,
     unsaveItinerary,
     addUserToItinerary,
     deleteUserFromItinerary,
     deleteItinerary,
-    createImage
+    createImage,
+    addTag
 }
