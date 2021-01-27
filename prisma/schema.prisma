@@ -34,11 +34,14 @@ model itineraries {
 model users {
   pkuser                                    Int                   @id @default(autoincrement())
   email                                     String                @unique
-  username                                  String                @unique
-  password                                  String
+  username                                  String?               @unique
+  access_token                              String
+  user_id                                   String
   firstname                                 String
   lastname                                  String
   bio                                       String?
+  account_type                              account_type
+  image_url                                 String?
   created_on                                DateTime              @default(now())
   blogs                                     blogs[]
   comment_blogs                             comment_blogs[]
@@ -204,4 +207,10 @@ enum difficulty_level {
   EASY
   MODERATE
   HARD
+}
+
+enum account_type {
+  UNDEFINED
+  GOOGLE
+  FACEBOOK
 }
