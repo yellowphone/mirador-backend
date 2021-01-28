@@ -41,15 +41,6 @@ CREATE TABLE followers (
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE experience_tags (	
-    pkexperience_tag SERIAL PRIMARY KEY,	
-    experience_tag INTEGER NOT NULL,	
-    CONSTRAINT etag FOREIGN KEY(experience_tag) REFERENCES tags(pktag),	
-    experience_tagged INTEGER NOT NULL,	
-    CONSTRAINT etagged FOREIGN KEY(experience_tagged) REFERENCES experiences(pkexperience)	
-);	
-
-
 CREATE TABLE experiences (
     pkexperience SERIAL PRIMARY KEY,
     title VARCHAR(60) NOT NULL,
@@ -63,6 +54,14 @@ CREATE TABLE experiences (
     difficulty difficulty_level
 );
 
+CREATE TABLE experience_tags (	
+    pkexperience_tag SERIAL PRIMARY KEY,	
+    experience_tag INTEGER NOT NULL,	
+    CONSTRAINT etag FOREIGN KEY(experience_tag) REFERENCES tags(pktag),	
+    experience_tagged INTEGER NOT NULL,	
+    CONSTRAINT etagged FOREIGN KEY(experience_tagged) REFERENCES experiences(pkexperience)	
+);
+
 CREATE TABLE saved_experiences(
     pksaved_experience SERIAL PRIMARY KEY,
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -70,6 +69,16 @@ CREATE TABLE saved_experiences(
     CONSTRAINT suser FOREIGN KEY (saving_user) REFERENCES users(pkuser),
     saving_experience INTEGER NOT NULL,
     CONSTRAINT sexperience FOREIGN KEY (saving_experience) REFERENCES experiences(pkexperience)
+);
+
+CREATE TABLE blogs (
+    pkBlog SERIAL PRIMARY KEY,
+    title VARCHAR(60) NOT NULL,
+    summary VARCHAR(255),
+    content JSON,
+    created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fk_user_blog INTEGER NOT NULL,
+    CONSTRAINT author FOREIGN KEY(fk_user_blog) REFERENCES users(pkuser)
 );
 
 CREATE TABLE blog_tags (	
@@ -100,16 +109,6 @@ CREATE TABLE review_experiences(
     CONSTRAINT rexperience FOREIGN KEY(review_experience) REFERENCES experiences(pkexperience)
 );
 
-CREATE TABLE blogs (
-    pkBlog SERIAL PRIMARY KEY,
-    title VARCHAR(60) NOT NULL,
-    summary VARCHAR(255),
-    content JSON,
-    created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    fk_user_blog INTEGER NOT NULL,
-    CONSTRAINT author FOREIGN KEY(fk_user_blog) REFERENCES users(pkuser)
-);
-
 CREATE TABLE saved_blogs(
     pksaved_blog SERIAL PRIMARY KEY,
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -117,6 +116,16 @@ CREATE TABLE saved_blogs(
     CONSTRAINT suser FOREIGN KEY (saving_user) REFERENCES users(pkuser),
     saving_blog INTEGER NOT NULL,
     CONSTRAINT sblog FOREIGN KEY (saving_blog) REFERENCES blogs(pkBlog)
+);
+
+
+CREATE TABLE itineraries (
+    pkItinerary SERIAL PRIMARY KEY,
+    title VARCHAR(60) NOT NULL, 
+    summary VARCHAR(255),
+    created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+
+    -- foreign key to calendar/jumble/list format for planner
 );
 
 CREATE TABLE itinerary_tags (	
@@ -160,15 +169,6 @@ CREATE TABLE blog_locations (
     lng DECIMAL(9, 6),
     fk_blog_location INTEGER NOT NULL UNIQUE,
     CONSTRAINT place FOREIGN KEY(fk_blog_location) REFERENCES blogs(pkBlog)
-);
-
-CREATE TABLE itineraries (
-    pkItinerary SERIAL PRIMARY KEY,
-    title VARCHAR(60) NOT NULL, 
-    summary VARCHAR(255),
-    created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-
-    -- foreign key to calendar/jumble/list format for planner
 );
 
 CREATE TABLE itinerary_locations (
