@@ -66,7 +66,6 @@ type User {
     account_type: Account_Type
     firstname: String
     lastname: String
-    access_token: String
     user_id: String
     image_url: String
     accout_type: Account!
