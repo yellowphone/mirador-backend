@@ -5,7 +5,10 @@
   "main": "server.js",
   "scripts": {
     "test": "jest -i",
-    "start": "nodemon"
+    "start": "nodemon",
+    "prisma": "yarn run prisma:intro && yarn run prisma:gen",
+    "prisma:intro": "npx prisma introspect",
+    "prisma:gen": "npx prisma generate"
   },
   "repository": {
     "type": "git",
