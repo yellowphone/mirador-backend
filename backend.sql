@@ -19,6 +19,19 @@ CREATE TABLE users (
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
+CREATE TABLE tags (
+    pktag SERIAL PRIMARY KEY,
+    tag VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE user_tags (
+    pkuser_tag SERIAL PRIMARY KEY,
+    user_tag INTEGER NOT NULL,
+    CONSTRAINT utag FOREIGN KEY(user_tag) REFERENCES tags(pktag),
+    user_tagged INTEGER NOT NULL,
+    CONSTRAINT utagged FOREIGN KEY(user_tagged) REFERENCES users(pkUser)
+);
+
 CREATE TABLE followers (
     pkFollower SERIAL PRIMARY KEY,
     user_following INTEGER NOT NULL,
@@ -27,6 +40,15 @@ CREATE TABLE followers (
     CONSTRAINT user_followed FOREIGN KEY (user_followed) REFERENCES users(pkuser),
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE experience_tags (	
+    pkexperience_tag SERIAL PRIMARY KEY,	
+    experience_tag INTEGER NOT NULL,	
+    CONSTRAINT etag FOREIGN KEY(experience_tag) REFERENCES tags(pktag),	
+    experience_tagged INTEGER NOT NULL,	
+    CONSTRAINT etagged FOREIGN KEY(experience_tagged) REFERENCES experiences(pkexperience)	
+);	
+
 
 CREATE TABLE experiences (
     pkexperience SERIAL PRIMARY KEY,
@@ -48,6 +70,14 @@ CREATE TABLE saved_experiences(
     CONSTRAINT suser FOREIGN KEY (saving_user) REFERENCES users(pkuser),
     saving_experience INTEGER NOT NULL,
     CONSTRAINT sexperience FOREIGN KEY (saving_experience) REFERENCES experiences(pkexperience)
+);
+
+CREATE TABLE blog_tags (	
+    pkblog_tag SERIAL PRIMARY KEY,	
+    blog_tag INTEGER NOT NULL,	
+    CONSTRAINT btag FOREIGN KEY(blog_tag) REFERENCES tags(pktag),	
+    blog_tagged INTEGER NOT NULL,	
+    CONSTRAINT btagged FOREIGN KEY(blog_tagged) REFERENCES blogs(pkblog)
 );
 
 CREATE TABLE visited_experiences(
@@ -87,6 +117,14 @@ CREATE TABLE saved_blogs(
     CONSTRAINT suser FOREIGN KEY (saving_user) REFERENCES users(pkuser),
     saving_blog INTEGER NOT NULL,
     CONSTRAINT sblog FOREIGN KEY (saving_blog) REFERENCES blogs(pkBlog)
+);
+
+CREATE TABLE itinerary_tags (	
+    pkitinerary_tag SERIAL PRIMARY KEY,	
+    itinerary_tag INTEGER NOT NULL,	
+    CONSTRAINT itag FOREIGN KEY(itinerary_tag) REFERENCES tags(pktag),	
+    itinerary_tagged INTEGER NOT NULL,	
+    CONSTRAINT itagged FOREIGN KEY(itinerary_tagged) REFERENCES itineraries(pkItinerary)	
 );
 
 CREATE TABLE liked_blogs(
