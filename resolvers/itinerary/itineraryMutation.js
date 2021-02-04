@@ -5,7 +5,13 @@ const createItinerary = async (parent, args, { prisma }) => {
         const itinerary = await prisma.itineraries.create({
             data: {
                 title: args.title,
-                summary: args.summary
+                summary: args.summary,
+                content: args.content,
+                users: {
+                    connect: {
+                        pkuser: args.pkuser
+                    }
+                }
             },
         })
 
@@ -34,6 +40,50 @@ const createItinerary = async (parent, args, { prisma }) => {
         console.error(err)
         return new ApolloError(err)
     }    
+}
+
+const updateItinerary = async (parent, args, { prisma }) => {
+    try {
+        const itinerary = await prisma.itineraries.update({
+            where: {
+                pkitinerary: args.pkitinerary
+            },
+            data: {
+                title: args.title,
+                content: args.content
+            }
+        })
+        return itinerary
+    }
+    catch(err) {
+        console.error(err)
+        return new ApolloError(err)
+    }
+}
+
+// add experience to itinerary
+const addExperienceToItinerary = async (parent, args, { prisma }) => {
+    try {
+        const itinerary_experience = await prisma.itinerary_experiences.create({
+            data: {
+                experiences: {
+                    connect: {
+                        pkexperience: args.pkexperience
+                    }
+                },
+                itineraries: {
+                    connect: {
+                        pkitinerary: args.pkitinerary
+                    }
+                }
+            }
+        })
+        return itinerary_experience
+    }
+    catch(err) {
+        console.error(err)
+        return new ApolloError(err)
+    }
 }
 
 const addTagToItinerary = async (parent, args, { prisma }) => {
@@ -179,6 +229,8 @@ const deleteItinerary = async(parent, args, { prisma }) => {
 
 module.exports = {
     createItinerary,
+    updateItinerary,
+    addExperienceToItinerary,
     addTagToItinerary,
     deleteTagFromItinerary,
     saveItinerary,

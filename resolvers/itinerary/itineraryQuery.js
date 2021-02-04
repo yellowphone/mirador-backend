@@ -17,7 +17,13 @@ const findItineraryById = async (parent, args, { prisma }) => {
                     include: {
                         tags: true
                     }
-                }
+                },
+                itinerary_experiences: {
+                    include: {
+                        experiences: true
+                    }
+                },
+                users: true
             }
         })
         return results

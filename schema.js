@@ -38,7 +38,9 @@ type Mutation {
     commentBlog(comment: String!, pkuser: Int!, pkblog: Int!): Comment_Blog
     deleteCommentBlog(pkcomment_blog: Int!): Comment_Blog
     deleteBlog(pkblog: Int!): Blog!
-    createItinerary(title: String, summary: String, tags: [Int]): Itinerary!
+    createItinerary(title: String, summary: String, tags: [Int], pkuser: Int!, content: Json): Itinerary!
+    updateItinerary(pkitinerary: Int!, title: String, content: Json): Itinerary
+    addExperienceToItinerary(pkexperience: Int!, pkitinerary: Int!): Itinerary_Experience
     addTagToItinerary(pktag: Int!, pkitinerary: Int!): Itinerary_Tag
     deleteTagFromItinerary(pkitinerary_tag: Int!): Itinerary_Tag
     saveItinerary(saving_user: Int!, saving_itinerary: Int!): Saved_Itinerary
@@ -270,6 +272,14 @@ type Itinerary_Location {
     distance: Float
 }
 
+type Itinerary_Experience {
+    pkitinerary_experience: Int!
+    pkitinerary: Int!
+    pkexperience: Int!
+    experiences: Experience
+    itineraries: Itinerary
+}
+
 type Experience_Card {
     lat: Float
     lng: Float
@@ -288,9 +298,13 @@ type Itinerary {
     pkitinerary: Int!
     title: String!
     summary: String
+    content: Json
+    fk_user_itinerary: Int
     created_on: DateTime
+    users: User
     user_itineraries: [User_Itinerary]
     itinerary_tags: [Itinerary_Tag]
+    itinerary_experiences: [Itinerary_Experience]
 }
 
 type Itinerary_Tag {

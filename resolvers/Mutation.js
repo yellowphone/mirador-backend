@@ -36,6 +36,8 @@ const {
 
 const {
     createItinerary,
+    updateItinerary,
+    addExperienceToItinerary,
     addTagToItinerary,
     deleteTagFromItinerary,
     saveItinerary,
@@ -82,6 +84,8 @@ module.exports = {
     deleteCommentBlog,
     deleteBlog,
     createItinerary,
+    updateItinerary,
+    addExperienceToItinerary,
     addTagToItinerary,
     deleteTagFromItinerary,
     saveItinerary,
