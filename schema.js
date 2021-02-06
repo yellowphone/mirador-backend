@@ -77,6 +77,7 @@ type User {
     accout_type: Account!
     bio: String
     created_on: DateTime
+    itineraries: [Itinerary]
     experiences: [Experience]
     blogs: [Blog]
     followers_followers_user_followedTousers: [Follower]
