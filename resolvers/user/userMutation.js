@@ -2,7 +2,6 @@ const { ApolloError } = require('apollo-server');
 
 const createUser = async (parent, args, { prisma }) => {
     const username = args.email.split('@')[0];
-
     try {
         const user = await prisma.users.create({
             data: {
@@ -39,6 +38,7 @@ const createUser = async (parent, args, { prisma }) => {
         return user;
     }
     catch(err) {
+        console.log('caught')
         console.error(err)
         if (err.code == "P2002") {
             return new ApolloError("User already exists")
