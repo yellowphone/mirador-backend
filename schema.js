@@ -12,12 +12,14 @@ enum Account {
 
 type Mutation {
     createUser(email: String!, firstname: String!, lastname: String!, access_token: String!, user_id: String!, image_url: String!): User!
+    addTagToUser(pktag: Int!, pkuser: Int!): User_Tag
     deleteTagFromUser(pkuser_tag: Int!): User_Tag
     followUser(user_following: Int!, user_followed: Int!): Follower!
     unfollowUser(pkfollower: Int!): Follower!
     deleteUser(pkuser: Int!): User!
     createExperience(title: String, pkuser: Int!, summary: String, miles: Float, elevation: Int, climbing: String, difficulty: Difficulty_Level, lat: Float!, lng: Float!, images: [Upload!], caption: String, tags: [Int]): Experience!
     addImageToExperience(images: [Upload!]!, pkexperience: Int!, caption: String, pkuser: Int!): String
+    addTagToExperience(pktag: Int!, pkexperience: Int!): Experience_Tag
     deleteTagFromExperience(pkexperience_tag: Int!): Experience_Tag
     saveExperience(saving_user: Int!, saving_experience: Int!): Saved_Experience!
     unsaveExperience(pksaved_experience: Int!): Saved_Experience!
@@ -27,6 +29,7 @@ type Mutation {
     unvisitExperience(pkvisited_experience: Int!): Visited_Experience
     deleteExperience(pkexperience: Int!): Experience!
     createBlog(title: String, pkuser: Int!, summary: String, content: Json, lat: Float!, lng: Float!, tags: [Int]): Blog!
+    addTagToBlog(pktag: Int!, pkblog: Int!): Blog_Tag
     deleteTagFromBlog(pkblog_tag: Int!): Blog_Tag
     saveBlog(saving_user: Int!, saving_blog: Int!): Saved_Blog
     unsaveBlog(pksaved_blog: Int!): Saved_Blog
@@ -36,6 +39,7 @@ type Mutation {
     deleteCommentBlog(pkcomment_blog: Int!): Comment_Blog
     deleteBlog(pkblog: Int!): Blog!
     createItinerary(title: String, summary: String, tags: [Int]): Itinerary!
+    addTagToItinerary(pktag: Int!, pkitinerary: Int!): Itinerary_Tag
     deleteTagFromItinerary(pkitinerary_tag: Int!): Itinerary_Tag
     saveItinerary(saving_user: Int!, saving_itinerary: Int!): Saved_Itinerary
     unsaveItinerary(pksaved_itinerary: Int!): Saved_Itinerary

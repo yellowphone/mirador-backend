@@ -1,5 +1,6 @@
 const { 
     createUser,
+    addTagToUser,
     deleteTagFromUser,
     followUser,
     unfollowUser,
@@ -9,6 +10,7 @@ const {
 const {
     createExperience,
     addImageToExperience,
+    addTagToExperience,
     deleteTagFromExperience,
     saveExperience,
     unsaveExperience,
@@ -21,6 +23,7 @@ const {
 
 const {
     createBlog,
+    addTagToBlog,
     deleteTagFromBlog,
     saveBlog,
     unsaveBlog,
@@ -33,6 +36,7 @@ const {
 
 const {
     createItinerary,
+    addTagToItinerary,
     deleteTagFromItinerary,
     saveItinerary,
     unsaveItinerary,
@@ -51,12 +55,14 @@ const {
 
 module.exports = {
     createUser,
+    addTagToUser,
     deleteTagFromUser,
     followUser,
     unfollowUser,
     deleteUser,
     createExperience,
     addImageToExperience,
+    addTagToExperience,
     deleteTagFromExperience,
     saveExperience,
     unsaveExperience,
@@ -66,6 +72,7 @@ module.exports = {
     unvisitExperience,
     deleteExperience,
     createBlog,
+    addTagToBlog,
     deleteTagFromBlog,
     saveBlog,
     unsaveBlog,
@@ -75,6 +82,7 @@ module.exports = {
     deleteCommentBlog,
     deleteBlog,
     createItinerary,
+    addTagToItinerary,
     deleteTagFromItinerary,
     saveItinerary,
     unsaveItinerary,
