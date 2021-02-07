@@ -42,7 +42,7 @@ model users {
   firstname                                 String
   lastname                                  String
   bio                                       String?
-  account_type                              account_type
+  account_type                              account_type?
   image_url                                 String?
   created_on                                DateTime              @default(now())
   blogs                                     blogs[]

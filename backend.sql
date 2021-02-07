@@ -10,11 +10,11 @@ CREATE TABLE users (
     email VARCHAR(64) UNIQUE NOT NULL,
 	username VARCHAR(50) UNIQUE,
     access_token VARCHAR(256) NOT NULL,
-    user_id VARCHAR(1255) NOT NULL,
+    user_id VARCHAR(1256) NOT NULL,
     firstname VARCHAR(50) NOT NULL,
 	lastname VARCHAR(50) NOT NULL,
     bio VARCHAR(255),
-    account_type account_type NOT NULL,
+    account_type account_type,
 	image_url VARCHAR(256),
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
