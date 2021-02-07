@@ -65,16 +65,9 @@ type User {
     account_type: Account_Type
     firstname: String
     lastname: String
-<<<<<<< HEAD
     user_id: String!
     image_url: String
     accout_type: Account
-=======
-    access_token: String
-    user_id: String
-    image_url: String
-    accout_type: Account!
->>>>>>> 66a7c3e2c199b6560b566a585d2c8e98294f1235
     bio: String
     created_on: DateTime
     experiences: [Experience]
