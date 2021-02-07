@@ -11,7 +11,7 @@ enum Account {
 }
 
 type Mutation {
-    createUser(email: String!, firstname: String!, lastname: String!, access_token: String!, user_id: String!, image_url: String!, account_type: String!): User!
+    createUser(email: String!, firstname: String!, lastname: String!, access_token: String!, user_id: String!, image_url: String!): User!
     deleteTagFromUser(pkuser_tag: Int!): User_Tag
     followUser(user_following: Int!, user_followed: Int!): Follower!
     unfollowUser(pkfollower: Int!): Follower!
@@ -62,13 +62,12 @@ type User {
     username: String
     email: String!
     access_token: String!
-    userid: String!
     account_type: Account_Type
     firstname: String
     lastname: String
-    user_id: String
+    user_id: String!
     image_url: String
-    accout_type: Account!
+    accout_type: Account
     bio: String
     created_on: DateTime
     experiences: [Experience]
