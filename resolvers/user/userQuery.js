@@ -30,6 +30,7 @@ const findUser = async (parent, args, { prisma }) => {
                         }
                     }
                 },
+                itineraries: true,
                 followers_followers_user_followedTousers: {
                     include: {
                         users_followers_user_followingTousers: true

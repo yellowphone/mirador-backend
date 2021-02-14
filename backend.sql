@@ -120,12 +120,23 @@ CREATE TABLE saved_blogs(
 
 
 CREATE TABLE itineraries (
-    pkItinerary SERIAL PRIMARY KEY,
+    pkitinerary SERIAL PRIMARY KEY,
     title VARCHAR(60) NOT NULL, 
     summary VARCHAR(255),
+    content JSON,
+    fk_user_itinerary INTEGER NOT NULL,
+    CONSTRAINT author FOREIGN KEY(fk_user_itinerary) REFERENCES users(pkuser),
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 
     -- foreign key to calendar/jumble/list format for planner
+);
+
+CREATE TABLE itinerary_experiences (
+    pkitinerary_experience SERIAL PRIMARY KEY,
+    pkitinerary INTEGER NOT NULL,
+    CONSTRAINT itin FOREIGN KEY(pkitinerary) REFERENCES itineraries(pkitinerary),
+    pkexperience INTEGER NOT NULL,
+    CONSTRAINT exp FOREIGN KEY(pkexperience) REFERENCES experiences(pkexperience)
 );
 
 CREATE TABLE itinerary_tags (	

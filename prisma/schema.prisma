@@ -23,14 +23,18 @@ model blogs {
 }
 
 model itineraries {
-  pkitinerary         Int                  @id @default(autoincrement())
-  title               String
-  summary             String?
-  created_on          DateTime?            @default(now())
-  itinerary_locations itinerary_locations?
-  itinerary_tags      itinerary_tags[]
-  saved_itineraries   saved_itineraries[]
-  user_itineraries    user_itineraries[]
+  pkitinerary           Int                     @id @default(autoincrement())
+  title                 String
+  summary               String?
+  content               Json?
+  fk_user_itinerary     Int
+  created_on            DateTime?               @default(now())
+  users                 users                   @relation(fields: [fk_user_itinerary], references: [pkuser])
+  itinerary_experiences itinerary_experiences[]
+  itinerary_locations   itinerary_locations?
+  itinerary_tags        itinerary_tags[]
+  saved_itineraries     saved_itineraries[]
+  user_itineraries      user_itineraries[]
 }
 
 model users {
@@ -51,6 +55,7 @@ model users {
   followers_followers_user_followedTousers  followers[]           @relation("followers_user_followedTousers")
   followers_followers_user_followingTousers followers[]           @relation("followers_user_followingTousers")
   images                                    images[]
+  itineraries                               itineraries[]
   liked_blogs                               liked_blogs[]
   review_experiences                        review_experiences[]
   saved_blogs                               saved_blogs[]
@@ -136,22 +141,23 @@ model experience_images {
 }
 
 model experiences {
-  pkexperience         Int                   @id @default(autoincrement())
-  title                String
-  summary              String?
-  created_on           DateTime?             @default(now())
-  fk_user_experience   Int
-  miles                Float?
-  elevation            Int?
-  climbing             String?
-  difficulty           difficulty_level?
-  users                users                 @relation(fields: [fk_user_experience], references: [pkuser])
-  experience_images    experience_images[]
-  experience_locations experience_locations?
-  experience_tags      experience_tags[]
-  review_experiences   review_experiences[]
-  saved_experiences    saved_experiences[]
-  visited_experiences  visited_experiences[]
+  pkexperience          Int                     @id @default(autoincrement())
+  title                 String
+  summary               String?
+  created_on            DateTime?               @default(now())
+  fk_user_experience    Int
+  miles                 Float?
+  elevation             Int?
+  climbing              String?
+  difficulty            difficulty_level?
+  users                 users                   @relation(fields: [fk_user_experience], references: [pkuser])
+  experience_images     experience_images[]
+  experience_locations  experience_locations?
+  experience_tags       experience_tags[]
+  itinerary_experiences itinerary_experiences[]
+  review_experiences    review_experiences[]
+  saved_experiences     saved_experiences[]
+  visited_experiences   visited_experiences[]
 }
 
 model review_experiences {
@@ -246,6 +252,14 @@ model tags {
   experience_tags experience_tags[]
   itinerary_tags  itinerary_tags[]
   user_tags       user_tags[]
+}
+
+model itinerary_experiences {
+  pkitinerary_experience Int         @id @default(autoincrement())
+  pkitinerary            Int
+  pkexperience           Int
+  experiences            experiences @relation(fields: [pkexperience], references: [pkexperience])
+  itineraries            itineraries @relation(fields: [pkitinerary], references: [pkitinerary])
 }
 
 enum difficulty_level {
