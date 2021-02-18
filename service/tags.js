@@ -15,6 +15,18 @@ const addTag = async (parent, args, { prisma }) => {
     }
 }
 
+const getTags = async (parent, args, { prisma }) => {
+    try {
+        const tags = await prisma.tags.findMany();
+        return tags
+    }
+    catch(err) {
+        console.error(err)
+        return new ApolloError(err)
+    }
+}
+
 module.exports = {
-    addTag
+    addTag,
+    getTags
 }

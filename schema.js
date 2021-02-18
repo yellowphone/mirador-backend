@@ -61,6 +61,7 @@ type Query {
     findExperienceByCoordinates(lat: Float!, lng: Float!): [Experience_Card]
     findBlogById(pkblog: Int!): Blog
     findItineraryById(pkitinerary: Int!): Itinerary
+    getTags: [Tag]
 }
 
 type User {

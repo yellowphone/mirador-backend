@@ -18,6 +18,10 @@ const {
     findItineraryById
 } = require('./itinerary/itineraryQuery')
 
+const {
+    getTags
+} = require('../service/tags')
+
 module.exports = {
     findUser,
     findUserByUsername,
@@ -27,4 +31,5 @@ module.exports = {
     findExperienceByCoordinates,
     findBlogById,
     findItineraryById,
+    getTags
 }
