@@ -1,4 +1,3 @@
-const fs = require('fs');
 const AWS = require('aws-sdk');
 const { v4: uuidv4 } = require('uuid');
 const { ApolloError } = require('apollo-server');
@@ -37,6 +36,11 @@ const createImage = async (parent, args, { prisma }) => {
     try {
 
         const file = await args.file
+        console.log(file)
+        if (!file || file === null || file === undefined) {
+            return new ApolloError("Image not loaded correctly")
+        }
+
         const { createReadStream, filename } = file
 
         var img = null
