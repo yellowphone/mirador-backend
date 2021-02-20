@@ -60,6 +60,7 @@ type Query {
     findExperienceByTitle(title: String!): [Experience]
     findExperienceByCoordinates(lat: Float!, lng: Float!): [Experience_Card]
     findBlogById(pkblog: Int!): Blog
+    findManyBlogs: [Blog]
     findItineraryById(pkitinerary: Int!): Itinerary
     getTags: [Tag]
 }
