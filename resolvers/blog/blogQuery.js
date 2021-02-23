@@ -58,7 +58,22 @@ const findManyBlogs = async(parent, args, { prisma }) => {
     }
 }
 
+const findRandomBlog = async(parent, args, { prisma }) => {
+    try {
+        const results = await prisma.$queryRaw(
+            `SELECT pkblog FROM public.blogs WHERE pkblog != $1 ORDER BY RANDOM() LIMIT 1;`,
+            args.previousPrimaryKey
+        )
+        return results;
+    }
+    catch(err) {
+        console.error(err)
+        return new ApolloError(err)
+    }
+}
+
 module.exports = {
     findBlogById,
-    findManyBlogs
+    findManyBlogs,
+    findRandomBlog
 }

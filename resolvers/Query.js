@@ -12,7 +12,8 @@ const {
 
 const {
     findBlogById,
-    findManyBlogs
+    findManyBlogs,
+    findRandomBlog
 } = require('./blog/blogQuery')
 
 const {
@@ -32,6 +33,7 @@ module.exports = {
     findExperienceByCoordinates,
     findBlogById,
     findManyBlogs,
+    findRandomBlog,
     findItineraryById,
     getTags
 }
