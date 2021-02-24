@@ -11,7 +11,9 @@ const {
 } = require('./experience/experienceQuery')
 
 const {
-    findBlogById
+    findBlogById,
+    findManyBlogs,
+    findRandomBlog
 } = require('./blog/blogQuery')
 
 const {
@@ -30,6 +32,8 @@ module.exports = {
     findExperienceByTitle,
     findExperienceByCoordinates,
     findBlogById,
+    findManyBlogs,
+    findRandomBlog,
     findItineraryById,
     getTags
 }
