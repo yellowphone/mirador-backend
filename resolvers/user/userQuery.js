@@ -145,6 +145,21 @@ const findUserByUsername = async (parent, args, { prisma }) => {
     }
 }
 
+const findUserByEmail = async (parent, args, { prisma }) => {
+    try {
+        const result = await prisma.users.findUnique({
+            where: {
+                email: args.email
+            }
+        })
+        return result
+    }
+    catch(err) {
+        console.error(err)
+        return new ApolloError(err)
+    }
+}
+
 
 const findManyUsers = async (parent, args, { prisma }) => {
     try {
@@ -172,5 +187,6 @@ const findManyUsers = async (parent, args, { prisma }) => {
 module.exports = {
     findUser,
     findUserByUsername,
+    findUserByEmail,
     findManyUsers
 }

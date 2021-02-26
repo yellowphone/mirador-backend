@@ -55,6 +55,7 @@ type Mutation {
 type Query {
     findUser(pkuser: Int!): User!
     findUserByUsername(username: String!): User!
+    findUserByEmail(email: String!): User!
     findManyUsers(firstName: String!): [User!]!
     findExperienceById(pkexperience: Int!): Experience
     findExperienceByTitle(title: String!): [Experience]
