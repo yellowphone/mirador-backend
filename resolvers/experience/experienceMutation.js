@@ -72,22 +72,18 @@ const createExperience = async (parent, args, { prisma }) => {
 
 const addImageToExperience = async (parent, args, { prisma }) => {
     try {
-        // for loop through images, and upload each individual image
-        for (var i = 0; i < args.images.length; i++) {
-            var img = args.images[i]
 
-            console.log(img)
+        await Promise.all(args.images[0].map(async (image) => {
+            const { createReadStream, filename } = await image
 
-            const { createReadStream, filename } = img
-
-            // Wait for image to upload to bucket, then add to SQL
             await uploadPhoto(createReadStream, filename).then(data => {
                 addImageToExperienceHelper(prisma, args.pkexperience, data.Key, data.Location, args.caption, args.pkuser)
             })
             .catch(err => {
                 console.error(err)
             })
-        }
+        }))
+
         return "Added image to experience"
     }
     catch(err) {
