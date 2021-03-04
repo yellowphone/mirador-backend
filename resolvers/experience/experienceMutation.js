@@ -54,11 +54,13 @@ const createExperience = async (parent, args, { prisma }) => {
 
         // for loop through images, and upload each individual image
         if (args.images) {
-            args.images.map(async (image) => {
-                await uploadPhoto(image).then(data => {
+            await Promise.all(args.images[0].map(async (image) => {
+                const { createReadStream, filename } = await image
+
+                await uploadPhoto(createReadStream, filename).then(data => {
                     addImageToExperienceHelper(prisma, experience.pkexperience, data.Key, data.Location, args.caption, args.pkuser)
                 })
-            })
+            }))
         }
         return experience
     }
@@ -70,18 +72,18 @@ const createExperience = async (parent, args, { prisma }) => {
 
 const addImageToExperience = async (parent, args, { prisma }) => {
     try {
-        // for loop through images, and upload each individual image
-        for (var i = 0; i < args.images.length; i++) {
-            var img = args.images[i]
 
-            // Wait for image to upload to bucket, then add to SQL
-            await uploadPhoto(img).then(data => {
+        await Promise.all(args.images[0].map(async (image) => {
+            const { createReadStream, filename } = await image
+
+            await uploadPhoto(createReadStream, filename).then(data => {
                 addImageToExperienceHelper(prisma, args.pkexperience, data.Key, data.Location, args.caption, args.pkuser)
             })
             .catch(err => {
                 console.error(err)
             })
-        }
+        }))
+
         return "Added image to experience"
     }
     catch(err) {

@@ -19,7 +19,9 @@ const uploadPhoto = async (createReadStream, filename) => {
             Bucket: process.env.BUCKET_NAME,
             Key: `${val}-${filename}`, // File name you want to save as in S3
             Body: stream
-        }, function(err, data) {
+        }).on('httpUploadProgress', function(evt) {
+            console.log("File uploading : " + parseInt((evt.loaded * 100) / evt.total)+'%');
+        }).send(function(err, data) {
             if (err) {
                 throw err;
             }
@@ -27,7 +29,6 @@ const uploadPhoto = async (createReadStream, filename) => {
                 console.log(`File uploaded successfully. ${data.Location}`);
                 return resolve(data);
             }
-
         });
     })
 }
