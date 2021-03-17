@@ -296,6 +296,7 @@ type Experience_Card {
     elevation: Int
     climbing: String
     difficulty: Difficulty_Level
+    url: [String]
 }
 
 type Itinerary {
