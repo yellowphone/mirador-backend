@@ -52,35 +52,9 @@ const findExperienceByTitle = async(parent, args, { prisma }) => {
 
 const findExperienceByCoordinates = async(parent, args, { prisma }) => {
     try {
-        // const result = await prisma.$queryRaw<User[]>('SELECT * FROM User;')        
-        // 3959 is miles, 6371 is kms
-        // const results = await prisma.$queryRaw(
-        //     `
-        //     SELECT * FROM (SELECT * , ( 3959 * acos( cos( radians($1) ) * cos( radians( lat ) ) * cos( radians( lng ) - radians($2) ) + sin( radians($3) ) * sin( radians( lat ) ) ) ) AS distance FROM locations) newTable
-        //     WHERE distance < 50
-        //     `,
-        //     args.lat,
-        //     args.lng,
-        //     args.lat
-        // )
-
-        // const results = await prisma.$queryRaw(
-        //     `SELECT * FROM (
-        //         (SELECT *,( 3959 * acos( cos( radians($1) ) * cos( radians( lat ) ) * cos( radians( lng ) - radians($2) ) + sin( radians($3) ) * sin( radians( lat ) ) ) ) AS distance FROM experience_locations) newTable
-        //             INNER JOIN
-        //         experiences a ON newTable.fk_experience_location = a.pkexperience
-        //             INNER JOIN
-        //         experience_images ei ON newTable.fk_experience_location = ei.adding_experience
-        //     ) al
-        //     WHERE distance < 50
-        //     ORDER BY distance;`,
-        //     args.lat,
-        //     args.lng,
-        //     args.lat
-        // )
 
         // SQL query that grabs image url for experience
-        // Will want to clean up, but we will want to wait for Prisma geolocation query
+        // Will want to clean up, but we will want to wait for Prisma geolocation query is available
         const results = await prisma.$queryRaw(
             `SELECT * FROM (
                 (SELECT *,( 3959 * acos( cos( radians($1) ) * cos( radians( lat ) ) * cos( radians( lng ) - radians($2) ) + sin( radians($3) ) * sin( radians( lat ) ) ) ) AS distance FROM experience_locations) newTable
@@ -105,6 +79,13 @@ const findExperienceByCoordinates = async(parent, args, { prisma }) => {
             args.lat
         )
 
+        /**
+         * After grabbing raw SQL data, we are parsing the data
+         * here into more organized dictionary structure. 
+         * 
+         * This parsing of data is designed to build and organize 
+         * an image URL array for each experience.
+         */
         var dictionary = {}
         var appendedResults = []
 
