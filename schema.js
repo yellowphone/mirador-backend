@@ -60,6 +60,7 @@ type Query {
     findExperienceById(pkexperience: Int!): Experience
     findExperienceByTitle(title: String!): [Experience]
     findExperienceByCoordinates(lat: Float!, lng: Float!): [Experience_Card]
+    findExperienceByPublicIdentifier(public_identifier: String!): Experience
     findBlogById(pkblog: Int!): Blog
     findManyBlogs: [Blog]
     findRandomBlog(previousPrimaryKey: Int!): Json!
@@ -133,6 +134,7 @@ type Experience {
     elevation: Int
     climbing: String
     difficulty: Difficulty_Level
+    public_identifier: String
     experience_images: [Experience_Image]
     review_experiences: [Review_Experience]
     experience_tags: [Experience_Tag]
@@ -296,6 +298,7 @@ type Experience_Card {
     elevation: Int
     climbing: String
     difficulty: Difficulty_Level
+    public_identifier: String
     url: [String]
 }
 

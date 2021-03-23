@@ -1,8 +1,11 @@
 const { ApolloError } = require('apollo-server');
 const { uploadPhoto, addImageToExperienceHelper } = require('../../service/upload')
+const { nanoid } = require('nanoid');
 
 const createExperience = async (parent, args, { prisma }) => {
     try {
+        const unique_nano_id = nanoid(12)
+        console.log(unique_nano_id)
         const experience = await prisma.experiences.create({
             data: {
                 title: args.title,
@@ -11,6 +14,7 @@ const createExperience = async (parent, args, { prisma }) => {
                 elevation: args.elevation,
                 climbing: args.climbing,
                 difficulty: args.difficulty,
+                public_identifier: unique_nano_id,
                 users: {
                     connect: {
                         pkuser: args.pkuser
@@ -55,6 +59,7 @@ const createExperience = async (parent, args, { prisma }) => {
         // for loop through images, and upload each individual image
         if (args.images) {
             await Promise.all(args.images[0].map(async (image) => {
+                console.log(image)
                 const { createReadStream, filename } = await image
 
                 await uploadPhoto(createReadStream, filename).then(data => {
@@ -62,6 +67,16 @@ const createExperience = async (parent, args, { prisma }) => {
                 })
             }))
         }
+
+        // if (args.images) {
+        //     args.images.map(async (image) => {
+        //         const { createReadStream, filename } = await image
+        //         console.log(createReadStream)
+        //         await uploadPhoto(createReadStream, filename).then(data => {
+        //             addImageToExperienceHelper(prisma, experience.pkexperience, data.Key, data.Location, args.caption, args.pkuser)
+        //         })
+        //     })
+        // }
         return experience
     }
     catch(err) {

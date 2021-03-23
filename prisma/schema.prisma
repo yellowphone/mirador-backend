@@ -9,10 +9,10 @@ datasource db {
 
 model blogs {
   pkblog         Int             @id @default(autoincrement())
-  title          String
-  summary        String?
-  content        Json?
-  created_on     DateTime?       @default(now())
+  title          String          @db.VarChar(60)
+  summary        String?         @db.VarChar(255)
+  content        Json?           @db.Json
+  created_on     DateTime?       @default(now()) @db.Timestamp(6)
   fk_user_blog   Int
   users          users           @relation(fields: [fk_user_blog], references: [pkuser])
   blog_locations blog_locations?
@@ -24,11 +24,11 @@ model blogs {
 
 model itineraries {
   pkitinerary           Int                     @id @default(autoincrement())
-  title                 String
-  summary               String?
-  content               Json?
+  title                 String                  @db.VarChar(60)
+  summary               String?                 @db.VarChar(255)
+  content               Json?                   @db.Json
   fk_user_itinerary     Int
-  created_on            DateTime?               @default(now())
+  created_on            DateTime?               @default(now()) @db.Timestamp(6)
   users                 users                   @relation(fields: [fk_user_itinerary], references: [pkuser])
   itinerary_experiences itinerary_experiences[]
   itinerary_locations   itinerary_locations?
@@ -39,16 +39,16 @@ model itineraries {
 
 model users {
   pkuser                                    Int                   @id @default(autoincrement())
-  email                                     String                @unique
-  username                                  String?               @unique
-  access_token                              String
-  user_id                                   String
-  firstname                                 String
-  lastname                                  String
-  bio                                       String?
+  email                                     String                @unique @db.VarChar(64)
+  username                                  String?               @unique @db.VarChar(50)
+  access_token                              String                @db.VarChar(256)
+  user_id                                   String                @db.VarChar(1256)
+  firstname                                 String                @db.VarChar(50)
+  lastname                                  String                @db.VarChar(50)
+  bio                                       String?               @db.VarChar(255)
   account_type                              account_type?
-  image_url                                 String?
-  created_on                                DateTime              @default(now())
+  image_url                                 String?               @db.VarChar(256)
+  created_on                                DateTime              @default(now()) @db.Timestamp(6)
   blogs                                     blogs[]
   comment_blogs                             comment_blogs[]
   experiences                               experiences[]
@@ -70,14 +70,14 @@ model followers {
   pkfollower                            Int       @id @default(autoincrement())
   user_following                        Int
   user_followed                         Int
-  created_on                            DateTime? @default(now())
+  created_on                            DateTime? @default(now()) @db.Timestamp(6)
   users_followers_user_followedTousers  users     @relation("followers_user_followedTousers", fields: [user_followed], references: [pkuser])
   users_followers_user_followingTousers users     @relation("followers_user_followingTousers", fields: [user_following], references: [pkuser])
 }
 
 model user_itineraries {
   pkuser_itinerary Int         @id @default(autoincrement())
-  created_on       DateTime?   @default(now())
+  created_on       DateTime?   @default(now()) @db.Timestamp(6)
   adding_user      Int
   adding_itinerary Int
   itineraries      itineraries @relation(fields: [adding_itinerary], references: [pkitinerary])
@@ -86,10 +86,10 @@ model user_itineraries {
 
 model images {
   pkimage           Int                 @id @default(autoincrement())
-  identifier        String              @unique
-  url               String              @unique
-  caption           String?
-  created_on        DateTime?           @default(now())
+  identifier        String              @unique @db.VarChar(200)
+  url               String              @unique @db.VarChar(512)
+  caption           String?             @db.VarChar(255)
+  created_on        DateTime?           @default(now()) @db.Timestamp(6)
   fk_user_image     Int
   users             users               @relation(fields: [fk_user_image], references: [pkuser])
   experience_images experience_images[]
@@ -97,7 +97,7 @@ model images {
 
 model saved_blogs {
   pksaved_blog Int       @id @default(autoincrement())
-  created_on   DateTime? @default(now())
+  created_on   DateTime? @default(now()) @db.Timestamp(6)
   saving_user  Int
   saving_blog  Int
   blogs        blogs     @relation(fields: [saving_blog], references: [pkblog])
@@ -106,7 +106,7 @@ model saved_blogs {
 
 model saved_itineraries {
   pksaved_itinerary Int         @id @default(autoincrement())
-  created_on        DateTime?   @default(now())
+  created_on        DateTime?   @default(now()) @db.Timestamp(6)
   saving_user       Int
   saving_itinerary  Int
   itineraries       itineraries @relation(fields: [saving_itinerary], references: [pkitinerary])
@@ -115,7 +115,7 @@ model saved_itineraries {
 
 model liked_blogs {
   pkliked_blog Int       @id @default(autoincrement())
-  created_on   DateTime? @default(now())
+  created_on   DateTime? @default(now()) @db.Timestamp(6)
   liking_user  Int
   liking_blog  Int
   blogs        blogs     @relation(fields: [liking_blog], references: [pkblog])
@@ -124,8 +124,8 @@ model liked_blogs {
 
 model comment_blogs {
   pkcomment_blog Int       @id @default(autoincrement())
-  comment        String?
-  created_on     DateTime? @default(now())
+  comment        String?   @db.VarChar(1000)
+  created_on     DateTime? @default(now()) @db.Timestamp(6)
   comment_user   Int
   comment_blog   Int
   blogs          blogs     @relation(fields: [comment_blog], references: [pkblog])
@@ -142,14 +142,15 @@ model experience_images {
 
 model experiences {
   pkexperience          Int                     @id @default(autoincrement())
-  title                 String
-  summary               String?
-  created_on            DateTime?               @default(now())
+  title                 String                  @db.VarChar(60)
+  summary               String?                 @db.VarChar(255)
+  created_on            DateTime?               @default(now()) @db.Timestamp(6)
   fk_user_experience    Int
-  miles                 Float?
+  miles                 Float?                  @db.Real
   elevation             Int?
-  climbing              String?
+  climbing              String?                 @db.VarChar(5)
   difficulty            difficulty_level?
+  public_identifier     String?                 @unique @db.VarChar(12)
   users                 users                   @relation(fields: [fk_user_experience], references: [pkuser])
   experience_images     experience_images[]
   experience_locations  experience_locations?
@@ -163,8 +164,8 @@ model experiences {
 model review_experiences {
   pkreview_experience Int         @id @default(autoincrement())
   rating              Int
-  content             String?
-  created_on          DateTime?   @default(now())
+  content             String?     @db.VarChar(750)
+  created_on          DateTime?   @default(now()) @db.Timestamp(6)
   review_user         Int
   review_experience   Int
   experiences         experiences @relation(fields: [review_experience], references: [pkexperience])
@@ -173,7 +174,7 @@ model review_experiences {
 
 model saved_experiences {
   pksaved_experience Int         @id @default(autoincrement())
-  created_on         DateTime?   @default(now())
+  created_on         DateTime?   @default(now()) @db.Timestamp(6)
   saving_user        Int
   saving_experience  Int
   experiences        experiences @relation(fields: [saving_experience], references: [pkexperience])
@@ -182,7 +183,7 @@ model saved_experiences {
 
 model visited_experiences {
   pkvisited_experience Int         @id @default(autoincrement())
-  created_on           DateTime?   @default(now())
+  created_on           DateTime?   @default(now()) @db.Timestamp(6)
   visiting_user        Int
   visiting_experience  Int
   experiences          experiences @relation(fields: [visiting_experience], references: [pkexperience])
@@ -190,25 +191,25 @@ model visited_experiences {
 }
 
 model blog_locations {
-  pkblog_location  Int    @id @default(autoincrement())
-  lat              Float?
-  lng              Float?
-  fk_blog_location Int    @unique
-  blogs            blogs  @relation(fields: [fk_blog_location], references: [pkblog])
+  pkblog_location  Int      @id @default(autoincrement())
+  lat              Decimal? @db.Decimal(8, 6)
+  lng              Decimal? @db.Decimal(9, 6)
+  fk_blog_location Int      @unique
+  blogs            blogs    @relation(fields: [fk_blog_location], references: [pkblog])
 }
 
 model experience_locations {
   pkexperience_location  Int         @id @default(autoincrement())
-  lat                    Float?
-  lng                    Float?
+  lat                    Decimal?    @db.Decimal(8, 6)
+  lng                    Decimal?    @db.Decimal(9, 6)
   fk_experience_location Int         @unique
   experiences            experiences @relation(fields: [fk_experience_location], references: [pkexperience])
 }
 
 model itinerary_locations {
   pkitinerary_location  Int         @id @default(autoincrement())
-  lat                   Float?
-  lng                   Float?
+  lat                   Decimal?    @db.Decimal(8, 6)
+  lng                   Decimal?    @db.Decimal(9, 6)
   fk_itinerary_location Int         @unique
   itineraries           itineraries @relation(fields: [fk_itinerary_location], references: [pkitinerary])
 }
@@ -247,7 +248,7 @@ model user_tags {
 
 model tags {
   pktag           Int               @id @default(autoincrement())
-  tag             String
+  tag             String            @db.VarChar(20)
   blog_tags       blog_tags[]
   experience_tags experience_tags[]
   itinerary_tags  itinerary_tags[]

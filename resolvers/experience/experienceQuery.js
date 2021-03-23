@@ -106,6 +106,7 @@ const findExperienceByCoordinates = async(parent, args, { prisma }) => {
                     elevation: item.elevation,
                     climbing: item.climbing,
                     difficulty: item.difficulty,
+                    public_identifier: item.public_identifier,
                     url: [item.url]
                 }
             }
@@ -124,8 +125,42 @@ const findExperienceByCoordinates = async(parent, args, { prisma }) => {
     }
 }
 
+const findExperienceByPublicIdentifier = async(parent, args, { prisma }) => {
+    try {
+        const results = await prisma.experiences.findUnique({
+            where: {
+                public_identifier: args.public_identifier
+            },
+            include: {
+                experience_locations: true,
+                experience_images: {
+                    include: {
+                        images: true
+                    }
+                },
+                review_experiences: {
+                    include: {
+                        users: true,
+                    }
+                },
+                experience_tags: {
+                    include: {
+                        tags: true
+                    }
+                }
+            },
+        })
+        return results
+    }
+    catch(err) {
+        console.error(err)
+        return new ApolloError(err)
+    }
+}
+
 module.exports = {
     findExperienceById,
     findExperienceByTitle,
-    findExperienceByCoordinates
+    findExperienceByCoordinates,
+    findExperienceByPublicIdentifier
 }

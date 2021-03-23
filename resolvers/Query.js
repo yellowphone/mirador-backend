@@ -8,7 +8,8 @@ const {
 const {
     findExperienceById,
     findExperienceByTitle,
-    findExperienceByCoordinates
+    findExperienceByCoordinates,
+    findExperienceByPublicIdentifier
 } = require('./experience/experienceQuery')
 
 const {
@@ -33,6 +34,7 @@ module.exports = {
     findExperienceById,
     findExperienceByTitle,
     findExperienceByCoordinates,
+    findExperienceByPublicIdentifier,
     findBlogById,
     findManyBlogs,
     findRandomBlog,

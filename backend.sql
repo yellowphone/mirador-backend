@@ -51,7 +51,8 @@ CREATE TABLE experiences (
     miles FLOAT(2),
     elevation INTEGER,
     climbing VARCHAR(5), -- max could be 5.15a or something like that
-    difficulty difficulty_level
+    difficulty difficulty_level,
+    public_identifier VARCHAR(12) UNIQUE
 );
 
 CREATE TABLE experience_tags (	
