@@ -1,12 +1,15 @@
 const { ApolloError } = require('apollo-server');
+const { nanoid } = require('nanoid');
 
 const createBlog = async (parent, args, { prisma }) => {
     try {
+        const unique_nano_id = nanoid(12)
         const blog = await prisma.blogs.create({
             data: {
                 title: args.title,
                 summary: args.summary,
                 content: args.content,
+                public_identifier: unique_nano_id,
                 users: {
                     connect: {
                         pkuser: args.pkuser

@@ -60,10 +60,13 @@ type Query {
     findExperienceById(pkexperience: Int!): Experience
     findExperienceByTitle(title: String!): [Experience]
     findExperienceByCoordinates(lat: Float!, lng: Float!): [Experience_Card]
+    findExperienceByPublicIdentifier(public_identifier: String!): Experience
     findBlogById(pkblog: Int!): Blog
     findManyBlogs: [Blog]
     findRandomBlog(previousPrimaryKey: Int!): Json!
+    findBlogByPublicIdentifier(public_identifier: String!): Blog
     findItineraryById(pkitinerary: Int!): Itinerary
+    findItineraryByPublicIdentifier(public_identifier: String!): Itinerary
     getTags: [Tag]
 }
 
@@ -78,6 +81,7 @@ type User {
     user_id: String!
     image_url: String
     accout_type: Account
+    public_identifier: String
     bio: String
     created_on: DateTime
     itineraries: [Itinerary]
@@ -133,6 +137,7 @@ type Experience {
     elevation: Int
     climbing: String
     difficulty: Difficulty_Level
+    public_identifier: String
     experience_images: [Experience_Image]
     review_experiences: [Review_Experience]
     experience_tags: [Experience_Tag]
@@ -206,6 +211,7 @@ type Blog {
     content: Json 
     created_on: DateTime
     fk_user_blog: Int!
+    public_identifier: String
     blog_locations: Blog_Location
     comment_blogs: [Comment_Blog]
     liked_blogs: [Liked_Blog]
@@ -296,6 +302,7 @@ type Experience_Card {
     elevation: Int
     climbing: String
     difficulty: Difficulty_Level
+    public_identifier: String
     url: [String]
 }
 
@@ -306,6 +313,7 @@ type Itinerary {
     content: Json
     fk_user_itinerary: Int
     created_on: DateTime
+    public_identifier: String
     users: User
     user_itineraries: [User_Itinerary]
     itinerary_tags: [Itinerary_Tag]
