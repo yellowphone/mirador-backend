@@ -20,7 +20,8 @@ const {
 } = require('./blog/blogQuery')
 
 const {
-    findItineraryById
+    findItineraryById,
+    findItineraryByPublicIdentifier
 } = require('./itinerary/itineraryQuery')
 
 const {
@@ -41,5 +42,6 @@ module.exports = {
     findRandomBlog,
     findBlogByPublicIdentifier,
     findItineraryById,
+    findItineraryByPublicIdentifier,
     getTags
 }

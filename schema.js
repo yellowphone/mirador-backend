@@ -66,6 +66,7 @@ type Query {
     findRandomBlog(previousPrimaryKey: Int!): Json!
     findBlogByPublicIdentifier(public_identifier: String!): Blog
     findItineraryById(pkitinerary: Int!): Itinerary
+    findItineraryByPublicIdentifier(public_identifier: String!): Itinerary
     getTags: [Tag]
 }
 
