@@ -49,7 +49,6 @@ model users {
   lastname                                  String                @db.VarChar(50)
   bio                                       String?               @db.VarChar(255)
   account_type                              account_type?
-  public_identifier                         String?               @unique @db.VarChar(12)
   image_url                                 String?               @db.VarChar(256)
   created_on                                DateTime              @default(now()) @db.Timestamp(6)
   blogs                                     blogs[]
