@@ -8,18 +8,19 @@ datasource db {
 }
 
 model blogs {
-  pkblog         Int             @id @default(autoincrement())
-  title          String          @db.VarChar(60)
-  summary        String?         @db.VarChar(255)
-  content        Json?           @db.Json
-  created_on     DateTime?       @default(now()) @db.Timestamp(6)
-  fk_user_blog   Int
-  users          users           @relation(fields: [fk_user_blog], references: [pkuser])
-  blog_locations blog_locations?
-  blog_tags      blog_tags[]
-  comment_blogs  comment_blogs[]
-  liked_blogs    liked_blogs[]
-  saved_blogs    saved_blogs[]
+  pkblog            Int             @id @default(autoincrement())
+  title             String          @db.VarChar(60)
+  summary           String?         @db.VarChar(255)
+  content           Json?           @db.Json
+  created_on        DateTime?       @default(now()) @db.Timestamp(6)
+  public_identifier String?         @unique @db.VarChar(12)
+  fk_user_blog      Int
+  users             users           @relation(fields: [fk_user_blog], references: [pkuser])
+  blog_locations    blog_locations?
+  blog_tags         blog_tags[]
+  comment_blogs     comment_blogs[]
+  liked_blogs       liked_blogs[]
+  saved_blogs       saved_blogs[]
 }
 
 model itineraries {
@@ -27,6 +28,7 @@ model itineraries {
   title                 String                  @db.VarChar(60)
   summary               String?                 @db.VarChar(255)
   content               Json?                   @db.Json
+  public_identifier     String?                 @unique @db.VarChar(12)
   fk_user_itinerary     Int
   created_on            DateTime?               @default(now()) @db.Timestamp(6)
   users                 users                   @relation(fields: [fk_user_itinerary], references: [pkuser])
@@ -47,6 +49,7 @@ model users {
   lastname                                  String                @db.VarChar(50)
   bio                                       String?               @db.VarChar(255)
   account_type                              account_type?
+  public_identifier                         String?               @unique @db.VarChar(12)
   image_url                                 String?               @db.VarChar(256)
   created_on                                DateTime              @default(now()) @db.Timestamp(6)
   blogs                                     blogs[]

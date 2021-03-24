@@ -64,6 +64,7 @@ type Query {
     findBlogById(pkblog: Int!): Blog
     findManyBlogs: [Blog]
     findRandomBlog(previousPrimaryKey: Int!): Json!
+    findBlogByPublicIdentifier(public_identifier: String!): Blog
     findItineraryById(pkitinerary: Int!): Itinerary
     getTags: [Tag]
 }
@@ -79,6 +80,7 @@ type User {
     user_id: String!
     image_url: String
     accout_type: Account
+    public_identifier: String
     bio: String
     created_on: DateTime
     itineraries: [Itinerary]
@@ -208,6 +210,7 @@ type Blog {
     content: Json 
     created_on: DateTime
     fk_user_blog: Int!
+    public_identifier: String
     blog_locations: Blog_Location
     comment_blogs: [Comment_Blog]
     liked_blogs: [Liked_Blog]
@@ -309,6 +312,7 @@ type Itinerary {
     content: Json
     fk_user_itinerary: Int
     created_on: DateTime
+    public_identifier: String
     users: User
     user_itineraries: [User_Itinerary]
     itinerary_tags: [Itinerary_Tag]

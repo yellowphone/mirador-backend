@@ -78,6 +78,7 @@ CREATE TABLE blogs (
     summary VARCHAR(255),
     content JSON,
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    public_identifier VARCHAR(12) UNIQUE,
     fk_user_blog INTEGER NOT NULL,
     CONSTRAINT author FOREIGN KEY(fk_user_blog) REFERENCES users(pkuser)
 );
@@ -125,6 +126,7 @@ CREATE TABLE itineraries (
     title VARCHAR(60) NOT NULL, 
     summary VARCHAR(255),
     content JSON,
+    public_identifier VARCHAR(12) UNIQUE,
     fk_user_itinerary INTEGER NOT NULL,
     CONSTRAINT author FOREIGN KEY(fk_user_itinerary) REFERENCES users(pkuser),
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP

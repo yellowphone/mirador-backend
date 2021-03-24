@@ -5,7 +5,6 @@ const { nanoid } = require('nanoid');
 const createExperience = async (parent, args, { prisma }) => {
     try {
         const unique_nano_id = nanoid(12)
-        console.log(unique_nano_id)
         const experience = await prisma.experiences.create({
             data: {
                 title: args.title,
