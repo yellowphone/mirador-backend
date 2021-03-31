@@ -22,27 +22,44 @@ basic understanding of docker.
 3. You can finally run this command to connect from the command line 
 `psql -h localhost -p 5432 -U postgres -W`
 
-if you already have a postgres client running on your computer,
+If you already have a postgres client running on your computer,
 you might be able to connect instantly.
 
-4. Create a database schema via `CREATE DATABASE mirador;`
-Then run `\q` to quite the db.
+1. Create a database schema via `CREATE DATABASE mirador;`
+2. Check if you have a postgres user set up already by running `\du`. It should output something like this:
+```
+                             List of roles
+ Role name |                   Attributes                   | Member of
+-----------+------------------------------------------------+-----------
+ postgres    | Superuser, Create role, Create DB, Replication | {}
+```
+If you don't have a postgres user, you can create one with this command: `CREATE USER postgres SUPERUSER;` 
+Then run `\q` to quit the db.
 
-4. Now you need to import the default schema that we currently have for 
+3. Now you need to import the default schema that we currently have for 
 the database. You can do this via PgAdmin or copy the contents of 
 backend.sql to your clipboard, create a backend.sql file in the container
 and finally copy them to the database via `psql -U postgres mirador < backend.sql`. For this, you might have to download vim to your container 
-and such. If you have issues, hit Bailey up.
+and such. 
 
-
-5. Then to connect to the db via the terminal with ``
-Command to into into psql database terminal: `psql -h localhost -p 5432 -U postgres -W` followed by `\c mirador`. Now you can run sql commands in
+4. Then to connect to the db via the terminal with `psql -h localhost -p 5432 -U postgres -W` followed by `\c mirador`. Now you can run sql commands in
 the console to see if you are getting things correct. 
 
-6. the DATABASE_URL should be: 
-`postgres://postgres:mysecretpassword@localhost:5432/mirador`
+5. Add `DATABASE_URL=postgres://postgres:mysecretpassword@localhost:5432/mirador` to the root level `.env` file in the project. 
+Prisma should be able to find the environment variable both in the `prisma/` directory and the root level, but it starts to look at the root level. If you see the following error, it is likely due to Prisma not being able to find the environment variable in the `prisma/` directory. 
 
-Any issues, text Bailey.
+```
+PrismaClientInitializationError2 [PrismaClientInitializationError]:
+Invalid `prisma.users.findUnique()` invocation:
+
+
+  error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   |
+ 6 |   provider = "postgresql"
+ 7 |   url      = env("DATABASE_URL")
+   |
+```
 
 ## Contributors
 
@@ -58,6 +75,12 @@ Any issues, text Bailey.
         <a href="https://github.com/geomin76" target="_blank"><img src="https://avatars2.githubusercontent.com/u/31418725?s=460&v=4" width="100px;" alt=""/>
             <br />
             <sub><b text-align="center">Geo Min</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/geomin76" target="_blank"><img src="https://avatars2.githubusercontent.com/u/10733854?s=460&v=4" width="100px;" alt=""/>
+            <br />
+            <sub><b text-align="center">Kaity Hallman</b></sub>
         </a>
     </td>
   </tr>
