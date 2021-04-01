@@ -8,7 +8,7 @@ const createBlog = async (parent, args, { prisma }) => {
             data: {
                 title: args.title,
                 summary: args.summary,
-                content: args.content,
+                mongoID: args.mongoID,
                 public_identifier: unique_nano_id,
                 users: {
                     connect: {
