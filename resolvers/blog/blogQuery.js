@@ -99,6 +99,5 @@ const findBlogByPublicIdentifier = async (parent, args, { prisma }) => {
 module.exports = {
     findBlogById,
     findManyBlogs,
-    findRandomBlog,
     findBlogByPublicIdentifier
 }
