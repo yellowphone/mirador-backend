@@ -8,7 +8,7 @@ const createItinerary = async (parent, args, { prisma }) => {
             data: {
                 title: args.title,
                 summary: args.summary,
-                mongoID: args.mongoID,
+                mongoid: args.mongoid,
                 public_identifier: unique_nano_id,
                 users: {
                     connect: {
