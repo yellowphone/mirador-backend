@@ -11,7 +11,7 @@ model blogs {
   pkblog            Int             @id @default(autoincrement())
   title             String          @db.VarChar(60)
   summary           String?         @db.VarChar(255)
-  content           Json?           @db.Json
+  mongoid           String?         @db.VarChar(24)
   created_on        DateTime?       @default(now()) @db.Timestamp(6)
   public_identifier String?         @unique @db.VarChar(12)
   fk_user_blog      Int
@@ -27,7 +27,7 @@ model itineraries {
   pkitinerary           Int                     @id @default(autoincrement())
   title                 String                  @db.VarChar(60)
   summary               String?                 @db.VarChar(255)
-  content               Json?                   @db.Json
+  mongoid               String?                 @db.VarChar(24)
   public_identifier     String?                 @unique @db.VarChar(12)
   fk_user_itinerary     Int
   created_on            DateTime?               @default(now()) @db.Timestamp(6)

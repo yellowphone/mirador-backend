@@ -2,7 +2,6 @@ const { gql } = require('apollo-server');
 
 const typeDefs = gql`
 scalar DateTime
-scalar Json
 
 enum Account {
     UNDEFINED
@@ -28,7 +27,7 @@ type Mutation {
     deleteReviewExperience(pkreview_experience: Int!): Review_Experience
     unvisitExperience(pkvisited_experience: Int!): Visited_Experience
     deleteExperience(pkexperience: Int!): Experience!
-    createBlog(title: String, pkuser: Int!, summary: String, content: Json, lat: Float!, lng: Float!, tags: [Int]): Blog!
+    createBlog(title: String, pkuser: Int!, summary: String, mongoid: String, lat: Float!, lng: Float!, tags: [Int]): Blog!
     addTagToBlog(pktag: Int!, pkblog: Int!): Blog_Tag
     deleteTagFromBlog(pkblog_tag: Int!): Blog_Tag
     saveBlog(saving_user: Int!, saving_blog: Int!): Saved_Blog
@@ -38,8 +37,8 @@ type Mutation {
     commentBlog(comment: String!, pkuser: Int!, pkblog: Int!): Comment_Blog
     deleteCommentBlog(pkcomment_blog: Int!): Comment_Blog
     deleteBlog(pkblog: Int!): Blog!
-    createItinerary(title: String, summary: String, tags: [Int], pkuser: Int!, content: Json): Itinerary!
-    updateItinerary(pkitinerary: Int!, title: String, content: Json): Itinerary
+    createItinerary(title: String, summary: String, tags: [Int], pkuser: Int!, mongoid: String): Itinerary!
+    updateItinerary(pkitinerary: Int!, title: String): Itinerary
     addExperienceToItinerary(pkexperience: Int!, pkitinerary: Int!): Itinerary_Experience
     addTagToItinerary(pktag: Int!, pkitinerary: Int!): Itinerary_Tag
     deleteTagFromItinerary(pkitinerary_tag: Int!): Itinerary_Tag
@@ -63,7 +62,6 @@ type Query {
     findExperienceByPublicIdentifier(public_identifier: String!): Experience
     findBlogById(pkblog: Int!): Blog
     findManyBlogs: [Blog]
-    findRandomBlog(previousPrimaryKey: Int!): Json!
     findBlogByPublicIdentifier(public_identifier: String!): Blog
     findItineraryById(pkitinerary: Int!): Itinerary
     findItineraryByPublicIdentifier(public_identifier: String!): Itinerary
@@ -208,7 +206,7 @@ type Blog {
     pkblog: Int!
     title: String!
     summary: String
-    content: Json 
+    mongoid: String 
     created_on: DateTime
     fk_user_blog: Int!
     public_identifier: String
@@ -310,7 +308,7 @@ type Itinerary {
     pkitinerary: Int!
     title: String!
     summary: String
-    content: Json
+    mongoid: String
     fk_user_itinerary: Int
     created_on: DateTime
     public_identifier: String

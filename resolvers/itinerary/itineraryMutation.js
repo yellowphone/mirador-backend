@@ -8,7 +8,7 @@ const createItinerary = async (parent, args, { prisma }) => {
             data: {
                 title: args.title,
                 summary: args.summary,
-                content: args.content,
+                mongoid: args.mongoid,
                 public_identifier: unique_nano_id,
                 users: {
                     connect: {
@@ -53,7 +53,6 @@ const updateItinerary = async (parent, args, { prisma }) => {
             },
             data: {
                 title: args.title,
-                content: args.content
             }
         })
         return itinerary
