@@ -38,7 +38,7 @@ type Mutation {
     deleteCommentBlog(pkcomment_blog: Int!): Comment_Blog
     deleteBlog(pkblog: Int!): Blog!
     createItinerary(title: String, summary: String, tags: [Int], pkuser: Int!, mongoid: String): Itinerary!
-    updateItinerary(pkitinerary: Int!, title: String): Itinerary
+    updateItinerary(public_identifier: String!, title: String, mongoid: String): Itinerary
     addExperienceToItinerary(pkexperience: Int!, pkitinerary: Int!): Itinerary_Experience
     addTagToItinerary(pktag: Int!, pkitinerary: Int!): Itinerary_Tag
     deleteTagFromItinerary(pkitinerary_tag: Int!): Itinerary_Tag
