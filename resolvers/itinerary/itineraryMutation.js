@@ -49,10 +49,11 @@ const updateItinerary = async (parent, args, { prisma }) => {
     try {
         const itinerary = await prisma.itineraries.update({
             where: {
-                pkitinerary: args.pkitinerary
+                public_identifier: args.public_identifier
             },
             data: {
                 title: args.title,
+                mongoid: args.mongoid
             }
         })
         return itinerary
