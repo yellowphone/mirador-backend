@@ -54,7 +54,20 @@ const findItineraryByPublicIdentifier = async (parent, args, { prisma }) => {
                 },
                 itinerary_experiences: {
                     include: {
-                        experiences: true
+                        experiences: {
+                            include: {
+                                experience_tags: {
+                                    include: {
+                                        tags: true
+                                    }
+                                },
+                                experience_images: {
+                                    include: {
+                                        images: true
+                                    }
+                                }
+                            }
+                        }
                     }
                 },
                 users: true
