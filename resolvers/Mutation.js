@@ -25,6 +25,7 @@ const {
     createBlog,
     addTagToBlog,
     deleteTagFromBlog,
+    updateBlog,
     saveBlog,
     unsaveBlog,
     likeBlog,
@@ -73,8 +74,10 @@ module.exports = {
     deleteReviewExperience,
     unvisitExperience,
     deleteExperience,
+
     createBlog,
     addTagToBlog,
+    updateBlog,
     deleteTagFromBlog,
     saveBlog,
     unsaveBlog,
@@ -83,6 +86,7 @@ module.exports = {
     commentBlog,
     deleteCommentBlog,
     deleteBlog,
+
     createItinerary,
     updateItinerary,
     addExperienceToItinerary,
@@ -93,6 +97,7 @@ module.exports = {
     addUserToItinerary,
     deleteUserFromItinerary,
     deleteItinerary,
+    
     createImage,
     addTag
 }

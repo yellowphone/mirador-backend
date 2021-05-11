@@ -93,6 +93,25 @@ const deleteTagFromBlog = async (parent, args, { prisma }) => {
     }
 }
 
+const updateBlog = async(parent, args, { prisma }) => {
+    try {
+        const updated_blog = await prisma.blogs.update({
+            where: {
+                public_identifier: args.public_identifier
+            },
+            data: {
+                title: args.title,
+                summary: args.summary
+            }
+        })
+        return updated_blog
+    }
+    catch(err) {
+        console.error(err)
+        return new ApolloError(err)
+    }
+}
+
 const saveBlog = async (parent, args, { prisma }) => {
     try {
         const saved_blog = await prisma.saved_blogs.create({
@@ -243,6 +262,7 @@ module.exports = {
     createBlog,
     addTagToBlog,
     deleteTagFromBlog,
+    updateBlog,
     saveBlog,
     unsaveBlog,
     likeBlog,

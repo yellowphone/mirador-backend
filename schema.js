@@ -27,9 +27,11 @@ type Mutation {
     deleteReviewExperience(pkreview_experience: Int!): Review_Experience
     unvisitExperience(pkvisited_experience: Int!): Visited_Experience
     deleteExperience(pkexperience: Int!): Experience!
+
     createBlog(title: String, pkuser: Int!, summary: String, mongoid: String, lat: Float!, lng: Float!, tags: [Int]): Blog!
     addTagToBlog(pktag: Int!, pkblog: Int!): Blog_Tag
     deleteTagFromBlog(pkblog_tag: Int!): Blog_Tag
+    updateBlog(public_identifier: String, title: String, summary: String): Blog
     saveBlog(saving_user: Int!, saving_blog: Int!): Saved_Blog
     unsaveBlog(pksaved_blog: Int!): Saved_Blog
     likeBlog(liking_user: Int!, liking_blog: Int!): Liked_Blog
@@ -37,6 +39,7 @@ type Mutation {
     commentBlog(comment: String!, pkuser: Int!, pkblog: Int!): Comment_Blog
     deleteCommentBlog(pkcomment_blog: Int!): Comment_Blog
     deleteBlog(pkblog: Int!): Blog!
+
     createItinerary(title: String, summary: String, tags: [Int], pkuser: Int!, mongoid: String): Itinerary!
     updateItinerary(public_identifier: String!, title: String, mongoid: String): Itinerary
     addExperienceToItinerary(pkexperience: Int!, pkitinerary: Int!): Itinerary_Experience
@@ -47,6 +50,7 @@ type Mutation {
     addUserToItinerary(adding_user: Int!, adding_itinerary: Int!): User_Itinerary!
     deleteUserFromItinerary(pkuser_itinerary: Int!): Itinerary
     deleteItinerary(pkitinerary: Int!): Itinerary!
+
     createImage(pkuser: Int!, caption: String, file: Upload!): Image
     addTag(tag: String!): Tag
 }
