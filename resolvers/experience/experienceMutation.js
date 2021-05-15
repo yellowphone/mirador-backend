@@ -12,6 +12,7 @@ const createExperience = async (parent, args, { prisma }) => {
                 miles: args.miles,
                 elevation: args.elevation,
                 climbing: args.climbing,
+                cost: args.cost,
                 difficulty: args.difficulty,
                 public_identifier: unique_nano_id,
                 users: {

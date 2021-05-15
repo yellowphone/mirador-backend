@@ -16,7 +16,7 @@ type Mutation {
     followUser(user_following: Int!, user_followed: Int!): Follower!
     unfollowUser(pkfollower: Int!): Follower!
     deleteUser(pkuser: Int!): User!
-    createExperience(title: String, pkuser: Int!, summary: String, miles: Float, elevation: Int, climbing: String, difficulty: Difficulty_Level, lat: Float!, lng: Float!, images: [Upload!], caption: String, tags: [Int]): Experience!
+    createExperience(title: String, pkuser: Int!, summary: String, miles: Float, elevation: Int, climbing: String, cost: Float, difficulty: Difficulty_Level, lat: Float!, lng: Float!, images: [Upload!], caption: String, tags: [Int]): Experience!
     addImageToExperience(images: [Upload!]!, pkexperience: Int!, caption: String, pkuser: Int!): String
     addTagToExperience(pktag: Int!, pkexperience: Int!): Experience_Tag
     deleteTagFromExperience(pkexperience_tag: Int!): Experience_Tag
@@ -138,6 +138,7 @@ type Experience {
     miles: Float
     elevation: Int
     climbing: String
+    cost: Float
     difficulty: Difficulty_Level
     public_identifier: String
     experience_images: [Experience_Image]

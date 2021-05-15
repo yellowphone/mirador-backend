@@ -52,6 +52,7 @@ CREATE TABLE experiences (
     elevation INTEGER,
     climbing VARCHAR(5), -- max could be 5.15a or something like that
     difficulty difficulty_level,
+    cost FLOAT(2),
     public_identifier VARCHAR(12) UNIQUE
 );
 

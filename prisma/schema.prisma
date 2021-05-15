@@ -152,6 +152,7 @@ model experiences {
   elevation             Int?
   climbing              String?                 @db.VarChar(5)
   difficulty            difficulty_level?
+  cost                  Float?                  @db.Real
   public_identifier     String?                 @unique @db.VarChar(12)
   users                 users                   @relation(fields: [fk_user_experience], references: [pkuser])
   experience_images     experience_images[]
