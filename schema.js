@@ -60,14 +60,18 @@ type Query {
     findUserByUsername(username: String!): User!
     findUserByEmail(email: String!): User!
     findManyUsers(firstName: String!): [User!]!
+
     findExperienceById(pkexperience: Int!): Experience
     findExperienceByTitle(title: String!): [Experience]
     findExperienceByCoordinates(lat: Float!, lng: Float!): [Experience_Card]
     findExperienceByPublicIdentifier(public_identifier: String!): Experience
+
     findBlogById(pkblog: Int!): Blog
     findManyBlogs: [Blog]
     findBlogByPublicIdentifier(public_identifier: String!): Blog
+
     findItineraryById(pkitinerary: Int!): Itinerary
+    findManyItineraries: [Itinerary]
     findItineraryByPublicIdentifier(public_identifier: String!): Itinerary
     getTags: [Tag]
 }

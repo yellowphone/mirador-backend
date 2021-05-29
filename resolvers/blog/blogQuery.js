@@ -42,6 +42,7 @@ const findManyBlogs = async(parent, args, { prisma }) => {
     try {
         // eventually want to place a filter but will figure out that algorithm later
         const results = await prisma.blogs.findMany({
+            take: 20,
             include: {
                 blog_tags: {
                     include: {

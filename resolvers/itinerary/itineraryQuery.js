@@ -34,6 +34,27 @@ const findItineraryById = async (parent, args, { prisma }) => {
     }
 }
 
+const findManyItineraries = async(parent, args, { prisma }) => {
+    try {
+        // eventually want to place a filter but will figure out that algorithm later
+        const results = await prisma.itineraries.findMany({
+            take: 20,
+            include: {
+                itinerary_tags: {
+                    include: {
+                        tags: true
+                    }
+                }
+            }
+        })
+        return results
+    }
+    catch(err) {
+        console.error(err)
+        return new ApolloError(err)
+    }
+}
+
 const findItineraryByPublicIdentifier = async (parent, args, { prisma }) => {
     try {
         const results = await prisma.itineraries.findUnique({
@@ -83,5 +104,6 @@ const findItineraryByPublicIdentifier = async (parent, args, { prisma }) => {
 
 module.exports = {
     findItineraryById,
+    findManyItineraries,
     findItineraryByPublicIdentifier
 }
