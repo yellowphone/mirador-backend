@@ -20,6 +20,7 @@ const {
 
 const {
     findItineraryById,
+    findManyItineraries,
     findItineraryByPublicIdentifier
 } = require('./itinerary/itineraryQuery')
 
@@ -40,6 +41,7 @@ module.exports = {
     findManyBlogs,
     findBlogByPublicIdentifier,
     findItineraryById,
+    findManyItineraries,
     findItineraryByPublicIdentifier,
     getTags
 }
