@@ -23,22 +23,6 @@ model blogs {
   saved_blogs       saved_blogs[]
 }
 
-model itineraries {
-  pkitinerary           Int                     @id @default(autoincrement())
-  title                 String                  @db.VarChar(60)
-  summary               String?                 @db.VarChar(255)
-  mongoid               String?                 @db.VarChar(24)
-  public_identifier     String?                 @unique @db.VarChar(12)
-  fk_user_itinerary     Int
-  created_on            DateTime?               @default(now()) @db.Timestamp(6)
-  users                 users                   @relation(fields: [fk_user_itinerary], references: [pkuser])
-  itinerary_experiences itinerary_experiences[]
-  itinerary_locations   itinerary_locations?
-  itinerary_tags        itinerary_tags[]
-  saved_itineraries     saved_itineraries[]
-  user_itineraries      user_itineraries[]
-}
-
 model users {
   pkuser                                    Int                   @id @default(autoincrement())
   email                                     String                @unique @db.VarChar(64)
@@ -57,14 +41,14 @@ model users {
   followers_followers_user_followedTousers  followers[]           @relation("followers_user_followedTousers")
   followers_followers_user_followingTousers followers[]           @relation("followers_user_followingTousers")
   images                                    images[]
-  itineraries                               itineraries[]
   liked_blogs                               liked_blogs[]
   review_experiences                        review_experiences[]
   saved_blogs                               saved_blogs[]
   saved_experiences                         saved_experiences[]
-  saved_itineraries                         saved_itineraries[]
-  user_itineraries                          user_itineraries[]
+  saved_trips                               saved_trips[]
+  trips                                     trips[]
   user_tags                                 user_tags[]
+  user_trips                                user_trips[]
   visited_experiences                       visited_experiences[]
 }
 
@@ -75,15 +59,6 @@ model followers {
   created_on                            DateTime? @default(now()) @db.Timestamp(6)
   users_followers_user_followedTousers  users     @relation("followers_user_followedTousers", fields: [user_followed], references: [pkuser])
   users_followers_user_followingTousers users     @relation("followers_user_followingTousers", fields: [user_following], references: [pkuser])
-}
-
-model user_itineraries {
-  pkuser_itinerary Int         @id @default(autoincrement())
-  created_on       DateTime?   @default(now()) @db.Timestamp(6)
-  adding_user      Int
-  adding_itinerary Int
-  itineraries      itineraries @relation(fields: [adding_itinerary], references: [pkitinerary])
-  users            users       @relation(fields: [adding_user], references: [pkuser])
 }
 
 model images {
@@ -104,15 +79,6 @@ model saved_blogs {
   saving_blog  Int
   blogs        blogs     @relation(fields: [saving_blog], references: [pkblog])
   users        users     @relation(fields: [saving_user], references: [pkuser])
-}
-
-model saved_itineraries {
-  pksaved_itinerary Int         @id @default(autoincrement())
-  created_on        DateTime?   @default(now()) @db.Timestamp(6)
-  saving_user       Int
-  saving_itinerary  Int
-  itineraries       itineraries @relation(fields: [saving_itinerary], references: [pkitinerary])
-  users             users       @relation(fields: [saving_user], references: [pkuser])
 }
 
 model liked_blogs {
@@ -143,25 +109,25 @@ model experience_images {
 }
 
 model experiences {
-  pkexperience          Int                     @id @default(autoincrement())
-  title                 String                  @db.VarChar(60)
-  summary               String?                 @db.VarChar(255)
-  created_on            DateTime?               @default(now()) @db.Timestamp(6)
-  fk_user_experience    Int
-  miles                 Float?                  @db.Real
-  elevation             Int?
-  climbing              String?                 @db.VarChar(5)
-  difficulty            difficulty_level?
-  cost                  Float?                  @db.Real
-  public_identifier     String?                 @unique @db.VarChar(12)
-  users                 users                   @relation(fields: [fk_user_experience], references: [pkuser])
-  experience_images     experience_images[]
-  experience_locations  experience_locations?
-  experience_tags       experience_tags[]
-  itinerary_experiences itinerary_experiences[]
-  review_experiences    review_experiences[]
-  saved_experiences     saved_experiences[]
-  visited_experiences   visited_experiences[]
+  pkexperience         Int                   @id @default(autoincrement())
+  title                String                @db.VarChar(60)
+  summary              String?               @db.VarChar(255)
+  created_on           DateTime?             @default(now()) @db.Timestamp(6)
+  fk_user_experience   Int
+  miles                Float?                @db.Real
+  elevation            Int?
+  climbing             String?               @db.VarChar(5)
+  difficulty           difficulty_level?
+  cost                 Float?                @db.Real
+  public_identifier    String?               @unique @db.VarChar(12)
+  users                users                 @relation(fields: [fk_user_experience], references: [pkuser])
+  experience_images    experience_images[]
+  experience_locations experience_locations?
+  experience_tags      experience_tags[]
+  review_experiences   review_experiences[]
+  saved_experiences    saved_experiences[]
+  trip_experiences     trip_experiences[]
+  visited_experiences  visited_experiences[]
 }
 
 model review_experiences {
@@ -209,14 +175,6 @@ model experience_locations {
   experiences            experiences @relation(fields: [fk_experience_location], references: [pkexperience])
 }
 
-model itinerary_locations {
-  pkitinerary_location  Int         @id @default(autoincrement())
-  lat                   Decimal?    @db.Decimal(8, 6)
-  lng                   Decimal?    @db.Decimal(9, 6)
-  fk_itinerary_location Int         @unique
-  itineraries           itineraries @relation(fields: [fk_itinerary_location], references: [pkitinerary])
-}
-
 model experience_tags {
   pkexperience_tag  Int         @id @default(autoincrement())
   experience_tag    Int
@@ -233,14 +191,6 @@ model blog_tags {
   blogs       blogs @relation(fields: [blog_tagged], references: [pkblog])
 }
 
-model itinerary_tags {
-  pkitinerary_tag  Int         @id @default(autoincrement())
-  itinerary_tag    Int
-  itinerary_tagged Int
-  tags             tags        @relation(fields: [itinerary_tag], references: [pktag])
-  itineraries      itineraries @relation(fields: [itinerary_tagged], references: [pkitinerary])
-}
-
 model user_tags {
   pkuser_tag  Int   @id @default(autoincrement())
   user_tag    Int
@@ -254,16 +204,66 @@ model tags {
   tag             String            @db.VarChar(20)
   blog_tags       blog_tags[]
   experience_tags experience_tags[]
-  itinerary_tags  itinerary_tags[]
+  trip_tags       trip_tags[]
   user_tags       user_tags[]
 }
 
-model itinerary_experiences {
-  pkitinerary_experience Int         @id @default(autoincrement())
-  pkitinerary            Int
-  pkexperience           Int
-  experiences            experiences @relation(fields: [pkexperience], references: [pkexperience])
-  itineraries            itineraries @relation(fields: [pkitinerary], references: [pkitinerary])
+model saved_trips {
+  pksaved_trip Int       @id @default(autoincrement())
+  created_on   DateTime? @default(now()) @db.Timestamp(6)
+  saving_user  Int
+  saving_trip  Int
+  trips        trips     @relation(fields: [saving_trip], references: [pktrip])
+  users        users     @relation(fields: [saving_user], references: [pkuser])
+}
+
+model trip_experiences {
+  pktrip_experience Int         @id @default(autoincrement())
+  pktrip            Int
+  pkexperience      Int
+  experiences       experiences @relation(fields: [pkexperience], references: [pkexperience])
+  trips             trips       @relation(fields: [pktrip], references: [pktrip])
+}
+
+model trip_locations {
+  pktrip_location  Int      @id @default(autoincrement())
+  lat              Decimal? @db.Decimal(8, 6)
+  lng              Decimal? @db.Decimal(9, 6)
+  fk_trip_location Int      @unique
+  trips            trips    @relation(fields: [fk_trip_location], references: [pktrip])
+}
+
+model trip_tags {
+  pktrip_tag  Int   @id @default(autoincrement())
+  trip_tag    Int
+  trip_tagged Int
+  tags        tags  @relation(fields: [trip_tag], references: [pktag])
+  trips       trips @relation(fields: [trip_tagged], references: [pktrip])
+}
+
+model trips {
+  pktrip            Int                @id @default(autoincrement())
+  title             String             @db.VarChar(60)
+  summary           String?            @db.VarChar(255)
+  mongoid           String?            @db.VarChar(24)
+  public_identifier String?            @unique @db.VarChar(12)
+  fk_user_trip      Int
+  created_on        DateTime?          @default(now()) @db.Timestamp(6)
+  users             users              @relation(fields: [fk_user_trip], references: [pkuser])
+  saved_trips       saved_trips[]
+  trip_experiences  trip_experiences[]
+  trip_locations    trip_locations?
+  trip_tags         trip_tags[]
+  user_trips        user_trips[]
+}
+
+model user_trips {
+  pkuser_trip Int       @id @default(autoincrement())
+  created_on  DateTime? @default(now()) @db.Timestamp(6)
+  adding_user Int
+  adding_trip Int
+  trips       trips     @relation(fields: [adding_trip], references: [pktrip])
+  users       users     @relation(fields: [adding_user], references: [pkuser])
 }
 
 enum difficulty_level {

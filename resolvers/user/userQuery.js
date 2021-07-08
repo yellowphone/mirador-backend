@@ -35,9 +35,9 @@ const findUser = async (parent, args, { prisma }) => {
                         }
                     }
                 },
-                itineraries: {
+                trips: {
                     include: {
-                        itinerary_tags: {
+                        trip_tags: {
                             include: {
                                 tags: true
                             }
@@ -64,9 +64,9 @@ const findUser = async (parent, args, { prisma }) => {
                         experiences: true, 
                     }
                 },
-                user_itineraries: {
+                user_trips: {
                     include: {
-                        itineraries: true,
+                        trips: true,
                     }
                 },
                 saved_blogs: {
@@ -79,9 +79,9 @@ const findUser = async (parent, args, { prisma }) => {
                         blogs: true
                     }
                 },
-                saved_itineraries: {
+                saved_trips: {
                     include: {
-                        itineraries: true,
+                        trips: true,
                     }
                 },
                 user_tags: {
@@ -128,9 +128,9 @@ const findUserByUsername = async (parent, args, { prisma }) => {
                         experiences: true, 
                     }
                 },
-                user_itineraries: {
+                user_trips: {
                     include: {
-                        itineraries: true,
+                        trips: true,
                     }
                 },
                 saved_blogs: {
@@ -143,9 +143,9 @@ const findUserByUsername = async (parent, args, { prisma }) => {
                         blogs: true
                     }
                 },
-                saved_itineraries: {
+                saved_trips: {
                     include: {
-                        itineraries: true,
+                        trips: true,
                     }
                 }
             },

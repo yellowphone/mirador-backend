@@ -36,17 +36,17 @@ const {
 } = require('./blog/blogMutation')
 
 const {
-    createItinerary,
-    updateItinerary,
-    addExperienceToItinerary,
-    addTagToItinerary,
-    deleteTagFromItinerary,
-    saveItinerary,
-    unsaveItinerary,
-    addUserToItinerary,
-    deleteUserFromItinerary,
-    deleteItinerary
-} = require('./itinerary/itineraryMutation')
+    createTrip,
+    updateTrip,
+    addExperienceToTrip,
+    addTagToTrip,
+    deleteTagFromTrip,
+    saveTrip,
+    unsaveTrip,
+    addUserToTrip,
+    deleteUserFromTrip,
+    deleteTrip
+} = require('./trip/tripMutation')
 
 const {
     createImage
@@ -87,16 +87,16 @@ module.exports = {
     deleteCommentBlog,
     deleteBlog,
 
-    createItinerary,
-    updateItinerary,
-    addExperienceToItinerary,
-    addTagToItinerary,
-    deleteTagFromItinerary,
-    saveItinerary,
-    unsaveItinerary,
-    addUserToItinerary,
-    deleteUserFromItinerary,
-    deleteItinerary,
+    createTrip,
+    updateTrip,
+    addExperienceToTrip,
+    addTagToTrip,
+    deleteTagFromTrip,
+    saveTrip,
+    unsaveTrip,
+    addUserToTrip,
+    deleteUserFromTrip,
+    deleteTrip,
     
     createImage,
     addTag

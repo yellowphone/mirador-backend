@@ -19,10 +19,10 @@ const {
 } = require('./blog/blogQuery')
 
 const {
-    findItineraryById,
-    findManyItineraries,
-    findItineraryByPublicIdentifier
-} = require('./itinerary/itineraryQuery')
+    findTripById,
+    findManyTrips,
+    findTripByPublicIdentifier
+} = require('./trip/tripQuery')
 
 const {
     getTags
@@ -40,8 +40,8 @@ module.exports = {
     findBlogById,
     findManyBlogs,
     findBlogByPublicIdentifier,
-    findItineraryById,
-    findManyItineraries,
-    findItineraryByPublicIdentifier,
+    findTripById,
+    findManyTrips,
+    findTripByPublicIdentifier,
     getTags
 }
