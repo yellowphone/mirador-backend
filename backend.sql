@@ -122,33 +122,33 @@ CREATE TABLE saved_blogs(
 );
 
 
-CREATE TABLE itineraries (
-    pkitinerary SERIAL PRIMARY KEY,
+CREATE TABLE trips (
+    pktrip SERIAL PRIMARY KEY,
     title VARCHAR(60) NOT NULL, 
     summary VARCHAR(255),
     mongoid VARCHAR(24),
     public_identifier VARCHAR(12) UNIQUE,
-    fk_user_itinerary INTEGER NOT NULL,
-    CONSTRAINT author FOREIGN KEY(fk_user_itinerary) REFERENCES users(pkuser),
+    fk_user_trip INTEGER NOT NULL,
+    CONSTRAINT author FOREIGN KEY(fk_user_trip) REFERENCES users(pkuser),
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 
     -- foreign key to calendar/jumble/list format for planner
 );
 
-CREATE TABLE itinerary_experiences (
-    pkitinerary_experience SERIAL PRIMARY KEY,
-    pkitinerary INTEGER NOT NULL,
-    CONSTRAINT itin FOREIGN KEY(pkitinerary) REFERENCES itineraries(pkitinerary),
+CREATE TABLE trip_experiences (
+    pktrip_experience SERIAL PRIMARY KEY,
+    pktrip INTEGER NOT NULL,
+    CONSTRAINT itin FOREIGN KEY(pktrip) REFERENCES trips(pktrip),
     pkexperience INTEGER NOT NULL,
     CONSTRAINT exp FOREIGN KEY(pkexperience) REFERENCES experiences(pkexperience)
 );
 
-CREATE TABLE itinerary_tags (	
-    pkitinerary_tag SERIAL PRIMARY KEY,	
-    itinerary_tag INTEGER NOT NULL,	
-    CONSTRAINT itag FOREIGN KEY(itinerary_tag) REFERENCES tags(pktag),	
-    itinerary_tagged INTEGER NOT NULL,	
-    CONSTRAINT itagged FOREIGN KEY(itinerary_tagged) REFERENCES itineraries(pkItinerary)	
+CREATE TABLE trip_tags (	
+    pktrip_tag SERIAL PRIMARY KEY,	
+    trip_tag INTEGER NOT NULL,	
+    CONSTRAINT itag FOREIGN KEY(trip_tag) REFERENCES tags(pktag),	
+    trip_tagged INTEGER NOT NULL,	
+    CONSTRAINT itagged FOREIGN KEY(trip_tagged) REFERENCES trips(pkTrip)	
 );
 
 CREATE TABLE liked_blogs(
@@ -186,30 +186,30 @@ CREATE TABLE blog_locations (
     CONSTRAINT place FOREIGN KEY(fk_blog_location) REFERENCES blogs(pkBlog)
 );
 
-CREATE TABLE itinerary_locations (
-    pkitinerary_location SERIAL PRIMARY KEY,
+CREATE TABLE trip_locations (
+    pktrip_location SERIAL PRIMARY KEY,
     lat DECIMAL(8, 6),
     lng DECIMAL(9, 6),
-    fk_itinerary_location INTEGER NOT NULL UNIQUE,
-    CONSTRAINT place FOREIGN KEY(fk_itinerary_location) REFERENCES itineraries(pkItinerary)
+    fk_trip_location INTEGER NOT NULL UNIQUE,
+    CONSTRAINT place FOREIGN KEY(fk_trip_location) REFERENCES trips(pkTrip)
 );
 
-CREATE TABLE saved_itineraries(
-    pksaved_itinerary SERIAL PRIMARY KEY,
+CREATE TABLE saved_trips(
+    pksaved_trip SERIAL PRIMARY KEY,
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     saving_user INTEGER NOT NULL,
     CONSTRAINT suser FOREIGN KEY (saving_user) REFERENCES users(pkuser),
-    saving_itinerary INTEGER NOT NULL,
-    CONSTRAINT sitineraries FOREIGN KEY (saving_itinerary) REFERENCES itineraries(pkItinerary)
+    saving_trip INTEGER NOT NULL,
+    CONSTRAINT strips FOREIGN KEY (saving_trip) REFERENCES trips(pkTrip)
 );
 
-CREATE TABLE user_itineraries (
-    pkuser_itinerary SERIAL PRIMARY KEY,
+CREATE TABLE user_trips (
+    pkuser_trip SERIAL PRIMARY KEY,
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     adding_user INTEGER NOT NULL,
     CONSTRAINT auser FOREIGN KEY (adding_user) REFERENCES users(pkuser),
-    adding_itinerary INTEGER NOT NULL,
-    CONSTRAINT aitinerary FOREIGN KEY (adding_itinerary) REFERENCES itineraries(pkItinerary)
+    adding_trip INTEGER NOT NULL,
+    CONSTRAINT atrip FOREIGN KEY (adding_trip) REFERENCES trips(pkTrip)
 );
 
 CREATE TABLE images (

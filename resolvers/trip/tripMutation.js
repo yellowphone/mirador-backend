@@ -1,10 +1,10 @@
 const { ApolloError } = require('apollo-server');
 const { nanoid } = require('nanoid');
 
-const createItinerary = async (parent, args, { prisma }) => {
+const createTrip = async (parent, args, { prisma }) => {
     try {
         const unique_nano_id = nanoid(12)
-        const itinerary = await prisma.itineraries.create({
+        const trip = await prisma.trips.create({
             data: {
                 title: args.title,
                 summary: args.summary,
@@ -20,16 +20,16 @@ const createItinerary = async (parent, args, { prisma }) => {
 
         if (args.tags) {
             args.tags.map(async (tag) => {
-                await prisma.itinerary_tags.create({
+                await prisma.trip_tags.create({
                     data: {
                         tags: {
                             connect: {
                                 pktag: tag
                             }
                         },
-                        itineraries: {
+                        trips: {
                             connect: {
-                                pkitinerary: itinerary.pkitinerary
+                                pktrip: trip.pktrip
                             }
                         }
                     }
@@ -37,7 +37,7 @@ const createItinerary = async (parent, args, { prisma }) => {
             })
         }
 
-        return itinerary
+        return trip
     }
     catch(err) {
         console.error(err)
@@ -45,9 +45,9 @@ const createItinerary = async (parent, args, { prisma }) => {
     }    
 }
 
-const updateItinerary = async (parent, args, { prisma }) => {
+const updateTrip = async (parent, args, { prisma }) => {
     try {
-        const itinerary = await prisma.itineraries.update({
+        const trip = await prisma.trips.update({
             where: {
                 public_identifier: args.public_identifier
             },
@@ -56,7 +56,7 @@ const updateItinerary = async (parent, args, { prisma }) => {
                 mongoid: args.mongoid
             }
         })
-        return itinerary
+        return trip
     }
     catch(err) {
         console.error(err)
@@ -64,24 +64,24 @@ const updateItinerary = async (parent, args, { prisma }) => {
     }
 }
 
-// add experience to itinerary
-const addExperienceToItinerary = async (parent, args, { prisma }) => {
+// add experience to trip
+const addExperienceToTrip = async (parent, args, { prisma }) => {
     try {
-        const itinerary_experience = await prisma.itinerary_experiences.create({
+        const trip_experience = await prisma.trip_experiences.create({
             data: {
                 experiences: {
                     connect: {
                         pkexperience: args.pkexperience
                     }
                 },
-                itineraries: {
+                trips: {
                     connect: {
-                        pkitinerary: args.pkitinerary
+                        pktrip: args.pktrip
                     }
                 }
             }
         })
-        return itinerary_experience
+        return trip_experience
     }
     catch(err) {
         console.error(err)
@@ -89,18 +89,18 @@ const addExperienceToItinerary = async (parent, args, { prisma }) => {
     }
 }
 
-const addTagToItinerary = async (parent, args, { prisma }) => {
+const addTagToTrip = async (parent, args, { prisma }) => {
     try {
-        const tag = await prisma.itinerary_tags.create({
+        const tag = await prisma.trip_tags.create({
             data: {
                 tags: {
                     connect: {
                         pktag: args.pktag
                     }
                 },
-                itineraries: {
+                trips: {
                     connect: {
-                        pkitinerary: args.pkitinerary
+                        pktrip: args.pktrip
                     }
                 }
             }
@@ -113,11 +113,11 @@ const addTagToItinerary = async (parent, args, { prisma }) => {
     }
 }
 
-const deleteTagFromItinerary = async (parent, args, { prisma }) => {
+const deleteTagFromTrip = async (parent, args, { prisma }) => {
     try {
-        const delete_tag = await prisma.itinerary_tags.delete({
+        const delete_tag = await prisma.trip_tags.delete({
             where: {
-                pkitinerary_tag: args.pkitinerary_tag
+                pktrip_tag: args.pktrip_tag
             }
         })
         return delete_tag
@@ -128,27 +128,27 @@ const deleteTagFromItinerary = async (parent, args, { prisma }) => {
     }
 }
 
-const saveItinerary = async (parent, args, { prisma }) => {
+const saveTrip = async (parent, args, { prisma }) => {
     try {
-        const saved_itinerary = await prisma.saved_itineraries.create({
+        const saved_trip = await prisma.saved_trips.create({
             data: {
                 users: {
                     connect: {
                         pkuser: args.saving_user
                     }
                 },
-                itineraries: {
+                trips: {
                     connect: {
-                        pkitinerary: args.saving_itinerary
+                        pktrip: args.saving_trip
                     }
                 }
             },
             include: {
                 users: true,
-                itineraries: true
+                trips: true
             }
         })
-        return saved_itinerary
+        return saved_trip
     }
     catch(err) {
         console.error(err)
@@ -156,14 +156,14 @@ const saveItinerary = async (parent, args, { prisma }) => {
     }
 }
 
-const unsaveItinerary = async (parent, args, { prisma }) => {
+const unsaveTrip = async (parent, args, { prisma }) => {
     try {
-        const saved_itinerary = await prisma.saved_itineraries.delete({
+        const saved_trip = await prisma.saved_trips.delete({
             where: {
-                pksaved_itinerary: args.pksaved_itinerary
+                pksaved_trip: args.pksaved_trip
             }
         })
-        return saved_itinerary
+        return saved_trip
     }
     catch(err) {
         console.error(err)
@@ -171,27 +171,27 @@ const unsaveItinerary = async (parent, args, { prisma }) => {
     }
 }
 
-const addUserToItinerary = async (parent, args, { prisma }) => {
+const addUserToTrip = async (parent, args, { prisma }) => {
     try {
-        const user_itinerary = await prisma.user_itineraries.create({
+        const user_trip = await prisma.user_trips.create({
             data: {
                 users: {
                     connect: {
                         pkuser: args.adding_user
                     }
                 },
-                itineraries: {
+                trips: {
                     connect: {
-                        pkitinerary: args.adding_itinerary
+                        pktrip: args.adding_trip
                     }
                 }
             },
             include: {
                 users: true,
-                itineraries: true
+                trips: true
             }
         })
-        return user_itinerary
+        return user_trip
     }
     catch(err) {
         console.error(err)
@@ -199,14 +199,14 @@ const addUserToItinerary = async (parent, args, { prisma }) => {
     }
 }
 
-const deleteUserFromItinerary = async (parent, args, { prisma }) => {
+const deleteUserFromTrip = async (parent, args, { prisma }) => {
     try {
-        const user_itinerary = await prisma.user_itineraries.delete({
+        const user_trip = await prisma.user_trips.delete({
             where: {
-                pkuser_itinerary: args.pkuser_itinerary
+                pkuser_trip: args.pkuser_trip
             }
         })
-        return user_itinerary
+        return user_trip
     }
     catch(err) {
         console.error(err)
@@ -214,14 +214,14 @@ const deleteUserFromItinerary = async (parent, args, { prisma }) => {
     }
 }
 
-const deleteItinerary = async(parent, args, { prisma }) => {
+const deleteTrip = async(parent, args, { prisma }) => {
     try {
-        const itinerary = await prisma.itineraries.delete({
+        const trip = await prisma.trips.delete({
             where: {
-                pkitinerary: args.pkitinerary
+                pktrip: args.pktrip
             }
         })
-        return itinerary
+        return trip
     }
     catch(err) {
         console.error(err)
@@ -231,14 +231,14 @@ const deleteItinerary = async(parent, args, { prisma }) => {
 
 
 module.exports = {
-    createItinerary,
-    updateItinerary,
-    addExperienceToItinerary,
-    addTagToItinerary,
-    deleteTagFromItinerary,
-    saveItinerary,
-    unsaveItinerary,
-    addUserToItinerary,
-    deleteUserFromItinerary,
-    deleteItinerary
+    createTrip,
+    updateTrip,
+    addExperienceToTrip,
+    addTagToTrip,
+    deleteTagFromTrip,
+    saveTrip,
+    unsaveTrip,
+    addUserToTrip,
+    deleteUserFromTrip,
+    deleteTrip
 }

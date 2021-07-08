@@ -40,16 +40,16 @@ type Mutation {
     deleteCommentBlog(pkcomment_blog: Int!): Comment_Blog
     deleteBlog(pkblog: Int!): Blog!
 
-    createItinerary(title: String, summary: String, tags: [Int], pkuser: Int!, mongoid: String): Itinerary!
-    updateItinerary(public_identifier: String!, title: String, mongoid: String): Itinerary
-    addExperienceToItinerary(pkexperience: Int!, pkitinerary: Int!): Itinerary_Experience
-    addTagToItinerary(pktag: Int!, pkitinerary: Int!): Itinerary_Tag
-    deleteTagFromItinerary(pkitinerary_tag: Int!): Itinerary_Tag
-    saveItinerary(saving_user: Int!, saving_itinerary: Int!): Saved_Itinerary
-    unsaveItinerary(pksaved_itinerary: Int!): Saved_Itinerary
-    addUserToItinerary(adding_user: Int!, adding_itinerary: Int!): User_Itinerary!
-    deleteUserFromItinerary(pkuser_itinerary: Int!): Itinerary
-    deleteItinerary(pkitinerary: Int!): Itinerary!
+    createTrip(title: String, summary: String, tags: [Int], pkuser: Int!, mongoid: String): Trip!
+    updateTrip(public_identifier: String!, title: String, mongoid: String): Trip
+    addExperienceToTrip(pkexperience: Int!, pktrip: Int!): Trip_Experience
+    addTagToTrip(pktag: Int!, pktrip: Int!): Trip_Tag
+    deleteTagFromTrip(pktrip_tag: Int!): Trip_Tag
+    saveTrip(saving_user: Int!, saving_trip: Int!): Saved_Trip
+    unsaveTrip(pksaved_trip: Int!): Saved_Trip
+    addUserToTrip(adding_user: Int!, adding_trip: Int!): User_Trip!
+    deleteUserFromTrip(pkuser_trip: Int!): Trip
+    deleteTrip(pktrip: Int!): Trip!
 
     createImage(pkuser: Int!, caption: String, file: Upload!): Image
     addTag(tag: String!): Tag
@@ -70,9 +70,9 @@ type Query {
     findManyBlogs: [Blog]
     findBlogByPublicIdentifier(public_identifier: String!): Blog
 
-    findItineraryById(pkitinerary: Int!): Itinerary
-    findManyItineraries: [Itinerary]
-    findItineraryByPublicIdentifier(public_identifier: String!): Itinerary
+    findTripById(pktrip: Int!): Trip
+    findManyTrips: [Trip]
+    findTripByPublicIdentifier(public_identifier: String!): Trip
     getTags: [Tag]
 }
 
@@ -90,16 +90,16 @@ type User {
     public_identifier: String
     bio: String
     created_on: DateTime
-    itineraries: [Itinerary]
+    trips: [Trip]
     experiences: [Experience]
     blogs: [Blog]
     followers_followers_user_followedTousers: [Follower]
     followers_followers_user_followingTousers: [Follower]
     saved_experiences: [Saved_Experience]
     visited_experiences: [Visited_Experience]
-    user_itineraries: [User_Itinerary]
+    user_trips: [User_Trip]
     saved_blogs: [Saved_Blog]
-    saved_itineraries: [Saved_Itinerary]
+    saved_trips: [Saved_Trip]
     liked_blogs: [Liked_Blog]
     user_tags: [User_Tag]
 }
@@ -280,21 +280,21 @@ type Blog_Location {
     distance: Float
 }
 
-type Itinerary_Location {
-    pkitinerary_location: Int!
+type Trip_Location {
+    pktrip_location: Int!
     lat: Float
     lng: Float
-    fk_itinerary_location: Int!
-    itineraries: Itinerary
+    fk_trip_location: Int!
+    trips: Trip
     distance: Float
 }
 
-type Itinerary_Experience {
-    pkitinerary_experience: Int!
-    pkitinerary: Int!
+type Trip_Experience {
+    pktrip_experience: Int!
+    pktrip: Int!
     pkexperience: Int!
     experiences: Experience
-    itineraries: Itinerary
+    trips: Trip
 }
 
 type Experience_Card {
@@ -313,43 +313,43 @@ type Experience_Card {
     url: [String]
 }
 
-type Itinerary {
-    pkitinerary: Int!
+type Trip {
+    pktrip: Int!
     title: String!
     summary: String
     mongoid: String
-    fk_user_itinerary: Int
+    fk_user_trip: Int
     created_on: DateTime
     public_identifier: String
     users: User
-    user_itineraries: [User_Itinerary]
-    itinerary_tags: [Itinerary_Tag]
-    itinerary_experiences: [Itinerary_Experience]
+    user_trips: [User_Trip]
+    trip_tags: [Trip_Tag]
+    trip_experiences: [Trip_Experience]
 }
 
-type Itinerary_Tag {
-    pkitinerary_tag: Int!
-    itinerary_tag: Int
-    itinerary_tagged: Int
+type Trip_Tag {
+    pktrip_tag: Int!
+    trip_tag: Int
+    trip_tagged: Int
     tags: Tag
-    itineraries: Itinerary
+    trips: Trip
 }
 
-type Saved_Itinerary {
-    pksaved_itinerary: Int!
+type Saved_Trip {
+    pksaved_trip: Int!
     created_on: DateTime
     saving_user: Int!
-    saving_itinerary: Int!
-    itineraries: Itinerary
+    saving_trip: Int!
+    trips: Trip
     users: User
 }
 
-type User_Itinerary {
-    pkuser_itinerary: Int!
+type User_Trip {
+    pkuser_trip: Int!
     created_on: DateTime
     adding_user: Int!
-    adding_itinerary: Int!
-    itineraries: Itinerary
+    adding_trip: Int!
+    trips: Trip
     users: User
 }
 `;

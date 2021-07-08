@@ -1,24 +1,24 @@
 const { ApolloError } = require('apollo-server');
 
-const findItineraryById = async (parent, args, { prisma }) => {
+const findTripById = async (parent, args, { prisma }) => {
     try {
-        const results = await prisma.itineraries.findUnique({
+        const results = await prisma.trips.findUnique({
             where: {
-                pkitinerary: args.pkitinerary
+                pktrip: args.pktrip
             },
             include: {
-                user_itineraries: {
+                user_trips: {
                     include: {
                         users: true, 
-                        itineraries: true
+                        trips: true
                     }
                 },
-                itinerary_tags: {
+                trip_tags: {
                     include: {
                         tags: true
                     }
                 },
-                itinerary_experiences: {
+                trip_experiences: {
                     include: {
                         experiences: true
                     }
@@ -34,13 +34,13 @@ const findItineraryById = async (parent, args, { prisma }) => {
     }
 }
 
-const findManyItineraries = async(parent, args, { prisma }) => {
+const findManyTrips = async(parent, args, { prisma }) => {
     try {
         // eventually want to place a filter but will figure out that algorithm later
-        const results = await prisma.itineraries.findMany({
+        const results = await prisma.trips.findMany({
             take: 20,
             include: {
-                itinerary_tags: {
+                trip_tags: {
                     include: {
                         tags: true
                     }
@@ -55,25 +55,25 @@ const findManyItineraries = async(parent, args, { prisma }) => {
     }
 }
 
-const findItineraryByPublicIdentifier = async (parent, args, { prisma }) => {
+const findTripByPublicIdentifier = async (parent, args, { prisma }) => {
     try {
-        const results = await prisma.itineraries.findUnique({
+        const results = await prisma.trips.findUnique({
             where: {
                 public_identifier: args.public_identifier
             },
             include: {
-                user_itineraries: {
+                user_trips: {
                     include: {
                         users: true, 
-                        itineraries: true
+                        trips: true
                     }
                 },
-                itinerary_tags: {
+                trip_tags: {
                     include: {
                         tags: true
                     }
                 },
-                itinerary_experiences: {
+                trip_experiences: {
                     include: {
                         experiences: {
                             include: {
@@ -103,7 +103,7 @@ const findItineraryByPublicIdentifier = async (parent, args, { prisma }) => {
 }
 
 module.exports = {
-    findItineraryById,
-    findManyItineraries,
-    findItineraryByPublicIdentifier
+    findTripById,
+    findManyTrips,
+    findTripByPublicIdentifier
 }
