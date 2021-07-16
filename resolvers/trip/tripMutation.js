@@ -218,7 +218,7 @@ const deleteTrip = async(parent, args, { prisma }) => {
     try {
         const trip = await prisma.trips.delete({
             where: {
-                pktrip: args.pktrip
+                public_identifier: args.public_identifier
             }
         })
         return trip
