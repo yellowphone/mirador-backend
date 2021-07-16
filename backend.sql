@@ -138,17 +138,17 @@ CREATE TABLE trips (
 CREATE TABLE trip_experiences (
     pktrip_experience SERIAL PRIMARY KEY,
     pktrip INTEGER NOT NULL,
-    CONSTRAINT itin FOREIGN KEY(pktrip) REFERENCES trips(pktrip),
+    CONSTRAINT itin FOREIGN KEY(pktrip) REFERENCES trips(pktrip) ON DELETE CASCADE,
     pkexperience INTEGER NOT NULL,
-    CONSTRAINT exp FOREIGN KEY(pkexperience) REFERENCES experiences(pkexperience)
+    CONSTRAINT exp FOREIGN KEY(pkexperience) REFERENCES experiences(pkexperience) ON DELETE CASCADE
 );
 
 CREATE TABLE trip_tags (	
     pktrip_tag SERIAL PRIMARY KEY,	
     trip_tag INTEGER NOT NULL,	
-    CONSTRAINT itag FOREIGN KEY(trip_tag) REFERENCES tags(pktag),	
+    CONSTRAINT itag FOREIGN KEY(trip_tag) REFERENCES tags(pktag) ON DELETE CASCADE,	
     trip_tagged INTEGER NOT NULL,	
-    CONSTRAINT itagged FOREIGN KEY(trip_tagged) REFERENCES trips(pkTrip)	
+    CONSTRAINT itagged FOREIGN KEY(trip_tagged) REFERENCES trips(pkTrip) ON DELETE CASCADE
 );
 
 CREATE TABLE liked_blogs(
@@ -191,16 +191,16 @@ CREATE TABLE trip_locations (
     lat DECIMAL(8, 6),
     lng DECIMAL(9, 6),
     fk_trip_location INTEGER NOT NULL UNIQUE,
-    CONSTRAINT place FOREIGN KEY(fk_trip_location) REFERENCES trips(pkTrip)
+    CONSTRAINT place FOREIGN KEY(fk_trip_location) REFERENCES trips(pkTrip) ON DELETE CASCADE
 );
 
 CREATE TABLE saved_trips(
     pksaved_trip SERIAL PRIMARY KEY,
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     saving_user INTEGER NOT NULL,
-    CONSTRAINT suser FOREIGN KEY (saving_user) REFERENCES users(pkuser),
+    CONSTRAINT suser FOREIGN KEY (saving_user) REFERENCES users(pkuser) ON DELETE CASCADE,
     saving_trip INTEGER NOT NULL,
-    CONSTRAINT strips FOREIGN KEY (saving_trip) REFERENCES trips(pkTrip)
+    CONSTRAINT strips FOREIGN KEY (saving_trip) REFERENCES trips(pkTrip) ON DELETE CASCADE
 );
 
 CREATE TABLE user_trips (
@@ -209,7 +209,7 @@ CREATE TABLE user_trips (
     adding_user INTEGER NOT NULL,
     CONSTRAINT auser FOREIGN KEY (adding_user) REFERENCES users(pkuser),
     adding_trip INTEGER NOT NULL,
-    CONSTRAINT atrip FOREIGN KEY (adding_trip) REFERENCES trips(pkTrip)
+    CONSTRAINT atrip FOREIGN KEY (adding_trip) REFERENCES trips(pkTrip) ON DELETE CASCADE
 );
 
 CREATE TABLE images (

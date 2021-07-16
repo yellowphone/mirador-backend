@@ -49,7 +49,7 @@ type Mutation {
     unsaveTrip(pksaved_trip: Int!): Saved_Trip
     addUserToTrip(adding_user: Int!, adding_trip: Int!): User_Trip!
     deleteUserFromTrip(pkuser_trip: Int!): Trip
-    deleteTrip(pktrip: Int!): Trip!
+    deleteTrip(public_identifier: String!): Trip!
 
     createImage(pkuser: Int!, caption: String, file: Upload!): Image
     addTag(tag: String!): Tag

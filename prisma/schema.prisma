@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialActions"]
 }
 
 datasource db {
@@ -15,7 +16,7 @@ model blogs {
   created_on        DateTime?       @default(now()) @db.Timestamp(6)
   public_identifier String?         @unique @db.VarChar(12)
   fk_user_blog      Int
-  users             users           @relation(fields: [fk_user_blog], references: [pkuser])
+  users             users           @relation(fields: [fk_user_blog], references: [pkuser], onDelete: NoAction, onUpdate: NoAction)
   blog_locations    blog_locations?
   blog_tags         blog_tags[]
   comment_blogs     comment_blogs[]
@@ -57,8 +58,8 @@ model followers {
   user_following                        Int
   user_followed                         Int
   created_on                            DateTime? @default(now()) @db.Timestamp(6)
-  users_followers_user_followedTousers  users     @relation("followers_user_followedTousers", fields: [user_followed], references: [pkuser])
-  users_followers_user_followingTousers users     @relation("followers_user_followingTousers", fields: [user_following], references: [pkuser])
+  users_followers_user_followedTousers  users     @relation("followers_user_followedTousers", fields: [user_followed], references: [pkuser], onDelete: NoAction, onUpdate: NoAction)
+  users_followers_user_followingTousers users     @relation("followers_user_followingTousers", fields: [user_following], references: [pkuser], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model images {
@@ -68,7 +69,7 @@ model images {
   caption           String?             @db.VarChar(255)
   created_on        DateTime?           @default(now()) @db.Timestamp(6)
   fk_user_image     Int
-  users             users               @relation(fields: [fk_user_image], references: [pkuser])
+  users             users               @relation(fields: [fk_user_image], references: [pkuser], onDelete: NoAction, onUpdate: NoAction)
   experience_images experience_images[]
 }
 
@@ -77,8 +78,8 @@ model saved_blogs {
   created_on   DateTime? @default(now()) @db.Timestamp(6)
   saving_user  Int
   saving_blog  Int
-  blogs        blogs     @relation(fields: [saving_blog], references: [pkblog])
-  users        users     @relation(fields: [saving_user], references: [pkuser])
+  blogs        blogs     @relation(fields: [saving_blog], references: [pkblog], onDelete: NoAction, onUpdate: NoAction)
+  users        users     @relation(fields: [saving_user], references: [pkuser], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model liked_blogs {
@@ -86,8 +87,8 @@ model liked_blogs {
   created_on   DateTime? @default(now()) @db.Timestamp(6)
   liking_user  Int
   liking_blog  Int
-  blogs        blogs     @relation(fields: [liking_blog], references: [pkblog])
-  users        users     @relation(fields: [liking_user], references: [pkuser])
+  blogs        blogs     @relation(fields: [liking_blog], references: [pkblog], onDelete: NoAction, onUpdate: NoAction)
+  users        users     @relation(fields: [liking_user], references: [pkuser], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model comment_blogs {
@@ -96,16 +97,16 @@ model comment_blogs {
   created_on     DateTime? @default(now()) @db.Timestamp(6)
   comment_user   Int
   comment_blog   Int
-  blogs          blogs     @relation(fields: [comment_blog], references: [pkblog])
-  users          users     @relation(fields: [comment_user], references: [pkuser])
+  blogs          blogs     @relation(fields: [comment_blog], references: [pkblog], onDelete: NoAction, onUpdate: NoAction)
+  users          users     @relation(fields: [comment_user], references: [pkuser], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model experience_images {
   pkexperience_image Int         @id @default(autoincrement())
   adding_experience  Int
   adding_image       Int
-  experiences        experiences @relation(fields: [adding_experience], references: [pkexperience])
-  images             images      @relation(fields: [adding_image], references: [pkimage])
+  experiences        experiences @relation(fields: [adding_experience], references: [pkexperience], onDelete: NoAction, onUpdate: NoAction)
+  images             images      @relation(fields: [adding_image], references: [pkimage], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model experiences {
@@ -120,7 +121,7 @@ model experiences {
   difficulty           difficulty_level?
   cost                 Float?                @db.Real
   public_identifier    String?               @unique @db.VarChar(12)
-  users                users                 @relation(fields: [fk_user_experience], references: [pkuser])
+  users                users                 @relation(fields: [fk_user_experience], references: [pkuser], onDelete: NoAction, onUpdate: NoAction)
   experience_images    experience_images[]
   experience_locations experience_locations?
   experience_tags      experience_tags[]
@@ -137,8 +138,8 @@ model review_experiences {
   created_on          DateTime?   @default(now()) @db.Timestamp(6)
   review_user         Int
   review_experience   Int
-  experiences         experiences @relation(fields: [review_experience], references: [pkexperience])
-  users               users       @relation(fields: [review_user], references: [pkuser])
+  experiences         experiences @relation(fields: [review_experience], references: [pkexperience], onDelete: NoAction, onUpdate: NoAction)
+  users               users       @relation(fields: [review_user], references: [pkuser], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model saved_experiences {
@@ -146,8 +147,8 @@ model saved_experiences {
   created_on         DateTime?   @default(now()) @db.Timestamp(6)
   saving_user        Int
   saving_experience  Int
-  experiences        experiences @relation(fields: [saving_experience], references: [pkexperience])
-  users              users       @relation(fields: [saving_user], references: [pkuser])
+  experiences        experiences @relation(fields: [saving_experience], references: [pkexperience], onDelete: NoAction, onUpdate: NoAction)
+  users              users       @relation(fields: [saving_user], references: [pkuser], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model visited_experiences {
@@ -155,8 +156,8 @@ model visited_experiences {
   created_on           DateTime?   @default(now()) @db.Timestamp(6)
   visiting_user        Int
   visiting_experience  Int
-  experiences          experiences @relation(fields: [visiting_experience], references: [pkexperience])
-  users                users       @relation(fields: [visiting_user], references: [pkuser])
+  experiences          experiences @relation(fields: [visiting_experience], references: [pkexperience], onDelete: NoAction, onUpdate: NoAction)
+  users                users       @relation(fields: [visiting_user], references: [pkuser], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model blog_locations {
@@ -164,7 +165,7 @@ model blog_locations {
   lat              Decimal? @db.Decimal(8, 6)
   lng              Decimal? @db.Decimal(9, 6)
   fk_blog_location Int      @unique
-  blogs            blogs    @relation(fields: [fk_blog_location], references: [pkblog])
+  blogs            blogs    @relation(fields: [fk_blog_location], references: [pkblog], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model experience_locations {
@@ -172,31 +173,31 @@ model experience_locations {
   lat                    Decimal?    @db.Decimal(8, 6)
   lng                    Decimal?    @db.Decimal(9, 6)
   fk_experience_location Int         @unique
-  experiences            experiences @relation(fields: [fk_experience_location], references: [pkexperience])
+  experiences            experiences @relation(fields: [fk_experience_location], references: [pkexperience], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model experience_tags {
   pkexperience_tag  Int         @id @default(autoincrement())
   experience_tag    Int
   experience_tagged Int
-  tags              tags        @relation(fields: [experience_tag], references: [pktag])
-  experiences       experiences @relation(fields: [experience_tagged], references: [pkexperience])
+  tags              tags        @relation(fields: [experience_tag], references: [pktag], onDelete: NoAction, onUpdate: NoAction)
+  experiences       experiences @relation(fields: [experience_tagged], references: [pkexperience], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model blog_tags {
   pkblog_tag  Int   @id @default(autoincrement())
   blog_tag    Int
   blog_tagged Int
-  tags        tags  @relation(fields: [blog_tag], references: [pktag])
-  blogs       blogs @relation(fields: [blog_tagged], references: [pkblog])
+  tags        tags  @relation(fields: [blog_tag], references: [pktag], onDelete: NoAction, onUpdate: NoAction)
+  blogs       blogs @relation(fields: [blog_tagged], references: [pkblog], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model user_tags {
   pkuser_tag  Int   @id @default(autoincrement())
   user_tag    Int
   user_tagged Int
-  tags        tags  @relation(fields: [user_tag], references: [pktag])
-  users       users @relation(fields: [user_tagged], references: [pkuser])
+  tags        tags  @relation(fields: [user_tag], references: [pktag], onDelete: NoAction, onUpdate: NoAction)
+  users       users @relation(fields: [user_tagged], references: [pkuser], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model tags {
@@ -213,16 +214,16 @@ model saved_trips {
   created_on   DateTime? @default(now()) @db.Timestamp(6)
   saving_user  Int
   saving_trip  Int
-  trips        trips     @relation(fields: [saving_trip], references: [pktrip])
-  users        users     @relation(fields: [saving_user], references: [pkuser])
+  trips        trips     @relation(fields: [saving_trip], references: [pktrip], onDelete: Cascade, onUpdate: NoAction)
+  users        users     @relation(fields: [saving_user], references: [pkuser], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model trip_experiences {
   pktrip_experience Int         @id @default(autoincrement())
   pktrip            Int
   pkexperience      Int
-  experiences       experiences @relation(fields: [pkexperience], references: [pkexperience])
-  trips             trips       @relation(fields: [pktrip], references: [pktrip])
+  experiences       experiences @relation(fields: [pkexperience], references: [pkexperience], onDelete: Cascade, onUpdate: NoAction)
+  trips             trips       @relation(fields: [pktrip], references: [pktrip], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model trip_locations {
@@ -230,15 +231,15 @@ model trip_locations {
   lat              Decimal? @db.Decimal(8, 6)
   lng              Decimal? @db.Decimal(9, 6)
   fk_trip_location Int      @unique
-  trips            trips    @relation(fields: [fk_trip_location], references: [pktrip])
+  trips            trips    @relation(fields: [fk_trip_location], references: [pktrip], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model trip_tags {
   pktrip_tag  Int   @id @default(autoincrement())
   trip_tag    Int
   trip_tagged Int
-  tags        tags  @relation(fields: [trip_tag], references: [pktag])
-  trips       trips @relation(fields: [trip_tagged], references: [pktrip])
+  tags        tags  @relation(fields: [trip_tag], references: [pktag], onDelete: Cascade, onUpdate: NoAction)
+  trips       trips @relation(fields: [trip_tagged], references: [pktrip], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model trips {
@@ -249,7 +250,7 @@ model trips {
   public_identifier String?            @unique @db.VarChar(12)
   fk_user_trip      Int
   created_on        DateTime?          @default(now()) @db.Timestamp(6)
-  users             users              @relation(fields: [fk_user_trip], references: [pkuser])
+  users             users              @relation(fields: [fk_user_trip], references: [pkuser], onDelete: NoAction, onUpdate: NoAction)
   saved_trips       saved_trips[]
   trip_experiences  trip_experiences[]
   trip_locations    trip_locations?
@@ -262,8 +263,8 @@ model user_trips {
   created_on  DateTime? @default(now()) @db.Timestamp(6)
   adding_user Int
   adding_trip Int
-  trips       trips     @relation(fields: [adding_trip], references: [pktrip])
-  users       users     @relation(fields: [adding_user], references: [pkuser])
+  trips       trips     @relation(fields: [adding_trip], references: [pktrip], onDelete: Cascade, onUpdate: NoAction)
+  users       users     @relation(fields: [adding_user], references: [pkuser], onDelete: Cascade, onUpdate: NoAction)
 }
 
 enum difficulty_level {
